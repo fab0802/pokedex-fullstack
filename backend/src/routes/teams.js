@@ -4,6 +4,15 @@ const Team = require("../models/Team");
 
 const router = express.Router();
 
+router.get("/", authMiddleware, async (req, res) => {
+  try {
+    const teams = await Team.find({ user: req.userId });
+    res.json(teams);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const { name, pokemonIds } = req.body;
