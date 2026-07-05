@@ -2,6 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const authMiddleware = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -36,6 +37,11 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
+});
+
+router.get("/me", authMiddleware, async (req, res) => {
+  const user = await User.findById(req.userId).select("-password");
+  res.json(user);
 });
 
 module.exports = router;
