@@ -18,4 +18,13 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
+router.get("/", authMiddleware, async (req, res) => {
+  try {
+    const entries = await CollectionEntry.find({ user: req.userId });
+    res.json(entries);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 module.exports = router;
