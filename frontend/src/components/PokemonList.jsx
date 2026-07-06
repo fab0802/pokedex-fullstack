@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchPokemonList } from "../services/pokeApi";
 
 const LIMIT = 20;
@@ -9,12 +9,16 @@ export default function PokemonList() {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const isFetchingRef = useRef(false);
 
   useEffect(() => {
     loadMore();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function loadMore() {
+    if (isFetchingRef.current) return; // verhindert Doppel-Aufruf
+    isFetchingRef.current = true;
     setLoading(true);
     setError(null);
     try {
@@ -26,6 +30,7 @@ export default function PokemonList() {
       setError(err.message);
     } finally {
       setLoading(false);
+      isFetchingRef.current = false;
     }
   }
 

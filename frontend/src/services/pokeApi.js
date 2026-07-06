@@ -1,4 +1,15 @@
 const BASE_URL = "https://pokeapi.co/api/v2";
+const CACHE_KEY = "pokemon-cache";
+
+function getCache() {
+  return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
+}
+
+function setCacheEntry(id, data) {
+  const cache = getCache();
+  cache[id] = data;
+  localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+}
 
 export async function fetchPokemonList(limit = 20, offset = 0) {
   const res = await fetch(
@@ -7,7 +18,6 @@ export async function fetchPokemonList(limit = 20, offset = 0) {
   if (!res.ok) throw new Error("Fehler beim Laden der Pokémon-Liste");
   const data = await res.json();
 
-  // Details (inkl. Typen, Bild) parallel für alle laden
   const detailed = await Promise.all(
     data.results.map((p) => fetchPokemonDetail(p.url)),
   );
@@ -16,10 +26,14 @@ export async function fetchPokemonList(limit = 20, offset = 0) {
 }
 
 async function fetchPokemonDetail(url) {
+  const id = url.split("/").filter(Boolean).pop();
+  const cache = getCache();
+  if (cache[id]) return cache[id]; // aus Cache, kein Request nötig
+
   const res = await fetch(url);
   if (!res.ok) throw new Error("Fehler beim Laden der Pokémon-Details");
   const p = await res.json();
-  return {
+  const result = {
     id: p.id,
     name: p.name,
     image:
@@ -27,4 +41,7 @@ async function fetchPokemonDetail(url) {
       p.sprites.front_default,
     types: p.types.map((t) => t.type.name),
   };
+
+  setCacheEntry(id, result);
+  return result;
 }
