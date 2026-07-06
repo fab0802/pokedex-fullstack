@@ -33,7 +33,19 @@ export default function PokemonList() {
     <div>
       <ul>
         {pokemons.map((p) => (
-          <li key={p.name}>{p.name}</li>
+          <li key={p.id} className={`type-${p.types[0]}`}>
+            <img
+              src={p.image}
+              alt={p.name}
+              width={96}
+              onError={(e) => {
+                e.target.src = "/fallback-pokeball.svg";
+              }}
+            />
+            <span>
+              #{p.id} {p.name}
+            </span>
+          </li>
         ))}
       </ul>
       {error && <p>{error}</p>}
