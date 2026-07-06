@@ -38,6 +38,7 @@ export default function PokemonList() {
               src={p.image}
               alt={p.name}
               width={96}
+              loading="lazy"
               onError={(e) => {
                 e.target.src = "/fallback-pokeball.svg";
               }}
