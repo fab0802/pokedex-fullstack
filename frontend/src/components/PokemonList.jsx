@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { fetchPokemonList } from "../services/pokeApi";
 import styles from "./PokemonList.module.css";
+import { typeBackgrounds } from "./typeBackgrounds";
 
 const LIMIT = 20;
 
@@ -39,7 +40,11 @@ export default function PokemonList() {
     <div>
       <ul className={styles.list}>
         {pokemons.map((p) => (
-          <li key={p.id} className={styles.card}>
+          <li
+            key={p.id}
+            className={styles.card}
+            style={{ backgroundImage: `url(${typeBackgrounds[p.types[0]]})` }}
+          >
             <img
               src={p.image}
               alt={p.name}
