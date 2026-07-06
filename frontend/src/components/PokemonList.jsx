@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { fetchPokemonList } from "../services/pokeApi";
+import styles from "./PokemonList.module.css";
 
 const LIMIT = 20;
 
@@ -36,12 +37,13 @@ export default function PokemonList() {
 
   return (
     <div>
-      <ul>
+      <ul className={styles.list}>
         {pokemons.map((p) => (
-          <li key={p.id} className={`type-${p.types[0]}`}>
+          <li key={p.id} className={styles.card}>
             <img
               src={p.image}
               alt={p.name}
+              height={96}
               width={96}
               loading="lazy"
               onError={(e) => {

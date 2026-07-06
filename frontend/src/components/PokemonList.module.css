@@ -1,0 +1,10 @@
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
