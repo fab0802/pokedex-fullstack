@@ -45,3 +45,23 @@ async function fetchPokemonDetail(url) {
   setCacheEntry(id, result);
   return result;
 }
+
+export async function fetchPokemonById(id) {
+  const res = await fetch(`${BASE_URL}/pokemon/${id}`);
+  if (!res.ok) throw new Error("Fehler beim Laden des Pokémon");
+  const p = await res.json();
+  return {
+    id: p.id,
+    name: p.name,
+    image:
+      p.sprites.other["official-artwork"].front_default ??
+      p.sprites.front_default,
+    types: p.types.map((t) => t.type.name),
+    height: p.height, // in Dezimeter
+    weight: p.weight, // in Hektogramm
+    stats: p.stats.map((s) => ({
+      name: s.stat.name, // z.B. "hp", "attack"
+      value: s.base_stat,
+    })),
+  };
+}

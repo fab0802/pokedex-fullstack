@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { fetchPokemonList } from "../services/pokeApi";
 import styles from "./PokemonList.module.css";
 import { typeBackgrounds } from "./typeBackgrounds";
+import { Link } from "react-router-dom";
 
 const LIMIT = 20;
 
@@ -41,32 +42,36 @@ export default function PokemonList() {
       <ul className={styles.list}>
         {pokemons.map((p) => (
           <li key={p.id} className={styles.card}>
-            <div
-              className={styles.imagePanel}
-              style={{ backgroundImage: `url(${typeBackgrounds[p.types[0]]})` }}
-            >
-              <img
-                src={p.image}
-                alt={p.name}
-                height={96}
-                width={96}
-                loading="lazy"
-                onError={(e) => {
-                  e.target.src = "/fallback-pokeball.svg";
+            <Link to={`/pokemon/${p.id}`} className={styles.cardLink}>
+              <div
+                className={styles.imagePanel}
+                style={{
+                  backgroundImage: `url(${typeBackgrounds[p.types[0]]})`,
                 }}
-              />
-            </div>
-            <div className={styles.info}>
-              <span className={styles.number}>#{p.id}</span>
-              <span className={styles.name}>{p.name}</span>
-              <div className={styles.types}>
-                {p.types.map((type) => (
-                  <span key={type} className={styles.type}>
-                    {type}
-                  </span>
-                ))}
+              >
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  height={96}
+                  width={96}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.target.src = "/fallback-pokeball.svg";
+                  }}
+                />
               </div>
-            </div>
+              <div className={styles.info}>
+                <span className={styles.number}>#{p.id}</span>
+                <span className={styles.name}>{p.name}</span>
+                <div className={styles.types}>
+                  {p.types.map((type) => (
+                    <span key={type} className={styles.type}>
+                      {type}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Link>
           </li>
         ))}
       </ul>
