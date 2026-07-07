@@ -1,7 +1,12 @@
+import { Routes, Route } from "react-router-dom";
 import PokemonList from "./components/PokemonList";
 
 function App() {
-  return <PokemonList />;
+  return (
+    <Routes>
+      <Route path="/" element={<PokemonList />} />
+    </Routes>
+  );
 }
 
 export default App;
