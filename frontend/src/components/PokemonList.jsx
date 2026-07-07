@@ -59,7 +59,13 @@ export default function PokemonList() {
             <div className={styles.info}>
               <span className={styles.number}>#{p.id}</span>
               <span className={styles.name}>{p.name}</span>
-              <span className={styles.type}>{p.types[0]}</span>
+              <div className={styles.types}>
+                {p.types.map((type) => (
+                  <span key={type} className={styles.type}>
+                    {type}
+                  </span>
+                ))}
+              </div>
             </div>
           </li>
         ))}

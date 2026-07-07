@@ -51,3 +51,8 @@
   background: #eee;
   text-transform: capitalize;
 }
+
+.types {
+  display: flex;
+  gap: 6px;
+}
