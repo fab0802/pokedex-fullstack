@@ -14,16 +14,15 @@ export default function PokemonDetail() {
   }, [id]);
 
   if (error) return <p>{error}</p>;
-  if (!pokemon) return <p>Lädt...</p>;
-
+  if (!pokemon) return <p>Loading...</p>;
   return (
     <div>
       <h1>
         #{pokemon.id} {pokemon.name}
       </h1>
       <img src={pokemon.image} alt={pokemon.name} width={200} />
-      <p>Grösse: {pokemon.height / 10} m</p>
-      <p>Gewicht: {pokemon.weight / 10} kg</p>
+      <p>Height: {pokemon.height / 10} m</p>
+      <p>Weight: {pokemon.weight / 10} kg</p>
       <ul>
         {pokemon.stats.map((s) => (
           <li key={s.name}>

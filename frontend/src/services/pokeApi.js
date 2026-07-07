@@ -15,7 +15,7 @@ export async function fetchPokemonList(limit = 20, offset = 0) {
   const res = await fetch(
     `${BASE_URL}/pokemon?limit=${limit}&offset=${offset}`,
   );
-  if (!res.ok) throw new Error("Fehler beim Laden der Pokémon-Liste");
+  if (!res.ok) throw new Error("Failed to load Pokémon list");
   const data = await res.json();
 
   const detailed = await Promise.all(
@@ -31,7 +31,7 @@ async function fetchPokemonDetail(url) {
   if (cache[id]) return cache[id]; // aus Cache, kein Request nötig
 
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Fehler beim Laden der Pokémon-Details");
+  if (!res.ok) throw new Error("Failed to load Pokémon details");
   const p = await res.json();
   const result = {
     id: p.id,
@@ -48,7 +48,7 @@ async function fetchPokemonDetail(url) {
 
 export async function fetchPokemonById(id) {
   const res = await fetch(`${BASE_URL}/pokemon/${id}`);
-  if (!res.ok) throw new Error("Fehler beim Laden des Pokémon");
+  if (!res.ok) throw new Error("Failed to load Pokémon");
   const p = await res.json();
   return {
     id: p.id,

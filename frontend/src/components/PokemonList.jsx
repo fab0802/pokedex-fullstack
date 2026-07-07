@@ -78,7 +78,7 @@ export default function PokemonList() {
       {error && <p>{error}</p>}
       {hasMore && (
         <button onClick={loadMore} disabled={loading}>
-          {loading ? "Lädt..." : "Mehr laden"}
+          {loading ? "Loading..." : "Load more"}
         </button>
       )}
     </div>
