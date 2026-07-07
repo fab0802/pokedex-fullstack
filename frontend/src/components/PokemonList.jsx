@@ -40,24 +40,27 @@ export default function PokemonList() {
     <div>
       <ul className={styles.list}>
         {pokemons.map((p) => (
-          <li
-            key={p.id}
-            className={styles.card}
-            style={{ backgroundImage: `url(${typeBackgrounds[p.types[0]]})` }}
-          >
-            <img
-              src={p.image}
-              alt={p.name}
-              height={96}
-              width={96}
-              loading="lazy"
-              onError={(e) => {
-                e.target.src = "/fallback-pokeball.svg";
-              }}
-            />
-            <span>
-              #{p.id} {p.name}
-            </span>
+          <li key={p.id} className={styles.card}>
+            <div
+              className={styles.imagePanel}
+              style={{ backgroundImage: `url(${typeBackgrounds[p.types[0]]})` }}
+            >
+              <img
+                src={p.image}
+                alt={p.name}
+                height={96}
+                width={96}
+                loading="lazy"
+                onError={(e) => {
+                  e.target.src = "/fallback-pokeball.svg";
+                }}
+              />
+            </div>
+            <div className={styles.info}>
+              <span className={styles.number}>#{p.id}</span>
+              <span className={styles.name}>{p.name}</span>
+              <span className={styles.type}>{p.types[0]}</span>
+            </div>
           </li>
         ))}
       </ul>
