@@ -3,6 +3,8 @@ import { fetchPokemonList } from "../services/pokeApi";
 import styles from "./PokemonList.module.css";
 import { typeBackgrounds } from "./typeBackgrounds";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/useAuth";
+import { useCollection } from "../context/useCollection";
 
 const LIMIT = 20;
 
@@ -13,6 +15,8 @@ export default function PokemonList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const isFetchingRef = useRef(false);
+  const { isAuthenticated } = useAuth();
+  const { isCaught, toggleCaught } = useCollection();
 
   useEffect(() => {
     loadMore();
@@ -35,6 +39,12 @@ export default function PokemonList() {
       setLoading(false);
       isFetchingRef.current = false;
     }
+  }
+
+  function handleToggle(e, id) {
+    e.preventDefault(); // verhindert die Navigation des Links
+    e.stopPropagation();
+    toggleCaught(id);
   }
 
   return (
@@ -70,6 +80,14 @@ export default function PokemonList() {
                     </span>
                   ))}
                 </div>
+                {isAuthenticated && (
+                  <button
+                    className={styles.catchButton}
+                    onClick={(e) => handleToggle(e, p.id)}
+                  >
+                    {isCaught(p.id) ? "Caught ✓" : "Not caught"}
+                  </button>
+                )}
               </div>
             </Link>
           </li>
