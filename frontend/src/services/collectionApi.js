@@ -1,12 +1,5 @@
 import { BASE_URL } from "./config";
-
-function authHeaders() {
-  const token = localStorage.getItem("token");
-  return {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
-}
+import { authHeaders } from "./authHeaders";
 
 export async function getCollection() {
   const res = await fetch(`${BASE_URL}/collection`, {
