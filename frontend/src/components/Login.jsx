@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/authApi";
 import { useAuth } from "../context/useAuth";
+import styles from "./Auth.module.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -27,26 +28,30 @@ export default function Login() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Login</h1>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      {error && <p>{error}</p>}
-      <button type="submit" disabled={loading}>
-        {loading ? "Logging in..." : "Login"}
-      </button>
-    </form>
+    <div className={styles.wrapper}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <h1 className={styles.title}>Login</h1>
+        <input
+          className={styles.input}
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          className={styles.input}
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        {error && <p className={styles.error}>{error}</p>}
+        <button type="submit" className={styles.button} disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
+      </form>
+    </div>
   );
 }
