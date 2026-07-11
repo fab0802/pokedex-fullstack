@@ -8,6 +8,7 @@ import { useTeamBuilder } from "../context/useTeamBuilder";
 import TeamBar from "./TeamBar";
 import styles from "./PokemonList.module.css";
 import { typeColors } from "./typeColors";
+import { generations } from "./generations";
 
 const LIMIT = 20;
 
@@ -21,22 +22,32 @@ export default function PokemonList() {
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
   const { isInTeam, addToTeam, removeFromTeam, isFull } = useTeamBuilder();
+  const [selectedGen, setSelectedGen] = useState(generations[0]);
 
   useEffect(() => {
-    loadMore();
+    loadMore(selectedGen.start - 1, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [selectedGen]);
 
-  async function loadMore() {
-    if (isFetchingRef.current) return; // verhindert Doppel-Aufruf
+  async function loadMore(currentOffset = offset, replace = false) {
+    if (isFetchingRef.current) return;
     isFetchingRef.current = true;
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchPokemonList(LIMIT, offset);
-      setPokemons((prev) => [...prev, ...data.results]);
-      setHasMore(data.next !== null);
-      setOffset((prev) => prev + LIMIT);
+      const remaining = selectedGen.end - currentOffset;
+      const limit = Math.min(LIMIT, remaining);
+      if (limit <= 0) {
+        setHasMore(false);
+        return;
+      }
+      const data = await fetchPokemonList(limit, currentOffset);
+      setPokemons((prev) =>
+        replace ? data.results : [...prev, ...data.results],
+      );
+      const newOffset = currentOffset + limit;
+      setOffset(newOffset);
+      setHasMore(newOffset < selectedGen.end && data.next !== null);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -60,6 +71,19 @@ export default function PokemonList() {
 
   return (
     <div>
+      <select
+        className={styles.genSelect}
+        value={selectedGen.label}
+        onChange={(e) =>
+          setSelectedGen(generations.find((g) => g.label === e.target.value))
+        }
+      >
+        {generations.map((g) => (
+          <option key={g.label} value={g.label}>
+            {g.label}
+          </option>
+        ))}
+      </select>
       {isAuthenticated && <TeamBar />}
       <ul className={styles.list}>
         {pokemons.map((p) => (
@@ -121,7 +145,7 @@ export default function PokemonList() {
       </ul>
       {error && <p>{error}</p>}
       {hasMore && (
-        <button onClick={loadMore} disabled={loading}>
+        <button onClick={() => loadMore()} disabled={loading}>
           {loading ? "Loading..." : "Load more"}
         </button>
       )}

@@ -119,3 +119,13 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+.genSelect {
+  display: block;
+  margin: 0 auto 1rem;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
