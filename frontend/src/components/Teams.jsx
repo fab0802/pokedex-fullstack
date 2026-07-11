@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getTeams } from "../services/teamApi";
 import { fetchPokemonById } from "../services/pokeApi";
+import { typeColors } from "./typeColors";
 import styles from "./Teams.module.css";
+
+const MAX_TEAM_SIZE = 6;
 
 export default function Teams() {
   const [teams, setTeams] = useState([]);
@@ -14,13 +18,11 @@ export default function Teams() {
         const data = await getTeams();
         setTeams(data);
 
-        // Alle IDs aus allen Teams einsammeln (ohne Duplikate)
         const ids = [...new Set(data.flatMap((t) => t.pokemonIds))];
         const details = await Promise.all(
           ids.map((id) => fetchPokemonById(id)),
         );
 
-        // Nachschlage-Objekt: id -> Pokémon
         const map = {};
         details.forEach((p) => {
           map[p.id] = p;
@@ -33,7 +35,7 @@ export default function Teams() {
     load();
   }, []);
 
-  if (error) return <p>{error}</p>;
+  if (error) return <p className={styles.message}>{error}</p>;
 
   return (
     <div className={styles.wrapper}>
@@ -41,21 +43,32 @@ export default function Teams() {
       {teams.length === 0 && <p>No teams yet.</p>}
       {teams.map((team) => (
         <div key={team._id} className={styles.team}>
-          <h2 className={styles.teamName}>{team.name}</h2>
+          <div className={styles.teamHeader}>
+            <h2 className={styles.teamName}>{team.name}</h2>
+            <span className={styles.count}>
+              {team.pokemonIds.length} / {MAX_TEAM_SIZE}
+            </span>
+          </div>
           <div className={styles.members}>
             {team.pokemonIds.map((id) => {
               const p = pokemonById[id];
-              return (
-                <div key={id} className={styles.member}>
-                  {p ? (
-                    <>
-                      <img src={p.image} alt={p.name} width={72} height={72} />
-                      <span className={styles.memberName}>{p.name}</span>
-                    </>
-                  ) : (
+              if (!p) {
+                return (
+                  <div key={id} className={styles.member}>
                     <span>#{id}</span>
-                  )}
-                </div>
+                  </div>
+                );
+              }
+              return (
+                <Link
+                  key={id}
+                  to={`/pokemon/${p.id}`}
+                  className={styles.member}
+                  style={{ backgroundColor: typeColors[p.types[0]] }}
+                >
+                  <img src={p.image} alt={p.name} width={64} height={64} />
+                  <span className={styles.memberName}>{p.name}</span>
+                </Link>
               );
             })}
           </div>

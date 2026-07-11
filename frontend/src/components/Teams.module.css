@@ -4,16 +4,35 @@
   padding: 1rem;
 }
 
+.message {
+  max-width: 600px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
 .team {
-  border: 1px solid #ddd;
   border-radius: 12px;
   padding: 1rem 1.25rem;
   margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #eee;
+}
+
+.teamHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
 }
 
 .teamName {
-  margin: 0 0 0.75rem;
+  margin: 0;
   font-size: 1.2rem;
+}
+
+.count {
+  font-size: 13px;
+  color: #888;
 }
 
 .members {
@@ -26,11 +45,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80px;
-  text-align: center;
+  justify-content: center;
+  width: 90px;
+  padding: 8px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #fff;
+  transition: transform 0.15s ease;
+}
+
+.member:hover {
+  transform: translateY(-2px);
 }
 
 .memberName {
   font-size: 12px;
   text-transform: capitalize;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
