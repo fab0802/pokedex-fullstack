@@ -27,11 +27,10 @@ export default function PokemonDetail() {
   const { isCaught, toggleCaught } = useCollection();
 
   useEffect(() => {
-    setAnimate(false);
     fetchPokemonById(id)
       .then((p) => {
         setPokemon(p);
-        requestAnimationFrame(() => setAnimate(true)); // löst die Balken-Animation aus
+        requestAnimationFrame(() => setAnimate(true));
       })
       .catch((err) => setError(err.message));
   }, [id]);
@@ -99,6 +98,7 @@ export default function PokemonDetail() {
               </span>
               <div className={styles.statTrack}>
                 <div
+                  key={`${pokemon.id}-${s.name}`}
                   className={styles.statFill}
                   style={{
                     width: animate
