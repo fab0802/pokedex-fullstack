@@ -1,53 +1,70 @@
 import { useEffect, useRef, useState } from "react";
-import { fetchPokemonList } from "../services/pokeApi";
-import { typeBackgrounds } from "./typeBackgrounds";
 import { Link } from "react-router-dom";
+import { fetchPokemonById, fetchPokedexIds } from "../services/pokeApi";
+import styles from "./PokemonList.module.css";
+import { typeColors } from "./typeColors";
+import { typeBackgrounds } from "./typeBackgrounds";
+import { games } from "./games";
 import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
 import { useTeamBuilder } from "../context/useTeamBuilder";
 import TeamBar from "./TeamBar";
-import styles from "./PokemonList.module.css";
-import { typeColors } from "./typeColors";
-import { generations } from "./generations";
 
 const LIMIT = 20;
 
 export default function PokemonList() {
+  const [ids, setIds] = useState([]);
   const [pokemons, setPokemons] = useState([]);
-  const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [loadedCount, setLoadedCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedGame, setSelectedGame] = useState(games[0]);
   const isFetchingRef = useRef(false);
+
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
   const { isInTeam, addToTeam, removeFromTeam, isFull } = useTeamBuilder();
-  const [selectedGen, setSelectedGen] = useState(generations[0]);
 
   useEffect(() => {
-    loadMore(selectedGen.start - 1, true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedGen]);
+    let cancelled = false;
+    async function setupFilter() {
+      setError(null);
+      setLoading(true);
+      try {
+        const list = await fetchPokedexIds(selectedGame.dexes);
+        if (cancelled) return;
+        setIds(list);
+        const firstIds = list.slice(0, LIMIT);
+        const details = await Promise.all(
+          firstIds.map((id) => fetchPokemonById(id)),
+        );
+        if (cancelled) return;
+        setPokemons(details);
+        setLoadedCount(firstIds.length);
+      } catch (err) {
+        if (!cancelled) setError(err.message);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    setupFilter();
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedGame]);
 
-  async function loadMore(currentOffset = offset, replace = false) {
+  async function loadMore() {
     if (isFetchingRef.current) return;
     isFetchingRef.current = true;
     setLoading(true);
     setError(null);
     try {
-      const remaining = selectedGen.end - currentOffset;
-      const limit = Math.min(LIMIT, remaining);
-      if (limit <= 0) {
-        setHasMore(false);
-        return;
-      }
-      const data = await fetchPokemonList(limit, currentOffset);
-      setPokemons((prev) =>
-        replace ? data.results : [...prev, ...data.results],
+      const nextIds = ids.slice(loadedCount, loadedCount + LIMIT);
+      const details = await Promise.all(
+        nextIds.map((id) => fetchPokemonById(id)),
       );
-      const newOffset = currentOffset + limit;
-      setOffset(newOffset);
-      setHasMore(newOffset < selectedGen.end && data.next !== null);
+      setPokemons((prev) => [...prev, ...details]);
+      setLoadedCount((prev) => prev + nextIds.length);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -57,7 +74,7 @@ export default function PokemonList() {
   }
 
   function handleToggle(e, id) {
-    e.preventDefault(); // verhindert die Navigation des Links
+    e.preventDefault();
     e.stopPropagation();
     toggleCaught(id);
   }
@@ -69,22 +86,26 @@ export default function PokemonList() {
     else addToTeam(id);
   }
 
+  const hasMore = loadedCount < ids.length;
+
   return (
     <div>
       <select
         className={styles.genSelect}
-        value={selectedGen.label}
+        value={selectedGame.label}
         onChange={(e) =>
-          setSelectedGen(generations.find((g) => g.label === e.target.value))
+          setSelectedGame(games.find((g) => g.label === e.target.value))
         }
       >
-        {generations.map((g) => (
+        {games.map((g) => (
           <option key={g.label} value={g.label}>
             {g.label}
           </option>
         ))}
       </select>
+
       {isAuthenticated && <TeamBar />}
+
       <ul className={styles.list}>
         {pokemons.map((p) => (
           <li key={p.id} className={styles.card}>
@@ -143,6 +164,7 @@ export default function PokemonList() {
           </li>
         ))}
       </ul>
+
       {error && <p>{error}</p>}
       {hasMore && (
         <button onClick={() => loadMore()} disabled={loading}>
