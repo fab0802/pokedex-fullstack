@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/authApi";
+import { useAuth } from "../context/useAuth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -8,6 +9,7 @@ export default function Login() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login: authLogin } = useAuth();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -15,7 +17,7 @@ export default function Login() {
     setLoading(true);
     try {
       const { token } = await login(email, password);
-      localStorage.setItem("token", token);
+      authLogin(token);
       navigate("/");
     } catch (err) {
       setError(err.message);
