@@ -1,0 +1,36 @@
+.wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.team {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.teamName {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+}
+
+.members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+  text-align: center;
+}
+
+.memberName {
+  font-size: 12px;
+  text-transform: capitalize;
+}

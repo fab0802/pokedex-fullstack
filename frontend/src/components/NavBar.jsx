@@ -14,7 +14,10 @@ export default function NavBar() {
     <nav>
       <Link to="/">Pokédex</Link>
       {isAuthenticated ? (
-        <button onClick={handleLogout}>Logout</button>
+        <>
+          <Link to="/teams">My Teams</Link>
+          <button onClick={handleLogout}>Logout</button>
+        </>
       ) : (
         <>
           <Link to="/login">Login</Link>
