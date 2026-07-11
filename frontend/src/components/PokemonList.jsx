@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { fetchPokemonList } from "../services/pokeApi";
-import styles from "./PokemonList.module.css";
 import { typeBackgrounds } from "./typeBackgrounds";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
+import { useTeamBuilder } from "../context/useTeamBuilder";
+import TeamBar from "./TeamBar";
+import styles from "./PokemonList.module.css";
+import { typeColors } from "./typeColors";
 
 const LIMIT = 20;
 
@@ -17,6 +20,7 @@ export default function PokemonList() {
   const isFetchingRef = useRef(false);
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
+  const { isInTeam, addToTeam, removeFromTeam, isFull } = useTeamBuilder();
 
   useEffect(() => {
     loadMore();
@@ -47,17 +51,23 @@ export default function PokemonList() {
     toggleCaught(id);
   }
 
+  function handleTeamToggle(e, id) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isInTeam(id)) removeFromTeam(id);
+    else addToTeam(id);
+  }
+
   return (
     <div>
+      {isAuthenticated && <TeamBar />}
       <ul className={styles.list}>
         {pokemons.map((p) => (
           <li key={p.id} className={styles.card}>
             <Link to={`/pokemon/${p.id}`} className={styles.cardLink}>
               <div
                 className={styles.imagePanel}
-                style={{
-                  backgroundImage: `url(${typeBackgrounds[p.types[0]]})`,
-                }}
+                style={{ backgroundColor: typeColors[p.types[0]] }}
               >
                 <img
                   src={p.image}
@@ -71,22 +81,38 @@ export default function PokemonList() {
                 />
               </div>
               <div className={styles.info}>
-                <span className={styles.number}>#{p.id}</span>
-                <span className={styles.name}>{p.name}</span>
-                <div className={styles.types}>
-                  {p.types.map((type) => (
-                    <span key={type} className={styles.type}>
-                      {type}
-                    </span>
-                  ))}
+                <div className={styles.identity}>
+                  <span className={styles.number}>#{p.id}</span>
+                  <span className={styles.name}>{p.name}</span>
+                  <div className={styles.types}>
+                    {p.types.map((type) => (
+                      <span key={type} className={styles.type}>
+                        <img
+                          src={typeBackgrounds[type]}
+                          alt=""
+                          className={styles.typeIcon}
+                        />
+                        {type}
+                      </span>
+                    ))}
+                  </div>
                 </div>
                 {isAuthenticated && (
-                  <button
-                    className={styles.catchButton}
-                    onClick={(e) => handleToggle(e, p.id)}
-                  >
-                    {isCaught(p.id) ? "Caught ✓" : "Not caught"}
-                  </button>
+                  <div className={styles.actions}>
+                    <button
+                      className={styles.catchButton}
+                      onClick={(e) => handleToggle(e, p.id)}
+                    >
+                      {isCaught(p.id) ? "Caught ✓" : "Not caught"}
+                    </button>
+                    <button
+                      className={styles.teamButton}
+                      onClick={(e) => handleTeamToggle(e, p.id)}
+                      disabled={!isInTeam(p.id) && isFull}
+                    >
+                      {isInTeam(p.id) ? "In team ✓" : "+ Add to team"}
+                    </button>
+                  </div>
                 )}
               </div>
             </Link>
