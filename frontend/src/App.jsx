@@ -3,15 +3,19 @@ import PokemonList from "./components/PokemonList";
 import PokemonDetail from "./components/PokemonDetail";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<PokemonList />} />
-      <Route path="/pokemon/:id" element={<PokemonDetail />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-    </Routes>
+    <>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<PokemonList />} />
+        <Route path="/pokemon/:id" element={<PokemonDetail />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </>
   );
 }
 
