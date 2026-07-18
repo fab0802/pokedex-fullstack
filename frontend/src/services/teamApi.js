@@ -31,3 +31,13 @@ export async function updateTeam(id, name, pokemonIds) {
   if (!res.ok) throw new Error(data.error || "Failed to update team");
   return data; // das aktualisierte Team
 }
+
+export async function deleteTeam(id) {
+  const res = await fetch(`${BASE_URL}/teams/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Failed to delete team");
+  return data;
+}

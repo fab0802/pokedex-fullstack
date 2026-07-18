@@ -38,4 +38,17 @@ router.put("/:id", authMiddleware, async (req, res) => {
   }
 });
 
+router.delete("/:id", authMiddleware, async (req, res) => {
+  try {
+    const team = await Team.findOneAndDelete({
+      _id: req.params.id,
+      user: req.userId,
+    });
+    if (!team) return res.status(404).json({ error: "Team not found" });
+    res.json({ message: "Team deleted" });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 module.exports = router;

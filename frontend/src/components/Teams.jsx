@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getTeams } from "../services/teamApi";
+import { getTeams, deleteTeam } from "../services/teamApi";
 import { fetchPokemonById } from "../services/pokeApi";
 import { typeColors } from "./typeColors";
 import styles from "./Teams.module.css";
@@ -37,6 +37,15 @@ export default function Teams() {
 
   if (error) return <p className={styles.message}>{error}</p>;
 
+  async function handleDelete(teamId) {
+    try {
+      await deleteTeam(teamId);
+      setTeams((prev) => prev.filter((t) => t._id !== teamId));
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
   return (
     <div className={styles.wrapper}>
       <h1>My Teams</h1>
@@ -45,9 +54,17 @@ export default function Teams() {
         <div key={team._id} className={styles.team}>
           <div className={styles.teamHeader}>
             <h2 className={styles.teamName}>{team.name}</h2>
-            <span className={styles.count}>
-              {team.pokemonIds.length} / {MAX_TEAM_SIZE}
-            </span>
+            <div className={styles.headerRight}>
+              <span className={styles.count}>
+                {team.pokemonIds.length} / {MAX_TEAM_SIZE}
+              </span>
+              <button
+                className={styles.deleteButton}
+                onClick={() => handleDelete(team._id)}
+              >
+                Delete
+              </button>
+            </div>
           </div>
           <div className={styles.members}>
             {team.pokemonIds.map((id) => {
