@@ -5,6 +5,7 @@ import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
 import { typeColors } from "./typeColors";
 import { typeBackgrounds } from "./typeBackgrounds";
+import AddToTeamMenu from "./AddToTeamMenu";
 import styles from "./PokemonDetail.module.css";
 
 const MAX_STAT = 200;
@@ -74,6 +75,7 @@ export default function PokemonDetail() {
               {isCaught(pokemon.id) ? "Caught ✓" : "Not caught"}
             </button>
           )}
+          {isAuthenticated && <AddToTeamMenu pokemonId={pokemon.id} />}
         </div>
       </div>
 

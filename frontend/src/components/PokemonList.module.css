@@ -106,20 +106,6 @@
   font-size: 12px;
 }
 
-.teamButton {
-  padding: 4px 12px;
-  border: 1px solid #333;
-  border-radius: 20px;
-  background: white;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.teamButton:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
 .genSelect {
   display: block;
   margin: 0 auto 1rem;

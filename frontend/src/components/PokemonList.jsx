@@ -7,8 +7,6 @@ import { typeBackgrounds } from "./typeBackgrounds";
 import { games } from "./games";
 import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
-import { useTeamBuilder } from "../context/useTeamBuilder";
-import TeamBar from "./TeamBar";
 
 const LIMIT = 20;
 
@@ -23,7 +21,6 @@ export default function PokemonList() {
 
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
-  const { isInTeam, addToTeam, removeFromTeam, isFull } = useTeamBuilder();
 
   useEffect(() => {
     let cancelled = false;
@@ -79,13 +76,6 @@ export default function PokemonList() {
     toggleCaught(id);
   }
 
-  function handleTeamToggle(e, id) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (isInTeam(id)) removeFromTeam(id);
-    else addToTeam(id);
-  }
-
   const hasMore = loadedCount < ids.length;
 
   return (
@@ -103,8 +93,6 @@ export default function PokemonList() {
           </option>
         ))}
       </select>
-
-      {isAuthenticated && <TeamBar />}
 
       <ul className={styles.list}>
         {pokemons.map((p) => (
@@ -149,13 +137,6 @@ export default function PokemonList() {
                       onClick={(e) => handleToggle(e, p.id)}
                     >
                       {isCaught(p.id) ? "Caught ✓" : "Not caught"}
-                    </button>
-                    <button
-                      className={styles.teamButton}
-                      onClick={(e) => handleTeamToggle(e, p.id)}
-                      disabled={!isInTeam(p.id) && isFull}
-                    >
-                      {isInTeam(p.id) ? "In team ✓" : "+ Add to team"}
                     </button>
                   </div>
                 )}
