@@ -59,10 +59,23 @@ export function TeamsProvider({ children }) {
     setTeams((prev) => prev.filter((t) => t._id !== teamId));
   }
 
+  async function movePokemon(teamId, pokemonId, direction) {
+    const team = teams.find((t) => t._id === teamId);
+    if (!team) return;
+    const ids = [...team.pokemonIds];
+    const index = ids.indexOf(Number(pokemonId));
+    const target = index + direction; // -1 = nach links, +1 = nach rechts
+    if (target < 0 || target >= ids.length) return; // Rand erreicht
+    [ids[index], ids[target]] = [ids[target], ids[index]]; // tauschen
+    const updated = await updateTeam(teamId, team.name, ids);
+    setTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
+  }
+
   const value = {
     teams,
     addPokemonToTeam,
     removePokemonFromTeam,
+    movePokemon,
     createTeamWithPokemon,
     removeTeam,
     maxTeamSize: MAX_TEAM_SIZE,

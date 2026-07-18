@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Pencil, Check, X, Trash2 } from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  Pencil,
+  Check,
+  X,
+  Trash2,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { useTeams } from "../context/useTeams";
 import { fetchPokemonById } from "../services/pokeApi";
 import { typeColors } from "./typeColors";
 import styles from "./Teams.module.css";
 
 export default function Teams() {
-  const { teams, removePokemonFromTeam, removeTeam, maxTeamSize } = useTeams();
+  const { teams, removePokemonFromTeam, movePokemon, removeTeam, maxTeamSize } =
+    useTeams();
   const [pokemonById, setPokemonById] = useState({});
   const [error, setError] = useState(null);
   const [editingId, setEditingId] = useState(null);
@@ -87,18 +96,43 @@ export default function Teams() {
               </div>
             </div>
             <div className={styles.members}>
-              {team.pokemonIds.map((id) => {
+              {team.pokemonIds.map((id, index) => {
                 const p = pokemonById[id];
                 return (
-                  <div key={id} className={styles.memberWrap}>
+                  <motion.div
+                    key={id}
+                    layout
+                    transition={{ duration: 0.25 }}
+                    className={styles.memberWrap}
+                  >
                     {isEditing && (
-                      <button
-                        className={styles.removeButton}
-                        onClick={() => handleRemovePokemon(team._id, id)}
-                        title="Remove"
-                      >
-                        <X size={14} />
-                      </button>
+                      <>
+                        <button
+                          className={styles.removeButton}
+                          onClick={() => handleRemovePokemon(team._id, id)}
+                          title="Remove"
+                        >
+                          <X size={14} />
+                        </button>
+                        <div className={styles.moveButtons}>
+                          <button
+                            className={styles.moveButton}
+                            onClick={() => movePokemon(team._id, id, -1)}
+                            disabled={index === 0}
+                            title="Move left"
+                          >
+                            <ChevronLeft size={16} />
+                          </button>
+                          <button
+                            className={styles.moveButton}
+                            onClick={() => movePokemon(team._id, id, 1)}
+                            disabled={index === team.pokemonIds.length - 1}
+                            title="Move right"
+                          >
+                            <ChevronRight size={16} />
+                          </button>
+                        </div>
+                      </>
                     )}
                     {p ? (
                       <Link
@@ -119,7 +153,7 @@ export default function Teams() {
                         <span>#{id}</span>
                       </div>
                     )}
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
