@@ -31,7 +31,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
       { name, pokemonIds },
       { new: true, runValidators: true },
     );
-    if (!team) return res.status(404).json({ error: "Team nicht gefunden" });
+    if (!team) return res.status(404).json({ error: "Team not found" });
     res.json(team);
   } catch (err) {
     res.status(400).json({ error: err.message });

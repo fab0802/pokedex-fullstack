@@ -31,8 +31,8 @@ app.use("/teams", require("./src/routes/teams"));
 
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB verbunden"))
-  .catch((err) => console.error("MongoDB Fehler:", err));
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB error:", err));
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server läuft auf Port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
