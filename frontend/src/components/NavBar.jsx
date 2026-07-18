@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
+import ThemeToggle from "./ThemeToggle";
 import styles from "./NavBar.module.css";
 
 export default function NavBar() {
@@ -32,6 +33,7 @@ export default function NavBar() {
         Pokédex
       </Link>
       <div className={styles.links}>
+        <ThemeToggle />
         {isAuthenticated ? (
           <>
             <Link to="/teams" className={styles.link}>

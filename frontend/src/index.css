@@ -4,6 +4,14 @@
   padding: 0;
 }
 
+body,
+body * {
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
 :root {
   --color-primary: #c0392b;
   --color-primary-dark: #a93226;
@@ -16,6 +24,18 @@
   --color-text-muted: #a89f97;
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] {
+  --color-bg: #1b1917;
+  --color-surface: #262220;
+  --color-surface-alt: #302b28;
+  --color-border: #38322e;
+  --color-text: #f1ede9;
+  --color-text-secondary: #b4a99f;
+  --color-text-muted: #7c736b;
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.45);
 }
 
 body {
