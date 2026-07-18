@@ -85,14 +85,14 @@
 }
 
 .metric {
-  background: #f5f5f5;
+  background: var(--color-surface-alt);
   border-radius: 12px;
   padding: 14px 16px;
 }
 
 .metricLabel {
   font-size: 13px;
-  color: #888;
+  color: var(--color-text-secondary);
 }
 
 .metricValue {
@@ -125,13 +125,13 @@
 .statLabel {
   width: 90px;
   font-size: 13px;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .statTrack {
   flex: 1;
   height: 8px;
-  background: #eee;
+  background: var(--color-surface-alt);
   border-radius: 4px;
   overflow: hidden;
 }
