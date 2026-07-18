@@ -7,7 +7,23 @@ const dns = require("dns");
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 const app = express();
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173", // Vite-Dev-Server (lokal)
+  process.env.FRONTEND_URL, // Netlify-URL (aus Umgebungsvariable)
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Anfragen ohne Origin (z.B. Postman/Server-zu-Server) erlauben
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  }),
+);
 app.use(express.json());
 app.use("/auth", require("./src/routes/auth"));
 app.use("/collection", require("./src/routes/collection"));
