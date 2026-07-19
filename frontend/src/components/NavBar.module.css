@@ -51,3 +51,22 @@
 .logout:hover {
   background: rgba(255, 255, 255, 0.15);
 }
+
+@media (max-width: 600px) {
+  .nav {
+    padding: 12px 16px;
+  }
+  .links {
+    gap: 12px;
+  }
+  .brand {
+    font-size: 1.1rem;
+  }
+  .link,
+  .logout {
+    font-size: 0.9rem;
+  }
+  .logout {
+    padding: 5px 12px;
+  }
+}

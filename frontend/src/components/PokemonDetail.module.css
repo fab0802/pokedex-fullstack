@@ -148,3 +148,29 @@
   text-align: right;
   font-size: 13px;
 }
+
+@media (max-width: 600px) {
+  .banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 20px;
+  }
+  .image {
+    width: 120px;
+    height: 120px;
+  }
+  .headerInfo {
+    align-items: center;
+  }
+  .types {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .name {
+    font-size: 24px;
+  }
+  .catchButton {
+    align-self: center;
+  }
+}
