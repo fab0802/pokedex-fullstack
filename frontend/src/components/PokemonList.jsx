@@ -1,74 +1,57 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { fetchPokemonById, fetchPokedexIds } from "../services/pokeApi";
 import styles from "./PokemonList.module.css";
 import { typeColors } from "./typeColors";
 import { typeBackgrounds } from "./typeBackgrounds";
 import { games } from "./games";
 import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
-
-const LIMIT = 20;
+import { usePokemonList } from "../context/usePokemonList";
 
 export default function PokemonList() {
-  const [ids, setIds] = useState([]);
-  const [pokemons, setPokemons] = useState([]);
-  const [loadedCount, setLoadedCount] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [selectedGame, setSelectedGame] = useState(games[0]);
-  const isFetchingRef = useRef(false);
-
+  const {
+    selectedGame,
+    setSelectedGame,
+    pokemons,
+    loading,
+    error,
+    hasMore,
+    loadMore,
+    scrollYRef,
+  } = usePokemonList();
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
+  const sentinelRef = useRef(null);
 
+  // Scroll-Position beim Zurückkommen wiederherstellen
+  useLayoutEffect(() => {
+    window.scrollTo(0, scrollYRef.current);
+  }, [scrollYRef]);
+
+  // Aktuelle Scroll-Position laufend merken
   useEffect(() => {
-    let cancelled = false;
-    async function setupFilter() {
-      setError(null);
-      setLoading(true);
-      try {
-        const list = await fetchPokedexIds(selectedGame.dexes);
-        if (cancelled) return;
-        setIds(list);
-        const firstIds = list.slice(0, LIMIT);
-        const details = await Promise.all(
-          firstIds.map((id) => fetchPokemonById(id)),
-        );
-        if (cancelled) return;
-        setPokemons(details);
-        setLoadedCount(firstIds.length);
-      } catch (err) {
-        if (!cancelled) setError(err.message);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-    setupFilter();
-    return () => {
-      cancelled = true;
+    const onScroll = () => {
+      scrollYRef.current = window.scrollY;
     };
-  }, [selectedGame]);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [scrollYRef]);
 
-  async function loadMore() {
-    if (isFetchingRef.current) return;
-    isFetchingRef.current = true;
-    setLoading(true);
-    setError(null);
-    try {
-      const nextIds = ids.slice(loadedCount, loadedCount + LIMIT);
-      const details = await Promise.all(
-        nextIds.map((id) => fetchPokemonById(id)),
-      );
-      setPokemons((prev) => [...prev, ...details]);
-      setLoadedCount((prev) => prev + nextIds.length);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-      isFetchingRef.current = false;
-    }
-  }
+  // Infinite Scroll: nachladen, wenn der Sentinel in Sicht kommt
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadMore();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hasMore, loading, loadMore]);
 
   function handleToggle(e, id) {
     e.preventDefault();
@@ -76,16 +59,18 @@ export default function PokemonList() {
     toggleCaught(id);
   }
 
-  const hasMore = loadedCount < ids.length;
+  function handleGameChange(e) {
+    setSelectedGame(games.find((g) => g.label === e.target.value));
+    scrollYRef.current = 0;
+    window.scrollTo(0, 0);
+  }
 
   return (
     <div>
       <select
         className={styles.genSelect}
         value={selectedGame.label}
-        onChange={(e) =>
-          setSelectedGame(games.find((g) => g.label === e.target.value))
-        }
+        onChange={handleGameChange}
       >
         {games.map((g) => (
           <option key={g.label} value={g.label}>
@@ -147,11 +132,8 @@ export default function PokemonList() {
       </ul>
 
       {error && <p>{error}</p>}
-      {hasMore && (
-        <button onClick={() => loadMore()} disabled={loading}>
-          {loading ? "Loading..." : "Load more"}
-        </button>
-      )}
+      <div ref={sentinelRef} />
+      {loading && <p className={styles.loading}>Loading…</p>}
     </div>
   );
 }

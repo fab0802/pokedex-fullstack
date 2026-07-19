@@ -5,6 +5,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { CollectionProvider } from "./context/CollectionContext";
 import { TeamsProvider } from "./context/TeamsContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import { PokemonListProvider } from "./context/PokemonListContext";
 import "./index.css";
 import App from "./App.jsx";
 
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")).render(
         <AuthProvider>
           <CollectionProvider>
             <TeamsProvider>
-              <App />
+              <PokemonListProvider>
+                <App />
+              </PokemonListProvider>
             </TeamsProvider>
           </CollectionProvider>
         </AuthProvider>

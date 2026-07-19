@@ -120,3 +120,9 @@
   font-size: 14px;
   cursor: pointer;
 }
+
+.loading {
+  text-align: center;
+  padding: 1rem;
+  color: var(--color-text-secondary);
+}
