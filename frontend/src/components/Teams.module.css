@@ -149,3 +149,9 @@
   opacity: 0.3;
   cursor: not-allowed;
 }
+
+.fullNote {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}

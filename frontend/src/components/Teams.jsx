@@ -12,6 +12,7 @@ import {
 import { useTeams } from "../context/useTeams";
 import { fetchPokemonById } from "../services/pokeApi";
 import { typeColors } from "./typeColors";
+import AddPokemonSearch from "./AddPokemonSearch";
 import styles from "./Teams.module.css";
 
 export default function Teams() {
@@ -157,6 +158,15 @@ export default function Teams() {
                 );
               })}
             </div>
+            {isEditing &&
+              (team.pokemonIds.length < maxTeamSize ? (
+                <AddPokemonSearch
+                  teamId={team._id}
+                  currentIds={team.pokemonIds}
+                />
+              ) : (
+                <p className={styles.fullNote}>Team is full (6/6)</p>
+              ))}
           </div>
         );
       })}
