@@ -26,7 +26,10 @@
     "weight": "Weight",
     "baseStats": "Base stats",
     "caught": "Caught ✓",
-    "notCaught": "Not caught"
+    "notCaught": "Not caught",
+    "back": "Back to list",
+    "prev": "Previous",
+    "next": "Next"
   },
   "stats": {
     "hp": "HP",

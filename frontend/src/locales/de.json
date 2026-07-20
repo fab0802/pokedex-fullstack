@@ -26,7 +26,10 @@
     "weight": "Gewicht",
     "baseStats": "Basiswerte",
     "caught": "Gefangen ✓",
-    "notCaught": "Nicht gefangen"
+    "notCaught": "Nicht gefangen",
+    "back": "Zurück zur Liste",
+    "prev": "Vorheriges",
+    "next": "Nächstes"
   },
   "stats": {
     "hp": "KP",
