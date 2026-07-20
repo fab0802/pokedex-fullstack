@@ -150,9 +150,6 @@
 }
 
 .topNav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   margin-bottom: 12px;
 }
 
@@ -175,20 +172,68 @@
 
 .pager {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 8px;
+  margin-bottom: 14px;
 }
 
-.pagerButton {
+.preview {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
+  gap: 6px;
+  padding: 6px 12px 6px 8px;
   border: 1px solid var(--color-border);
-  border-radius: 50%;
+  border-radius: 999px;
   background: var(--color-surface);
   color: var(--color-text);
   cursor: pointer;
+  max-width: 46%;
+}
+
+.previewRight {
+  padding: 6px 8px 6px 12px;
+}
+
+.preview:hover {
+  background: var(--color-surface-alt);
+}
+
+.previewImg {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.previewText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  min-width: 0;
+}
+
+.previewRight .previewText {
+  text-align: right;
+}
+
+.previewNum {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.previewName {
+  font-size: 13px;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 600px) {
+  .previewName {
+    display: none;
+  }
 }
 
 .pagerButton:hover:not(:disabled) {
