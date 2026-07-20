@@ -1,0 +1,27 @@
+.group {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:not(.active):hover {
+  color: #fff;
+}
+
+.active {
+  background: #fff;
+  color: var(--color-primary);
+}

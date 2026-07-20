@@ -7,8 +7,11 @@ import { games } from "./games";
 import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
 import { usePokemonList } from "../context/usePokemonList";
+import { useTranslation } from "react-i18next";
+import { pokemonName } from "./pokemonName";
 
 export default function PokemonList() {
+  const { t, i18n } = useTranslation();
   const {
     selectedGame,
     setSelectedGame,
@@ -89,7 +92,7 @@ export default function PokemonList() {
               >
                 <img
                   src={p.image}
-                  alt={p.name}
+                  alt={pokemonName(p, i18n.language)}
                   height={96}
                   width={96}
                   loading="lazy"
@@ -101,7 +104,9 @@ export default function PokemonList() {
               <div className={styles.info}>
                 <div className={styles.identity}>
                   <span className={styles.number}>#{p.id}</span>
-                  <span className={styles.name}>{p.name}</span>
+                  <span className={styles.name}>
+                    {pokemonName(p, i18n.language)}
+                  </span>
                   <div className={styles.types}>
                     {p.types.map((type) => (
                       <span key={type} className={styles.type}>
@@ -110,7 +115,7 @@ export default function PokemonList() {
                           alt=""
                           className={styles.typeIcon}
                         />
-                        {type}
+                        {t(`types.${type}`)}
                       </span>
                     ))}
                   </div>
@@ -121,7 +126,7 @@ export default function PokemonList() {
                       className={styles.catchButton}
                       onClick={(e) => handleToggle(e, p.id)}
                     >
-                      {isCaught(p.id) ? "Caught ✓" : "Not caught"}
+                      {isCaught(p.id) ? t("list.caught") : t("list.notCaught")}
                     </button>
                   </div>
                 )}
@@ -133,7 +138,7 @@ export default function PokemonList() {
 
       {error && <p>{error}</p>}
       <div ref={sentinelRef} />
-      {loading && <p className={styles.loading}>Loading…</p>}
+      {loading && <p className={styles.loading}>{t("list.loading")}</p>}
     </div>
   );
 }

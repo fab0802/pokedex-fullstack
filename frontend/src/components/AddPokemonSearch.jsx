@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { Plus, Check } from "lucide-react";
 import { fetchAllPokemonNames } from "../services/pokeApi";
 import { useTeams } from "../context/useTeams";
+import { useTranslation } from "react-i18next";
 import styles from "./AddPokemonSearch.module.css";
 
 export default function AddPokemonSearch({ teamId, currentIds }) {
+  const { t } = useTranslation();
   const { addPokemonToTeam } = useTeams();
   const [allNames, setAllNames] = useState([]);
   const [query, setQuery] = useState("");
@@ -35,7 +37,7 @@ export default function AddPokemonSearch({ teamId, currentIds }) {
     <div className={styles.wrapper}>
       <input
         className={styles.input}
-        placeholder="Add Pokémon…"
+        placeholder={t("teams.addPlaceholder")}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />

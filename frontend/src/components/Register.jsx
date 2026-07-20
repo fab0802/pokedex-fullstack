@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../services/authApi";
 import { useAuth } from "../context/useAuth";
+import { useTranslation } from "react-i18next";
 import styles from "./Auth.module.css";
 
 export default function Register() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -30,11 +32,11 @@ export default function Register() {
   return (
     <div className={styles.wrapper}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <h1 className={styles.title}>Register</h1>
+        <h1 className={styles.title}>{t("auth.registerTitle")}</h1>
         <input
           className={styles.input}
           type="email"
-          placeholder="Email"
+          placeholder={t("auth.email")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -42,14 +44,14 @@ export default function Register() {
         <input
           className={styles.input}
           type="password"
-          placeholder="Password"
+          placeholder={t("auth.password")}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
         {error && <p className={styles.error}>{error}</p>}
         <button type="submit" className={styles.button} disabled={loading}>
-          {loading ? "Creating account..." : "Register"}
+          {loading ? t("auth.creatingAccount") : t("auth.registerButton")}
         </button>
       </form>
     </div>

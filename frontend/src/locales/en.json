@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "teams": "My Teams",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register"
+  },
+  "auth": {
+    "loginTitle": "Login",
+    "registerTitle": "Register",
+    "email": "Email",
+    "password": "Password",
+    "loggingIn": "Logging in...",
+    "creatingAccount": "Creating account...",
+    "loginButton": "Login",
+    "registerButton": "Register"
+  },
+  "list": {
+    "loading": "Loading…",
+    "caught": "Caught ✓",
+    "notCaught": "Not caught"
+  },
+  "detail": {
+    "loading": "Loading...",
+    "height": "Height",
+    "weight": "Weight",
+    "baseStats": "Base stats",
+    "caught": "Caught ✓",
+    "notCaught": "Not caught"
+  },
+  "stats": {
+    "hp": "HP",
+    "attack": "Attack",
+    "defense": "Defense",
+    "special-attack": "Sp. Attack",
+    "special-defense": "Sp. Defense",
+    "speed": "Speed"
+  },
+  "teams": {
+    "title": "My Teams",
+    "noTeams": "No teams yet.",
+    "deleteTeam": "Delete team",
+    "editTeam": "Edit team",
+    "done": "Done",
+    "remove": "Remove",
+    "moveLeft": "Move left",
+    "moveRight": "Move right",
+    "full": "Team is full (6/6)",
+    "addPlaceholder": "Add Pokémon…"
+  },
+  "addToTeam": {
+    "trigger": "+ Add to team",
+    "noTeams": "No teams yet.",
+    "full": "full",
+    "newTeamName": "New team name"
+  },
+  "types": {
+    "normal": "Normal",
+    "fire": "Fire",
+    "water": "Water",
+    "electric": "Electric",
+    "grass": "Grass",
+    "ice": "Ice",
+    "fighting": "Fighting",
+    "poison": "Poison",
+    "ground": "Ground",
+    "flying": "Flying",
+    "psychic": "Psychic",
+    "bug": "Bug",
+    "rock": "Rock",
+    "ghost": "Ghost",
+    "dragon": "Dragon",
+    "dark": "Dark",
+    "steel": "Steel",
+    "fairy": "Fairy"
+  }
+}

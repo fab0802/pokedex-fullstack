@@ -1,9 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/useAuth";
 import ThemeToggle from "./ThemeToggle";
+import LanguageToggle from "./LanguageToggle";
 import styles from "./NavBar.module.css";
 
 export default function NavBar() {
+  const { t } = useTranslation();
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -33,23 +36,24 @@ export default function NavBar() {
         Pokédex
       </Link>
       <div className={styles.links}>
+        <LanguageToggle />
         <ThemeToggle />
         {isAuthenticated ? (
           <>
             <Link to="/teams" className={styles.link}>
-              My Teams
+              {t("nav.teams")}
             </Link>
             <button onClick={handleLogout} className={styles.logout}>
-              Logout
+              {t("nav.logout")}
             </button>
           </>
         ) : (
           <>
             <Link to="/login" className={styles.link}>
-              Login
+              {t("nav.login")}
             </Link>
             <Link to="/register" className={styles.link}>
-              Register
+              {t("nav.register")}
             </Link>
           </>
         )}

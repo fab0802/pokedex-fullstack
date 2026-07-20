@@ -13,9 +13,12 @@ import { useTeams } from "../context/useTeams";
 import { fetchPokemonById } from "../services/pokeApi";
 import { typeColors } from "./typeColors";
 import AddPokemonSearch from "./AddPokemonSearch";
+import { useTranslation } from "react-i18next";
+import { pokemonName } from "./pokemonName";
 import styles from "./Teams.module.css";
 
 export default function Teams() {
+  const { t, i18n } = useTranslation();
   const { teams, removePokemonFromTeam, movePokemon, removeTeam, maxTeamSize } =
     useTeams();
   const [pokemonById, setPokemonById] = useState({});
@@ -65,9 +68,9 @@ export default function Teams() {
 
   return (
     <div className={styles.wrapper}>
-      <h1>My Teams</h1>
+      <h1>{t("teams.title")}</h1>
       {error && <p className={styles.message}>{error}</p>}
-      {teams.length === 0 && <p>No teams yet.</p>}
+      {teams.length === 0 && <p>{t("teams.noTeams")}</p>}
       {teams.map((team) => {
         const isEditing = editingId === team._id;
         return (
@@ -82,7 +85,7 @@ export default function Teams() {
                   <button
                     className={styles.deleteButton}
                     onClick={() => handleDelete(team._id)}
-                    title="Delete team"
+                    title={t("teams.deleteTeam")}
                   >
                     <Trash2 size={16} />
                   </button>
@@ -90,7 +93,7 @@ export default function Teams() {
                 <button
                   className={styles.editButton}
                   onClick={() => toggleEdit(team._id)}
-                  title={isEditing ? "Done" : "Edit team"}
+                  title={isEditing ? t("teams.done") : t("teams.editTeam")}
                 >
                   {isEditing ? <Check size={18} /> : <Pencil size={16} />}
                 </button>
@@ -111,7 +114,7 @@ export default function Teams() {
                         <button
                           className={styles.removeButton}
                           onClick={() => handleRemovePokemon(team._id, id)}
-                          title="Remove"
+                          title={t("teams.remove")}
                         >
                           <X size={14} />
                         </button>
@@ -120,7 +123,7 @@ export default function Teams() {
                             className={styles.moveButton}
                             onClick={() => movePokemon(team._id, id, -1)}
                             disabled={index === 0}
-                            title="Move left"
+                            title={t("teams.moveLeft")}
                           >
                             <ChevronLeft size={16} />
                           </button>
@@ -128,7 +131,7 @@ export default function Teams() {
                             className={styles.moveButton}
                             onClick={() => movePokemon(team._id, id, 1)}
                             disabled={index === team.pokemonIds.length - 1}
-                            title="Move right"
+                            title={t("teams.moveRight")}
                           >
                             <ChevronRight size={16} />
                           </button>
@@ -143,11 +146,13 @@ export default function Teams() {
                       >
                         <img
                           src={p.image}
-                          alt={p.name}
+                          alt={pokemonName(p, i18n.language)}
                           width={64}
                           height={64}
                         />
-                        <span className={styles.memberName}>{p.name}</span>
+                        <span className={styles.memberName}>
+                          {pokemonName(p, i18n.language)}
+                        </span>
                       </Link>
                     ) : (
                       <div className={styles.member}>
@@ -165,7 +170,7 @@ export default function Teams() {
                   currentIds={team.pokemonIds}
                 />
               ) : (
-                <p className={styles.fullNote}>Team is full (6/6)</p>
+                <p className={styles.fullNote}>{t("teams.full")}</p>
               ))}
           </div>
         );

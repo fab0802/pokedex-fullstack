@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { ChevronDown, Check, Plus } from "lucide-react";
 import { useTeams } from "../context/useTeams";
+import { useTranslation } from "react-i18next";
 import styles from "./AddToTeamMenu.module.css";
 
 export default function AddToTeamMenu({ pokemonId }) {
+  const { t } = useTranslation();
   const { teams, addPokemonToTeam, createTeamWithPokemon, maxTeamSize } =
     useTeams();
   const [open, setOpen] = useState(false);
@@ -35,12 +37,14 @@ export default function AddToTeamMenu({ pokemonId }) {
   return (
     <div className={styles.wrapper}>
       <button className={styles.trigger} onClick={() => setOpen((o) => !o)}>
-        + Add to team <ChevronDown size={16} />
+        {t("addToTeam.trigger")} <ChevronDown size={16} />
       </button>
 
       {open && (
         <div className={styles.menu}>
-          {teams.length === 0 && <p className={styles.empty}>No teams yet.</p>}
+          {teams.length === 0 && (
+            <p className={styles.empty}>{t("addToTeam.noTeams")}</p>
+          )}
           {teams.map((team) => {
             const inTeam = team.pokemonIds.includes(id);
             const full = team.pokemonIds.length >= maxTeamSize;
@@ -56,7 +60,7 @@ export default function AddToTeamMenu({ pokemonId }) {
                   {inTeam ? (
                     <Check size={16} />
                   ) : full ? (
-                    "full"
+                    t("addToTeam.full")
                   ) : (
                     `${team.pokemonIds.length}/${maxTeamSize}`
                   )}
@@ -68,7 +72,7 @@ export default function AddToTeamMenu({ pokemonId }) {
           <div className={styles.newTeam}>
             <input
               className={styles.newInput}
-              placeholder="New team name"
+              placeholder={t("addToTeam.newTeamName")}
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
             />

@@ -1,5 +1,5 @@
 const BASE_URL = "https://pokeapi.co/api/v2";
-const CACHE_KEY = "pokemon-cache-v2";
+const CACHE_KEY = "pokemon-cache-v3";
 const NATIONAL_MAX = 1025;
 
 function getCache() {
@@ -16,12 +16,24 @@ export async function fetchPokemonById(id) {
   const cache = getCache();
   if (cache[id]) return cache[id];
 
-  const res = await fetch(`${BASE_URL}/pokemon/${id}`);
-  if (!res.ok) throw new Error("Failed to load Pokémon");
-  const p = await res.json();
+  const [pRes, sRes] = await Promise.all([
+    fetch(`${BASE_URL}/pokemon/${id}`),
+    fetch(`${BASE_URL}/pokemon-species/${id}`),
+  ]);
+  if (!pRes.ok) throw new Error("Failed to load Pokémon");
+  const p = await pRes.json();
+
+  let nameDe = p.name;
+  if (sRes.ok) {
+    const s = await sRes.json();
+    const deEntry = s.names.find((n) => n.language.name === "de");
+    if (deEntry) nameDe = deEntry.name;
+  }
+
   const result = {
     id: p.id,
     name: p.name,
+    nameDe,
     image:
       p.sprites.other["official-artwork"].front_default ??
       p.sprites.front_default,

@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "teams": "Meine Teams",
+    "logout": "Abmelden",
+    "login": "Anmelden",
+    "register": "Registrieren"
+  },
+  "auth": {
+    "loginTitle": "Anmelden",
+    "registerTitle": "Registrieren",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "loggingIn": "Anmelden…",
+    "creatingAccount": "Konto wird erstellt…",
+    "loginButton": "Anmelden",
+    "registerButton": "Registrieren"
+  },
+  "list": {
+    "loading": "Lädt…",
+    "caught": "Gefangen ✓",
+    "notCaught": "Nicht gefangen"
+  },
+  "detail": {
+    "loading": "Lädt…",
+    "height": "Grösse",
+    "weight": "Gewicht",
+    "baseStats": "Basiswerte",
+    "caught": "Gefangen ✓",
+    "notCaught": "Nicht gefangen"
+  },
+  "stats": {
+    "hp": "KP",
+    "attack": "Angriff",
+    "defense": "Verteidigung",
+    "special-attack": "Sp.-Angriff",
+    "special-defense": "Sp.-Verteidigung",
+    "speed": "Initiative"
+  },
+  "teams": {
+    "title": "Meine Teams",
+    "noTeams": "Noch keine Teams.",
+    "deleteTeam": "Team löschen",
+    "editTeam": "Team bearbeiten",
+    "done": "Fertig",
+    "remove": "Entfernen",
+    "moveLeft": "Nach links",
+    "moveRight": "Nach rechts",
+    "full": "Team ist voll (6/6)",
+    "addPlaceholder": "Pokémon hinzufügen…"
+  },
+  "addToTeam": {
+    "trigger": "+ Zum Team",
+    "noTeams": "Noch keine Teams.",
+    "full": "voll",
+    "newTeamName": "Name des neuen Teams"
+  },
+  "types": {
+    "normal": "Normal",
+    "fire": "Feuer",
+    "water": "Wasser",
+    "electric": "Elektro",
+    "grass": "Pflanze",
+    "ice": "Eis",
+    "fighting": "Kampf",
+    "poison": "Gift",
+    "ground": "Boden",
+    "flying": "Flug",
+    "psychic": "Psycho",
+    "bug": "Käfer",
+    "rock": "Gestein",
+    "ghost": "Geist",
+    "dragon": "Drache",
+    "dark": "Unlicht",
+    "steel": "Stahl",
+    "fairy": "Fee"
+  }
+}
