@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Users, LogOut, LogIn, UserPlus } from "lucide-react";
 import { useAuth } from "../context/useAuth";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
@@ -41,19 +42,23 @@ export default function NavBar() {
         {isAuthenticated ? (
           <>
             <Link to="/teams" className={styles.link}>
-              {t("nav.teams")}
+              <Users size={17} aria-hidden="true" />
+              <span className={styles.label}>{t("nav.teams")}</span>
             </Link>
             <button onClick={handleLogout} className={styles.logout}>
-              {t("nav.logout")}
+              <LogOut size={16} aria-hidden="true" />
+              <span className={styles.label}>{t("nav.logout")}</span>
             </button>
           </>
         ) : (
           <>
             <Link to="/login" className={styles.link}>
-              {t("nav.login")}
+              <LogIn size={17} aria-hidden="true" />
+              <span className={styles.label}>{t("nav.login")}</span>
             </Link>
             <Link to="/register" className={styles.link}>
-              {t("nav.register")}
+              <UserPlus size={17} aria-hidden="true" />
+              <span className={styles.label}>{t("nav.register")}</span>
             </Link>
           </>
         )}
