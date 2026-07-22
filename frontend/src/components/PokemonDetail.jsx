@@ -8,6 +8,7 @@ import { useCollection } from "../context/useCollection";
 import { typeColors } from "./typeColors";
 import { typeBackgrounds } from "./typeBackgrounds";
 import AddToTeamMenu from "./AddToTeamMenu";
+import EvolutionChain from "./EvolutionChain";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import styles from "./PokemonDetail.module.css";
@@ -239,6 +240,11 @@ export default function PokemonDetail() {
             ))}
           </div>
         </div>
+
+        <EvolutionChain
+          chainUrl={pokemon.evolutionChainUrl}
+          currentId={pokemon.id}
+        />
       </motion.div>
     </div>
   );

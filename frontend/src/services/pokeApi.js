@@ -1,5 +1,6 @@
 const BASE_URL = "https://pokeapi.co/api/v2";
-const CACHE_KEY = "pokemon-cache-v3";
+const CACHE_KEY = "pokemon-cache-v4";
+const EVO_CACHE_KEY = "pokemon-evolution-v1";
 const NATIONAL_MAX = 1025;
 
 function getCache() {
@@ -24,10 +25,12 @@ export async function fetchPokemonById(id) {
   const p = await pRes.json();
 
   let nameDe = p.name;
+  let evolutionChainUrl = null;
   if (sRes.ok) {
     const s = await sRes.json();
     const deEntry = s.names.find((n) => n.language.name === "de");
     if (deEntry) nameDe = deEntry.name;
+    evolutionChainUrl = s.evolution_chain?.url ?? null;
   }
 
   const result = {
@@ -38,12 +41,47 @@ export async function fetchPokemonById(id) {
       p.sprites.other["official-artwork"].front_default ??
       p.sprites.front_default,
     types: p.types.map((t) => t.type.name),
+    evolutionChainUrl,
     height: p.height,
     weight: p.weight,
     stats: p.stats.map((s) => ({ name: s.stat.name, value: s.base_stat })),
   };
   setCacheEntry(id, result);
   return result;
+}
+
+// --- Evolution ---------------------------------------------------------
+
+function idFromUrl(url) {
+  const parts = url.split("/").filter(Boolean);
+  return Number(parts[parts.length - 1]);
+}
+
+// Wandelt einen Knoten der API-Kette in unsere eigene, schlanke Form um.
+// Ruft sich fuer jeden Nachfolger selbst auf -> der ganze Baum entsteht.
+function buildNode(link) {
+  return {
+    id: idFromUrl(link.species.url),
+    details: link.evolution_details ?? [],
+    next: link.evolves_to.map(buildNode),
+  };
+}
+
+export async function fetchEvolutionChain(chainUrl) {
+  if (!chainUrl) return null;
+
+  const chainId = idFromUrl(chainUrl);
+  const cache = JSON.parse(localStorage.getItem(EVO_CACHE_KEY) || "{}");
+  if (cache[chainId]) return cache[chainId];
+
+  const res = await fetch(chainUrl);
+  if (!res.ok) throw new Error("Failed to load evolution chain");
+  const data = await res.json();
+
+  const root = buildNode(data.chain);
+  cache[chainId] = root;
+  localStorage.setItem(EVO_CACHE_KEY, JSON.stringify(cache));
+  return root;
 }
 
 export async function fetchPokedexIds(dexes) {

@@ -76,5 +76,16 @@
     "dark": "Unlicht",
     "steel": "Stahl",
     "fairy": "Fee"
+  },
+  "evolution": {
+    "title": "Entwicklung",
+    "level": "Lv. {{level}}",
+    "happiness": "Freundschaft",
+    "trade": "Tausch",
+    "time": {
+      "day": "Tagsüber",
+      "night": "Nachts"
+    },
+    "unknown": "Sonderbedingung"
   }
 }

@@ -76,5 +76,16 @@
     "dark": "Dark",
     "steel": "Steel",
     "fairy": "Fairy"
+  },
+  "evolution": {
+    "title": "Evolution",
+    "level": "Lv. {{level}}",
+    "happiness": "Friendship",
+    "trade": "Trade",
+    "time": {
+      "day": "Daytime",
+      "night": "Night"
+    },
+    "unknown": "Special condition"
   }
 }
