@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Plus, Check } from "lucide-react";
-import { fetchAllPokemonNames } from "../services/pokeApi";
 import { useTeams } from "../context/useTeams";
 import { useTranslation } from "react-i18next";
+import allNames from "../data/pokemonNames.json";
+import { pokemonName } from "./pokemonName";
 import styles from "./AddPokemonSearch.module.css";
 
 export default function AddPokemonSearch({ teamId, currentIds }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { addPokemonToTeam } = useTeams();
-  const [allNames, setAllNames] = useState([]);
   const [query, setQuery] = useState("");
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchAllPokemonNames()
-      .then(setAllNames)
-      .catch((err) => setError(err.message));
-  }, []);
-
+  // Sucht in beiden Sprachen, unabhaengig von der eingestellten UI-Sprache
   const q = query.trim().toLowerCase();
   const matches = q
-    ? allNames.filter((p) => p.name.includes(q)).slice(0, 8)
+    ? allNames
+        .filter(
+          (p) =>
+            p.name.includes(q) || p.nameDe.toLowerCase().includes(q),
+        )
+        .slice(0, 8)
     : [];
 
   async function handleAdd(id) {
@@ -53,7 +53,9 @@ export default function AddPokemonSearch({ teamId, currentIds }) {
                   disabled={inTeam}
                 >
                   <span className={styles.resultId}>#{p.id}</span>
-                  <span className={styles.resultName}>{p.name}</span>
+                  <span className={styles.resultName}>
+                    {pokemonName(p, i18n.language)}
+                  </span>
                   {inTeam ? <Check size={16} /> : <Plus size={16} />}
                 </button>
               </li>
