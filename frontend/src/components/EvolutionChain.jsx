@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { fetchEvolutionChain, fetchPokemonById } from "../services/pokeApi";
+import {
+  fetchEvolutionChain,
+  fetchLocalizedNames,
+  fetchPokemonById,
+} from "../services/pokeApi";
 import { pokemonName } from "./pokemonName";
 import { formatEvolutionCondition } from "./evolutionCondition";
 import styles from "./EvolutionChain.module.css";
@@ -11,6 +15,19 @@ import styles from "./EvolutionChain.module.css";
 function collectIds(node, acc = []) {
   acc.push(node.id);
   node.next.forEach((child) => collectIds(child, acc));
+  return acc;
+}
+
+// Sammelt alle benannten Ressourcen (Items, Orte, Attacken) im Baum ein,
+// damit wir ihre Namen im Voraus laden koennen.
+function collectNamedRefs(node, acc = []) {
+  node.details.forEach((d) => {
+    if (d.item?.name) acc.push(["item", d.item.name]);
+    if (d.held_item?.name) acc.push(["item", d.held_item.name]);
+    if (d.known_move?.name) acc.push(["move", d.known_move.name]);
+    if (d.location?.name) acc.push(["location", d.location.name]);
+  });
+  node.next.forEach((child) => collectNamedRefs(child, acc));
   return acc;
 }
 
@@ -40,7 +57,7 @@ function Sprite({ node, pokemonById, currentId, lang }) {
 
 // Rendert eine Stufe und - je nach Anzahl Nachfolger - entweder
 // eine Reihe (1 Nachfolger) oder eine Spalte (mehrere Nachfolger).
-function Stage({ node, pokemonById, currentId, lang, t }) {
+function Stage({ node, pokemonById, currentId, lang, t, names }) {
   const children = node.next;
   const sprite = (
     <Sprite
@@ -61,7 +78,7 @@ function Stage({ node, pokemonById, currentId, lang, t }) {
         <span className={styles.arrow}>
           <ChevronRight size={20} aria-hidden="true" />
           <span className={styles.arrowLabel}>
-            {formatEvolutionCondition(child.details, t)}
+            {formatEvolutionCondition(child.details, t, names, lang)}
           </span>
         </span>
         <Stage
@@ -70,6 +87,7 @@ function Stage({ node, pokemonById, currentId, lang, t }) {
           currentId={currentId}
           lang={lang}
           t={t}
+          names={names}
         />
       </>
     );
@@ -77,7 +95,9 @@ function Stage({ node, pokemonById, currentId, lang, t }) {
 
   // Haben alle Zweige dieselbe Bedingung, gehoert sie an die Gabelung -
   // sonst an jeden Zweig einzeln.
-  const labels = children.map((c) => formatEvolutionCondition(c.details, t));
+  const labels = children.map((c) =>
+    formatEvolutionCondition(c.details, t, names, lang),
+  );
   const sharedLabel = labels.every((l) => l && l === labels[0])
     ? labels[0]
     : null;
@@ -109,6 +129,7 @@ function Stage({ node, pokemonById, currentId, lang, t }) {
                 currentId={currentId}
                 lang={lang}
                 t={t}
+                names={names}
               />
             </div>
             {!sharedLabel && (
@@ -125,6 +146,7 @@ export default function EvolutionChain({ chainUrl, currentId }) {
   const { t, i18n } = useTranslation();
   const [root, setRoot] = useState(null);
   const [pokemonById, setPokemonById] = useState({});
+  const [names, setNames] = useState({});
 
   useEffect(() => {
     let cancelled = false;
@@ -133,17 +155,39 @@ export default function EvolutionChain({ chainUrl, currentId }) {
       const tree = await fetchEvolutionChain(chainUrl).catch(() => null);
       if (!tree || cancelled) return;
 
-      const list = await Promise.all(
-        collectIds(tree).map((id) => fetchPokemonById(id).catch(() => null)),
-      );
+      // Doppelte Referenzen rauswerfen, sonst holen wir denselben
+      // Gegenstand mehrfach.
+      const refs = [
+        ...new Map(
+          collectNamedRefs(tree).map((r) => [`${r[0]}:${r[1]}`, r]),
+        ).values(),
+      ];
+
+      const [list, nameEntries] = await Promise.all([
+        Promise.all(
+          collectIds(tree).map((id) => fetchPokemonById(id).catch(() => null)),
+        ),
+        Promise.all(
+          refs.map(async ([kind, slug]) => [
+            `${kind}:${slug}`,
+            await fetchLocalizedNames(kind, slug).catch(() => null),
+          ]),
+        ),
+      ]);
       if (cancelled) return;
 
       const map = {};
       list.forEach((p) => {
         if (p) map[p.id] = p;
       });
+      const nameMap = {};
+      nameEntries.forEach(([key, value]) => {
+        if (value) nameMap[key] = value;
+      });
+
       setRoot(tree);
       setPokemonById(map);
+      setNames(nameMap);
     }
 
     setRoot(null);
@@ -166,6 +210,7 @@ export default function EvolutionChain({ chainUrl, currentId }) {
           currentId={currentId}
           lang={i18n.language}
           t={t}
+          names={names}
         />
       </div>
     </div>

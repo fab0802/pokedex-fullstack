@@ -1,6 +1,7 @@
 const BASE_URL = "https://pokeapi.co/api/v2";
 const CACHE_KEY = "pokemon-cache-v4";
 const EVO_CACHE_KEY = "pokemon-evolution-v1";
+const NAME_CACHE_KEY = "pokeapi-names-v1";
 const NATIONAL_MAX = 1025;
 
 function getCache() {
@@ -82,6 +83,26 @@ export async function fetchEvolutionChain(chainUrl) {
   cache[chainId] = root;
   localStorage.setItem(EVO_CACHE_KEY, JSON.stringify(cache));
   return root;
+}
+
+// Holt die lokalisierten Namen einer benannten Ressource (item, location,
+// move). Cache-Schluessel ist "art:slug", z.B. "item:fire-stone" - anders
+// als beim Pokemon-Cache, wo die ID reicht.
+export async function fetchLocalizedNames(kind, slug) {
+  const key = `${kind}:${slug}`;
+  const cache = JSON.parse(localStorage.getItem(NAME_CACHE_KEY) || "{}");
+  if (cache[key]) return cache[key];
+
+  const res = await fetch(`${BASE_URL}/${kind}/${slug}`);
+  if (!res.ok) throw new Error("Failed to load names");
+  const data = await res.json();
+
+  const pick = (lang) => data.names.find((n) => n.language.name === lang)?.name;
+  const entry = { de: pick("de") ?? null, en: pick("en") ?? null };
+
+  cache[key] = entry;
+  localStorage.setItem(NAME_CACHE_KEY, JSON.stringify(cache));
+  return entry;
 }
 
 export async function fetchPokedexIds(dexes) {
