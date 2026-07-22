@@ -16,6 +16,10 @@ export function formatEvolutionCondition(details, t) {
   if (d.item?.name) parts.push(prettify(d.item.name));
   if (d.held_item?.name) parts.push(prettify(d.held_item.name));
   if (d.known_move?.name) parts.push(prettify(d.known_move.name));
+  if (d.known_move_type?.name)
+    parts.push(
+      t("evolution.knownMoveType", { type: t(`types.${d.known_move_type.name}`) }),
+    );
   if (d.location?.name) parts.push(prettify(d.location.name));
   if (d.min_happiness) parts.push(t("evolution.happiness"));
   if (d.time_of_day) parts.push(t(`evolution.time.${d.time_of_day}`));

@@ -75,14 +75,32 @@ function Stage({ node, pokemonById, currentId, lang, t }) {
     );
   }
 
+  // Haben alle Zweige dieselbe Bedingung, gehoert sie an die Gabelung -
+  // sonst an jeden Zweig einzeln.
+  const labels = children.map((c) => formatEvolutionCondition(c.details, t));
+  const sharedLabel = labels.every((l) => l && l === labels[0])
+    ? labels[0]
+    : null;
+
+  // Geht ein Zweig selbst noch weiter (Waumpel), braucht er eine eigene
+  // Zeile. Sind alle Zweige Endpunkte (Evoli), passt das kompakte Grid.
+  const hasDeepBranch = children.some((c) => c.next.length > 0);
+
   return (
     <>
       {sprite}
       <span className={styles.fork}>
         <ChevronRight size={20} aria-hidden="true" />
+        {sharedLabel && (
+          <span className={styles.arrowLabel}>{sharedLabel}</span>
+        )}
       </span>
-      <div className={styles.branches}>
-        {children.map((child) => (
+      <div
+        className={`${styles.branches} ${
+          hasDeepBranch ? styles.branchesStacked : ""
+        }`}
+      >
+        {children.map((child, i) => (
           <div key={child.id} className={styles.branch}>
             <div className={styles.branchChain}>
               <Stage
@@ -93,9 +111,9 @@ function Stage({ node, pokemonById, currentId, lang, t }) {
                 t={t}
               />
             </div>
-            <span className={styles.condition}>
-              {formatEvolutionCondition(child.details, t)}
-            </span>
+            {!sharedLabel && (
+              <span className={styles.condition}>{labels[i]}</span>
+            )}
           </div>
         ))}
       </div>

@@ -86,6 +86,7 @@
       "day": "Tagsüber",
       "night": "Nachts"
     },
-    "unknown": "Sonderbedingung"
+    "unknown": "Sonderbedingung",
+    "knownMoveType": "{{type}}-Attacke"
   }
 }

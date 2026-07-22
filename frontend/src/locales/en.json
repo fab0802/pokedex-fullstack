@@ -86,6 +86,7 @@
       "day": "Daytime",
       "night": "Night"
     },
-    "unknown": "Special condition"
+    "unknown": "Special condition",
+    "knownMoveType": "{{type}} move"
   }
 }
