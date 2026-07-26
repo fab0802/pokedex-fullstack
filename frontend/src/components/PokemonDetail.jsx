@@ -11,6 +11,7 @@ import AddToTeamMenu from "./AddToTeamMenu";
 import EvolutionChain from "./EvolutionChain";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
+import TypeMatchups from "./TypeMatchups";
 import styles from "./PokemonDetail.module.css";
 
 const MAX_STAT = 200;
@@ -247,6 +248,8 @@ export default function PokemonDetail() {
             </div>
           </div>
         </div>
+
+        <TypeMatchups types={pokemon.types} />
 
         <EvolutionChain
           chainUrl={pokemon.evolutionChainUrl}

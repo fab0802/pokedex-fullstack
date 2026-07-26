@@ -29,7 +29,8 @@
     "notCaught": "Not caught",
     "back": "Back to list",
     "prev": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "matchups": "Type effectiveness"
   },
   "stats": {
     "hp": "HP",

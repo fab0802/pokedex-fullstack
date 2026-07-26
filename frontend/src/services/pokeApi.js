@@ -126,3 +126,69 @@ export async function fetchPokedexIds(dexes) {
     .filter((id) => id <= NATIONAL_MAX)
     .sort((a, b) => a - b);
 }
+
+// --- Typ-Effektivität (Verteidigung) -----------------------------------
+
+const TYPE_CACHE_KEY = "pokeapi-types-v1";
+
+const ALL_TYPES = [
+  "normal",
+  "fire",
+  "water",
+  "electric",
+  "grass",
+  "ice",
+  "fighting",
+  "poison",
+  "ground",
+  "flying",
+  "psychic",
+  "bug",
+  "rock",
+  "ghost",
+  "dragon",
+  "dark",
+  "steel",
+  "fairy",
+];
+// Anzeige-Reihenfolge der Zeilen: von immun (×0) bis vierfach (×4)
+const FACTOR_ORDER = [0, 0.25, 0.5, 1, 2, 4];
+
+// Wie viel Schaden nimmt dieses Pokémon von jedem angreifenden Typ? Die
+// API liefert das nur pro Typ (/type/{name}); bei Doppel-Typen müssen wir
+// die Multiplikatoren über beide eigenen Typen kombinieren. Rückgabe:
+// nach Multiplikator gruppierte Zeilen, leere Zeilen fallen raus.
+export async function fetchTypeEffectiveness(types) {
+  const cache = JSON.parse(localStorage.getItem(TYPE_CACHE_KEY) || "{}");
+
+  const relations = await Promise.all(
+    types.map(async (name) => {
+      if (cache[name]) return cache[name];
+      const res = await fetch(`${BASE_URL}/type/${name}`);
+      if (!res.ok) throw new Error("Failed to load type");
+      const data = await res.json();
+      const rel = {
+        double: data.damage_relations.double_damage_from.map((x) => x.name),
+        half: data.damage_relations.half_damage_from.map((x) => x.name),
+        no: data.damage_relations.no_damage_from.map((x) => x.name),
+      };
+      cache[name] = rel;
+      return rel;
+    }),
+  );
+  localStorage.setItem(TYPE_CACHE_KEY, JSON.stringify(cache));
+
+  // Jeder Typ startet neutral (1), dann mit den eigenen Typen verrechnen
+  const factors = {};
+  for (const type of ALL_TYPES) factors[type] = 1;
+  for (const rel of relations) {
+    for (const atk of rel.double) factors[atk] *= 2;
+    for (const atk of rel.half) factors[atk] *= 0.5;
+    for (const atk of rel.no) factors[atk] *= 0;
+  }
+
+  return FACTOR_ORDER.map((factor) => ({
+    factor,
+    types: ALL_TYPES.filter((type) => factors[type] === factor),
+  })).filter((group) => group.types.length > 0);
+}
