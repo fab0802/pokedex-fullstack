@@ -101,5 +101,20 @@
     "lv": "Lv. {{level}}",
     "none": "No moves found.",
     "error": "Could not load moves."
+  },
+  "filter": {
+    "game": "Game"
+  },
+  "games": {
+    "all": "All",
+    "rby": "Red/Blue/Yellow",
+    "gsc": "Gold/Silver/Crystal",
+    "rse": "Ruby/Sapphire/Emerald",
+    "dpp": "Diamond/Pearl/Platinum",
+    "bw": "Black/White",
+    "xy": "X/Y",
+    "sm": "Sun/Moon",
+    "swsh": "Sword/Shield",
+    "sv": "Scarlet/Violet"
   }
 }

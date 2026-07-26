@@ -1,47 +1,39 @@
 export const games = [
-  { label: "All", dexes: null, versionGroups: [] },
+  { id: "all", dexes: null, versionGroups: [] },
+  { id: "rby", dexes: ["kanto"], versionGroups: ["red-blue", "yellow"] },
   {
-    label: "Red/Blue/Yellow",
-    dexes: ["kanto"],
-    versionGroups: ["red-blue", "yellow"],
-  },
-  {
-    label: "Gold/Silver/Crystal",
+    id: "gsc",
     dexes: ["original-johto"],
     versionGroups: ["gold-silver", "crystal"],
   },
+  { id: "rse", dexes: ["hoenn"], versionGroups: ["ruby-sapphire", "emerald"] },
   {
-    label: "Ruby/Sapphire/Emerald",
-    dexes: ["hoenn"],
-    versionGroups: ["ruby-sapphire", "emerald"],
-  },
-  {
-    label: "Diamond/Pearl/Platinum",
+    id: "dpp",
     dexes: ["extended-sinnoh"],
     versionGroups: ["diamond-pearl", "platinum"],
   },
   {
-    label: "Black/White",
+    id: "bw",
     dexes: ["original-unova"],
     versionGroups: ["black-white", "black-2-white-2"],
   },
   {
-    label: "X/Y",
+    id: "xy",
     dexes: ["kalos-central", "kalos-coastal", "kalos-mountain"],
     versionGroups: ["x-y"],
   },
   {
-    label: "Sun/Moon",
+    id: "sm",
     dexes: ["original-alola"],
     versionGroups: ["sun-moon", "ultra-sun-ultra-moon"],
   },
   {
-    label: "Sword/Shield",
+    id: "swsh",
     dexes: ["galar", "isle-of-armor", "crown-tundra"],
     versionGroups: ["sword-shield"],
   },
   {
-    label: "Scarlet/Violet",
+    id: "sv",
     dexes: ["paldea", "kitakami", "blueberry"],
     versionGroups: ["scarlet-violet"],
   },

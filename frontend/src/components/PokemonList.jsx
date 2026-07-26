@@ -57,7 +57,7 @@ export default function PokemonList() {
   }
 
   function handleGameChange(e) {
-    setSelectedGame(games.find((g) => g.label === e.target.value));
+    setSelectedGame(games.find((g) => g.id === e.target.value));
     scrollYRef.current = 0;
     window.scrollTo(0, 0);
   }
@@ -66,12 +66,13 @@ export default function PokemonList() {
     <div>
       <select
         className={styles.genSelect}
-        value={selectedGame.label}
+        value={selectedGame.id}
         onChange={handleGameChange}
+        aria-label={t("filter.game")}
       >
         {games.map((g) => (
-          <option key={g.label} value={g.label}>
-            {g.label}
+          <option key={g.id} value={g.id}>
+            {t(`games.${g.id}`)}
           </option>
         ))}
       </select>

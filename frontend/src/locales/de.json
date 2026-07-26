@@ -101,5 +101,20 @@
     "lv": "Lv. {{level}}",
     "none": "Keine Attacken gefunden.",
     "error": "Attacken konnten nicht geladen werden."
+  },
+  "filter": {
+    "game": "Spiel"
+  },
+  "games": {
+    "all": "Alle",
+    "rby": "Rot/Blau/Gelb",
+    "gsc": "Gold/Silber/Kristall",
+    "rse": "Rubin/Saphir/Smaragd",
+    "dpp": "Diamant/Perl/Platin",
+    "bw": "Schwarz/Weiss",
+    "xy": "X/Y",
+    "sm": "Sonne/Mond",
+    "swsh": "Schwert/Schild",
+    "sv": "Karmesin/Purpur"
   }
 }
