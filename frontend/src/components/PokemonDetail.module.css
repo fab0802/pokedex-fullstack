@@ -101,14 +101,46 @@
   font-weight: 500;
 }
 
-.statsSection {
+.tabs {
+  display: flex;
+  gap: 4px;
   margin-top: 24px;
+  border-bottom: 1px solid var(--color-surface-alt);
 }
 
-.statsTitle {
-  font-size: 16px;
+.tab {
+  appearance: none;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: var(--color-text);
+}
+
+.tabActive {
+  color: var(--color-text);
   font-weight: 500;
-  margin: 0 0 12px;
+  border-bottom-color: var(--color-text);
+}
+
+.tabPanel {
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .tab {
+    flex: 1;
+    padding: 10px 6px;
+    font-size: 13px;
+    text-align: center;
+  }
 }
 
 .stats {

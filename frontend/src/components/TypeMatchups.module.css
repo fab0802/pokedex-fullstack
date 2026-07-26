@@ -45,6 +45,10 @@
   font-size: 13px;
 }
 
+.flush {
+  margin-top: 0;
+}
+
 @media (max-width: 600px) {
   .factor {
     width: 30px;

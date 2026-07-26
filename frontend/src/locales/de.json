@@ -81,6 +81,7 @@
   },
   "evolution": {
     "title": "Entwicklung",
+    "none": "Dieses Pokémon entwickelt sich nicht.",
     "level": "Lv. {{level}}",
     "happiness": "Freundschaft",
     "trade": "Tausch",

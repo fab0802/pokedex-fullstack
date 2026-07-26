@@ -28,6 +28,7 @@ export default function PokemonDetail() {
   const [error, setError] = useState(null);
   const [animate, setAnimate] = useState(false);
   const [direction, setDirection] = useState(1);
+  const [activeTab, setActiveTab] = useState("stats");
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
   const touchStartX = useRef(null);
@@ -108,6 +109,60 @@ export default function PokemonDetail() {
   if (!pokemon) return <p className={styles.message}>{t("detail.loading")}</p>;
 
   const typeColor = typeColors[pokemon.types[0]];
+
+  const tabs = [
+    {
+      id: "stats",
+      label: t("detail.baseStats"),
+      content: (
+        <div className={styles.stats}>
+          {pokemon.stats.map((s) => (
+            <div key={s.name} className={styles.statRow}>
+              <span className={styles.statLabel}>{t(`stats.${s.name}`)}</span>
+              <div className={styles.statTrack}>
+                <div
+                  key={`${pokemon.id}-${s.name}`}
+                  className={styles.statFill}
+                  style={{
+                    width: animate
+                      ? `${Math.min(100, (s.value / MAX_STAT) * 100)}%`
+                      : "0%",
+                    backgroundColor: typeColor,
+                  }}
+                />
+              </div>
+              <span className={styles.statValue}>{s.value}</span>
+            </div>
+          ))}
+          <div className={`${styles.statRow} ${styles.statTotalRow}`}>
+            <span className={styles.statLabel}>{t("stats.total")}</span>
+            <span className={styles.statSpacer} />
+            <span className={styles.statValue}>
+              {pokemon.stats.reduce((sum, s) => sum + s.value, 0)}
+            </span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "types",
+      label: t("detail.matchups"),
+      content: <TypeMatchups types={pokemon.types} hideTitle />,
+    },
+    {
+      id: "evo",
+      label: t("evolution.title"),
+      content: (
+        <EvolutionChain
+          chainUrl={pokemon.evolutionChainUrl}
+          currentId={pokemon.id}
+          hideTitle
+          showEmpty
+        />
+      ),
+    },
+  ];
+  const activePanel = tabs.find((tab) => tab.id === activeTab) ?? tabs[0];
 
   return (
     <div
@@ -218,43 +273,24 @@ export default function PokemonDetail() {
           </div>
         </div>
 
-        <div className={styles.statsSection}>
-          <h2 className={styles.statsTitle}>{t("detail.baseStats")}</h2>
-          <div className={styles.stats}>
-            {pokemon.stats.map((s) => (
-              <div key={s.name} className={styles.statRow}>
-                <span className={styles.statLabel}>{t(`stats.${s.name}`)}</span>
-                <div className={styles.statTrack}>
-                  <div
-                    key={`${pokemon.id}-${s.name}`}
-                    className={styles.statFill}
-                    style={{
-                      width: animate
-                        ? `${Math.min(100, (s.value / MAX_STAT) * 100)}%`
-                        : "0%",
-                      backgroundColor: typeColor,
-                    }}
-                  />
-                </div>
-                <span className={styles.statValue}>{s.value}</span>
-              </div>
-            ))}
-            <div className={`${styles.statRow} ${styles.statTotalRow}`}>
-              <span className={styles.statLabel}>{t("stats.total")}</span>
-              <span className={styles.statSpacer} />
-              <span className={styles.statValue}>
-                {pokemon.stats.reduce((sum, s) => sum + s.value, 0)}
-              </span>
-            </div>
-          </div>
+        <div className={styles.tabs} role="tablist">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              role="tab"
+              aria-selected={tab.id === activeTab}
+              className={`${styles.tab} ${
+                tab.id === activeTab ? styles.tabActive : ""
+              }`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
-
-        <TypeMatchups types={pokemon.types} />
-
-        <EvolutionChain
-          chainUrl={pokemon.evolutionChainUrl}
-          currentId={pokemon.id}
-        />
+        <div className={styles.tabPanel} role="tabpanel">
+          {activePanel.content}
+        </div>
       </motion.div>
     </div>
   );

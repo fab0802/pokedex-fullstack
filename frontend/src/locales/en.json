@@ -81,6 +81,7 @@
   },
   "evolution": {
     "title": "Evolution",
+    "none": "This Pokémon does not evolve.",
     "level": "Lv. {{level}}",
     "happiness": "Friendship",
     "trade": "Trade",

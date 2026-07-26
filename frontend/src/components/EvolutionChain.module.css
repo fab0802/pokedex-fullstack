@@ -115,6 +115,15 @@
   color: var(--color-text-secondary);
 }
 
+.flush {
+  margin-top: 0;
+}
+.empty {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
 @media (max-width: 600px) {
   .chain {
     gap: 6px;

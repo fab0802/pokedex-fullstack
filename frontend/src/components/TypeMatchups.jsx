@@ -13,7 +13,7 @@ const FACTOR_LABEL = {
   4: "×4",
 };
 
-export default function TypeMatchups({ types }) {
+export default function TypeMatchups({ types, hideTitle = false }) {
   const { t } = useTranslation();
   const [groups, setGroups] = useState(null);
 
@@ -30,8 +30,8 @@ export default function TypeMatchups({ types }) {
   if (!groups || groups.length === 0) return null;
 
   return (
-    <div className={styles.section}>
-      <h2 className={styles.title}>{t("detail.matchups")}</h2>
+    <div className={`${styles.section} ${hideTitle ? styles.flush : ""}`}>
+      {!hideTitle && <h2 className={styles.title}>{t("detail.matchups")}</h2>}
       <div className={styles.rows}>
         {groups.map(({ factor, types: rowTypes }) => (
           <div key={factor} className={styles.row}>

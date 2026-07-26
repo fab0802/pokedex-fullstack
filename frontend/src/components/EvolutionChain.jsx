@@ -142,11 +142,14 @@ function Stage({ node, pokemonById, currentId, lang, t, names }) {
   );
 }
 
-export default function EvolutionChain({ chainUrl, currentId }) {
+export default function EvolutionChain({
+  chainUrl,
+  currentId,
+  hideTitle = false,
+  showEmpty = false,
+}) {
   const { t, i18n } = useTranslation();
-  const [root, setRoot] = useState(null);
-  const [pokemonById, setPokemonById] = useState({});
-  const [names, setNames] = useState({});
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -185,24 +188,38 @@ export default function EvolutionChain({ chainUrl, currentId }) {
         if (value) nameMap[key] = value;
       });
 
-      setRoot(tree);
-      setPokemonById(map);
-      setNames(nameMap);
+      setData({ chainUrl, root: tree, pokemonById: map, names: nameMap });
     }
 
-    setRoot(null);
     load();
     return () => {
       cancelled = true;
     };
   }, [chainUrl]);
 
+  // Nur anzeigen, wenn die geladenen Daten zum aktuellen chainUrl gehören.
+  // Bei einem Pokémon-Wechsel passt der alte chainUrl nicht mehr -> root = null
+  // (= Ladezustand), ohne dass wir im Effect synchron setState aufrufen müssen.
+  const current = data && data.chainUrl === chainUrl ? data : null;
+  const root = current?.root ?? null;
+  const pokemonById = current?.pokemonById ?? {};
+  const names = current?.names ?? {};
+
   // Kein Baum geladen oder Pokémon entwickelt sich gar nicht
-  if (!root || root.next.length === 0) return null;
+  if (!root) return null;
+  if (root.next.length === 0) {
+    if (!showEmpty) return null;
+    return (
+      <div className={`${styles.section} ${hideTitle ? styles.flush : ""}`}>
+        {!hideTitle && <h2 className={styles.title}>{t("evolution.title")}</h2>}
+        <p className={styles.empty}>{t("evolution.none")}</p>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.section}>
-      <h2 className={styles.title}>{t("evolution.title")}</h2>
+    <div className={`${styles.section} ${hideTitle ? styles.flush : ""}`}>
+      {!hideTitle && <h2 className={styles.title}>{t("evolution.title")}</h2>}
       <div className={styles.chain}>
         <Stage
           node={root}
