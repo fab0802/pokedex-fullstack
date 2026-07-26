@@ -238,6 +238,13 @@ export default function PokemonDetail() {
                 <span className={styles.statValue}>{s.value}</span>
               </div>
             ))}
+            <div className={`${styles.statRow} ${styles.statTotalRow}`}>
+              <span className={styles.statLabel}>{t("stats.total")}</span>
+              <span className={styles.statSpacer} />
+              <span className={styles.statValue}>
+                {pokemon.stats.reduce((sum, s) => sum + s.value, 0)}
+              </span>
+            </div>
           </div>
         </div>
 

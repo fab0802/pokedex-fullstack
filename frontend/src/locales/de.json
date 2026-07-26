@@ -37,7 +37,8 @@
     "defense": "Verteidigung",
     "special-attack": "Sp.-Angriff",
     "special-defense": "Sp.-Verteidigung",
-    "speed": "Initiative"
+    "speed": "Initiative",
+    "total": "Gesamt"
   },
   "teams": {
     "title": "Meine Teams",

@@ -37,7 +37,8 @@
     "defense": "Defense",
     "special-attack": "Sp. Attack",
     "special-defense": "Sp. Defense",
-    "speed": "Speed"
+    "speed": "Speed",
+    "total": "Total"
   },
   "teams": {
     "title": "My Teams",

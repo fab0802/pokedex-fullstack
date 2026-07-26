@@ -149,6 +149,22 @@
   font-size: 13px;
 }
 
+.statSpacer {
+  flex: 1;
+}
+
+.statTotalRow {
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-surface-alt);
+}
+
+.statTotalRow .statLabel,
+.statTotalRow .statValue {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
 .topNav {
   margin-bottom: 12px;
 }
