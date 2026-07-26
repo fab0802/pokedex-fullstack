@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { PokemonListContext } from "./pokemonListContextObject";
 import { fetchPokemonById, fetchPokedexIds } from "../services/pokeApi";
-import { games } from "../components/games";
+import { useGame } from "./useGame";
 
 const LIMIT = 20;
 
 export function PokemonListProvider({ children }) {
-  const [selectedGame, setSelectedGame] = useState(games[0]);
+  const { selectedGame } = useGame();
   const [ids, setIds] = useState([]);
   const [pokemons, setPokemons] = useState([]);
   const [loadedCount, setLoadedCount] = useState(0);
@@ -65,8 +65,6 @@ export function PokemonListProvider({ children }) {
   }
 
   const value = {
-    selectedGame,
-    setSelectedGame,
     pokemons,
     loading,
     error,

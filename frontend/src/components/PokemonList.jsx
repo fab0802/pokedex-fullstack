@@ -9,19 +9,13 @@ import { useCollection } from "../context/useCollection";
 import { usePokemonList } from "../context/usePokemonList";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
+import { useGame } from "../context/useGame";
 
 export default function PokemonList() {
   const { t, i18n } = useTranslation();
-  const {
-    selectedGame,
-    setSelectedGame,
-    pokemons,
-    loading,
-    error,
-    hasMore,
-    loadMore,
-    scrollYRef,
-  } = usePokemonList();
+  const { pokemons, loading, error, hasMore, loadMore, scrollYRef } =
+    usePokemonList();
+  const { selectedGame, setSelectedGame } = useGame();
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
   const sentinelRef = useRef(null);

@@ -6,6 +6,7 @@ import { CollectionProvider } from "./context/CollectionContext";
 import { TeamsProvider } from "./context/TeamsContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import { PokemonListProvider } from "./context/PokemonListContext";
+import { GameProvider } from "./context/GameContext";
 import "./index.css";
 import "./i18n";
 import App from "./App.jsx";
@@ -17,9 +18,11 @@ createRoot(document.getElementById("root")).render(
         <AuthProvider>
           <CollectionProvider>
             <TeamsProvider>
-              <PokemonListProvider>
-                <App />
-              </PokemonListProvider>
+              <GameProvider>
+                <PokemonListProvider>
+                  <App />
+                </PokemonListProvider>
+              </GameProvider>
             </TeamsProvider>
           </CollectionProvider>
         </AuthProvider>
