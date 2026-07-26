@@ -192,3 +192,31 @@ export async function fetchTypeEffectiveness(types) {
     types: ALL_TYPES.filter((type) => factors[type] === factor),
   })).filter((group) => group.types.length > 0);
 }
+
+// --- Moves -------------------------------------------------------------
+
+const MOVES_CACHE_KEY = "pokemon-moves-v1";
+
+// Rohe Move-Liste eines Pokémon: pro Move die Lern-Details je Spiel-Version.
+// Gruppieren/Filtern nach Version passiert erst in der Komponente.
+export async function fetchPokemonMoves(id) {
+  const cache = JSON.parse(localStorage.getItem(MOVES_CACHE_KEY) || "{}");
+  if (cache[id]) return cache[id];
+
+  const res = await fetch(`${BASE_URL}/pokemon/${id}`);
+  if (!res.ok) throw new Error("Failed to load moves");
+  const data = await res.json();
+
+  const moves = data.moves.map((m) => ({
+    slug: m.move.name,
+    details: m.version_group_details.map((d) => ({
+      level: d.level_learned_at,
+      method: d.move_learn_method.name,
+      versionGroup: d.version_group.name,
+    })),
+  }));
+
+  cache[id] = moves;
+  localStorage.setItem(MOVES_CACHE_KEY, JSON.stringify(cache));
+  return moves;
+}

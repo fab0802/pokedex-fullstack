@@ -30,7 +30,8 @@
     "back": "Back to list",
     "prev": "Previous",
     "next": "Next",
-    "matchups": "Type effectiveness"
+    "matchups": "Type effectiveness",
+    "moves": "Moves"
   },
   "stats": {
     "hp": "HP",
@@ -91,5 +92,14 @@
     },
     "unknown": "Special condition",
     "knownMoveType": "{{type}} move"
+  },
+  "moves": {
+    "levelUp": "Level",
+    "machine": "TM/HM",
+    "egg": "Egg",
+    "tutor": "Tutor",
+    "lv": "Lv. {{level}}",
+    "none": "No moves found.",
+    "error": "Could not load moves."
   }
 }

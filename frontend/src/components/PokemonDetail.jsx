@@ -12,6 +12,7 @@ import EvolutionChain from "./EvolutionChain";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import TypeMatchups from "./TypeMatchups";
+import PokemonMoves from "./PokemonMoves";
 import styles from "./PokemonDetail.module.css";
 
 const MAX_STAT = 200;
@@ -160,6 +161,11 @@ export default function PokemonDetail() {
           showEmpty
         />
       ),
+    },
+    {
+      id: "moves",
+      label: t("detail.moves"),
+      content: <PokemonMoves pokemonId={pokemon.id} />,
     },
   ];
   const activePanel = tabs.find((tab) => tab.id === activeTab) ?? tabs[0];
