@@ -124,7 +124,8 @@
 }
 
 .statLabel {
-  width: 90px;
+  width: 112px;
+  white-space: nowrap;
   font-size: 13px;
   color: var(--color-text-secondary);
 }
