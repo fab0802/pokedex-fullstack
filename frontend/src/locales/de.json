@@ -31,7 +31,8 @@
     "prev": "Vorheriges",
     "next": "Nächstes",
     "matchups": "Typeneffektivitäten",
-    "moves": "Attacken"
+    "moves": "Attacken",
+    "locations": "Fundorte"
   },
   "stats": {
     "hp": "KP",
@@ -116,5 +117,41 @@
     "sm": "Sonne/Mond",
     "swsh": "Schwert/Schild",
     "sv": "Karmesin/Purpur"
+  },
+  "locations": {
+    "lv": "Lv. {{level}}",
+    "lvRange": "Lv. {{min}}–{{max}}",
+    "none": "In diesem Spiel nicht als Wild-Fundort erfasst.",
+    "noneAnywhere": "Keine Fundort-Daten verfügbar.",
+    "noData": "Für dieses Spiel liegen bei der PokéAPI keine Fundort-Daten vor.",
+    "error": "Fundorte konnten nicht geladen werden."
+  },
+  "versions": {
+    "red": "Rot",
+    "blue": "Blau",
+    "yellow": "Gelb",
+    "gold": "Gold",
+    "silver": "Silber",
+    "crystal": "Kristall",
+    "ruby": "Rubin",
+    "sapphire": "Saphir",
+    "emerald": "Smaragd",
+    "diamond": "Diamant",
+    "pearl": "Perl",
+    "platinum": "Platin",
+    "black": "Schwarz",
+    "white": "Weiss",
+    "black-2": "Schwarz 2",
+    "white-2": "Weiss 2",
+    "x": "X",
+    "y": "Y",
+    "sun": "Sonne",
+    "moon": "Mond",
+    "ultra-sun": "Ultrasonne",
+    "ultra-moon": "Ultramond",
+    "sword": "Schwert",
+    "shield": "Schild",
+    "scarlet": "Karmesin",
+    "violet": "Purpur"
   }
 }

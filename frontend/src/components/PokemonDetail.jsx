@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import TypeMatchups from "./TypeMatchups";
 import PokemonMoves from "./PokemonMoves";
+import PokemonLocations from "./PokemonLocations";
 import styles from "./PokemonDetail.module.css";
 
 const MAX_STAT = 200;
@@ -167,6 +168,11 @@ export default function PokemonDetail() {
       label: t("detail.moves"),
       content: <PokemonMoves pokemonId={pokemon.id} />,
     },
+    {
+      id: "locations",
+      label: t("detail.locations"),
+      content: <PokemonLocations pokemonId={pokemon.id} />,
+    },
   ];
   const activePanel = tabs.find((tab) => tab.id === activeTab) ?? tabs[0];
 
@@ -279,7 +285,12 @@ export default function PokemonDetail() {
           </div>
         </div>
 
-        <div className={styles.tabs} role="tablist">
+        <div
+          className={styles.tabs}
+          role="tablist"
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
+        >
           {tabs.map((tab) => (
             <button
               key={tab.id}

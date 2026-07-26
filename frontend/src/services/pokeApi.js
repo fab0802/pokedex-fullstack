@@ -220,3 +220,30 @@ export async function fetchPokemonMoves(id) {
   localStorage.setItem(MOVES_CACHE_KEY, JSON.stringify(cache));
   return moves;
 }
+
+// --- Fundorte ----------------------------------------------------------
+
+const ENCOUNTERS_CACHE_KEY = "pokemon-encounters-v1";
+
+// Wild-Fundorte eines Pokémon: pro Ort die Level-Spanne je Spiel-Version.
+export async function fetchPokemonEncounters(id) {
+  const cache = JSON.parse(localStorage.getItem(ENCOUNTERS_CACHE_KEY) || "{}");
+  if (cache[id]) return cache[id];
+
+  const res = await fetch(`${BASE_URL}/pokemon/${id}/encounters`);
+  if (!res.ok) throw new Error("Failed to load encounters");
+  const data = await res.json();
+
+  const encounters = data.map((enc) => ({
+    location: enc.location_area.name,
+    versions: enc.version_details.map((vd) => ({
+      version: vd.version.name,
+      min: Math.min(...vd.encounter_details.map((d) => d.min_level)),
+      max: Math.max(...vd.encounter_details.map((d) => d.max_level)),
+    })),
+  }));
+
+  cache[id] = encounters;
+  localStorage.setItem(ENCOUNTERS_CACHE_KEY, JSON.stringify(cache));
+  return encounters;
+}

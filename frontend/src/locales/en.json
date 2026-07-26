@@ -31,7 +31,8 @@
     "prev": "Previous",
     "next": "Next",
     "matchups": "Type effectiveness",
-    "moves": "Moves"
+    "moves": "Moves",
+    "locations": "Locations"
   },
   "stats": {
     "hp": "HP",
@@ -116,5 +117,41 @@
     "sm": "Sun/Moon",
     "swsh": "Sword/Shield",
     "sv": "Scarlet/Violet"
+  },
+  "locations": {
+    "lv": "Lv. {{level}}",
+    "lvRange": "Lv. {{min}}–{{max}}",
+    "none": "Not recorded as a wild encounter in this game.",
+    "noneAnywhere": "No location data available.",
+    "noData": "PokéAPI has no location data for this game.",
+    "error": "Could not load locations."
+  },
+  "versions": {
+    "red": "Red",
+    "blue": "Blue",
+    "yellow": "Yellow",
+    "gold": "Gold",
+    "silver": "Silver",
+    "crystal": "Crystal",
+    "ruby": "Ruby",
+    "sapphire": "Sapphire",
+    "emerald": "Emerald",
+    "diamond": "Diamond",
+    "pearl": "Pearl",
+    "platinum": "Platinum",
+    "black": "Black",
+    "white": "White",
+    "black-2": "Black 2",
+    "white-2": "White 2",
+    "x": "X",
+    "y": "Y",
+    "sun": "Sun",
+    "moon": "Moon",
+    "ultra-sun": "Ultra Sun",
+    "ultra-moon": "Ultra Moon",
+    "sword": "Sword",
+    "shield": "Shield",
+    "scarlet": "Scarlet",
+    "violet": "Violet"
   }
 }
