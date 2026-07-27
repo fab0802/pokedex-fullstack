@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { fetchPokemonMoves } from "../services/pokeApi";
 import { useGame } from "../context/useGame";
 import { moveName } from "./moveName";
-import { VERSION_GROUP_ORDER } from "./games";
+import { VERSION_GROUP_ORDER, VG_TO_GAME_ID } from "./games";
 import styles from "./PokemonMoves.module.css";
 
 const METHOD_ORDER = ["level-up", "machine", "egg", "tutor"];
@@ -98,7 +98,11 @@ export default function PokemonMoves({ pokemonId }) {
 
   return (
     <div>
-      <p className={styles.version}>{prettifyVg(moveset.versionGroup)}</p>
+      <p className={styles.version}>
+        {VG_TO_GAME_ID[moveset.versionGroup]
+          ? t(`games.${VG_TO_GAME_ID[moveset.versionGroup]}`)
+          : prettifyVg(moveset.versionGroup)}
+      </p>
       {METHOD_ORDER.map((method) => {
         const list = moveset.byMethod[method];
         if (!list || list.length === 0) return null;

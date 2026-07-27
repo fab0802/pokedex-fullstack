@@ -83,3 +83,8 @@ export const VERSION_GROUP_ORDER = [
 
 // PokéAPI hat (Stand 2026) keine Fundort-Daten für Gen 8/9
 export const GAMES_WITHOUT_ENCOUNTERS = new Set(["swsh", "sv"]);
+
+// Version-Group-Slug -> interne Spiel-ID (fürs Label wiederverwendbar via games.<id>)
+export const VG_TO_GAME_ID = Object.fromEntries(
+  games.flatMap((g) => g.versionGroups.map((vg) => [vg, g.id])),
+);
