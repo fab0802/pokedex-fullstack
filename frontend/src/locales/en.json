@@ -5,6 +5,12 @@
     "login": "Login",
     "register": "Register"
   },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search Pokémon…",
+    "noResults": "No matches in the selected game.",
+    "close": "Close"
+  },
   "auth": {
     "loginTitle": "Login",
     "registerTitle": "Register",

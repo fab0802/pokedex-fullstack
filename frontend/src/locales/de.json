@@ -5,6 +5,12 @@
     "login": "Anmelden",
     "register": "Registrieren"
   },
+  "search": {
+    "title": "Suche",
+    "placeholder": "Pokémon suchen…",
+    "noResults": "Keine Treffer im gewählten Spiel.",
+    "close": "Schliessen"
+  },
   "auth": {
     "loginTitle": "Anmelden",
     "registerTitle": "Registrieren",

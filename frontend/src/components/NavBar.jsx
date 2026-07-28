@@ -1,20 +1,41 @@
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Users, LogOut, LogIn, UserPlus } from "lucide-react";
+import { Users, LogOut, LogIn, UserPlus, Search } from "lucide-react";
 import { useAuth } from "../context/useAuth";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
+import GlobalSearch from "./GlobalSearch";
 import styles from "./NavBar.module.css";
 
 export default function NavBar() {
   const { t } = useTranslation();
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const [searchOpen, setSearchOpen] = useState(false);
 
   function handleLogout() {
     logout();
     navigate("/login");
   }
+
+  // "/" öffnet die Suche - ausser man tippt gerade in ein Feld
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key !== "/") return;
+      const el = document.activeElement;
+      const typing =
+        el &&
+        (el.tagName === "INPUT" ||
+          el.tagName === "TEXTAREA" ||
+          el.isContentEditable);
+      if (typing) return;
+      e.preventDefault();
+      setSearchOpen(true);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
     <nav className={styles.nav}>
@@ -37,6 +58,14 @@ export default function NavBar() {
         Pokédex
       </Link>
       <div className={styles.links}>
+        <button
+          className={`${styles.link} ${styles.searchBtn}`}
+          onClick={() => setSearchOpen(true)}
+          aria-label={t("search.title")}
+        >
+          <Search size={17} aria-hidden="true" />
+          <span className={styles.label}>{t("search.title")}</span>
+        </button>
         <LanguageToggle />
         <ThemeToggle />
         {isAuthenticated ? (
@@ -63,6 +92,7 @@ export default function NavBar() {
           </>
         )}
       </div>
+      {searchOpen && <GlobalSearch onClose={() => setSearchOpen(false)} />}
     </nav>
   );
 }

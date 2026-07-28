@@ -41,6 +41,14 @@
   text-decoration: underline;
 }
 
+.searchBtn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
 .logout {
   display: inline-flex;
   align-items: center;

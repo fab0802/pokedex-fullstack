@@ -66,6 +66,7 @@ export function PokemonListProvider({ children }) {
 
   const value = {
     pokemons,
+    ids,
     loading,
     error,
     hasMore: loadedCount < ids.length,
