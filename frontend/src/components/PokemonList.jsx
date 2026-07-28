@@ -64,18 +64,26 @@ export default function PokemonList() {
 
   return (
     <div>
-      <select
-        className={styles.genSelect}
-        value={selectedGame.id}
-        onChange={handleGameChange}
-        aria-label={t("filter.game")}
-      >
-        {games.map((g) => (
-          <option key={g.id} value={g.id}>
-            {t(`games.${g.id}`)}
-          </option>
-        ))}
-      </select>
+      <div className={styles.filterBar}>
+        <div className={styles.filterBarInner}>
+          <label htmlFor="gameFilter" className={styles.filterLabel}>
+            {t("filter.game")}
+          </label>
+          <select
+            id="gameFilter"
+            className={styles.genSelect}
+            value={selectedGame.id}
+            onChange={handleGameChange}
+            aria-label={t("filter.game")}
+          >
+            {games.map((g) => (
+              <option key={g.id} value={g.id}>
+                {t(`games.${g.id}`)}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
 
       <ul className={styles.list}>
         {pokemons.map((p) => (
