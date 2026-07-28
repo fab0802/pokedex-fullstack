@@ -26,11 +26,13 @@
   color: var(--color-primary);
 }
 
+/* Variante fürs Zahnrad-Menü (helle Fläche, gestreckt, grösser) */
 .groupMenu {
   display: flex;
   width: 100%;
   background: var(--color-surface-alt);
 }
+
 .groupMenu .button {
   flex: 1;
   height: 40px;
@@ -38,9 +40,11 @@
   font-size: 14px;
   color: var(--color-text-secondary);
 }
+
 .groupMenu .button:not(.active):hover {
   color: var(--color-text);
 }
+
 .groupMenu .active {
   background: var(--color-primary);
   color: #fff;

@@ -8,11 +8,12 @@ const OPTIONS = [
   { value: "system", icon: Monitor, label: "System" },
 ];
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ variant }) {
   const { theme, setTheme } = useTheme();
+  const isMenu = variant === "menu";
 
   return (
-    <div className={styles.group}>
+    <div className={`${styles.group} ${isMenu ? styles.groupMenu : ""}`}>
       {OPTIONS.map(({ value, icon: Icon, label }) => (
         <button
           key={value}
@@ -21,7 +22,7 @@ export default function ThemeToggle() {
           title={label}
           aria-label={label}
         >
-          <Icon size={16} />
+          <Icon size={isMenu ? 20 : 16} />
         </button>
       ))}
     </div>

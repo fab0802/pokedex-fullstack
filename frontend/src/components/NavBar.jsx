@@ -94,12 +94,8 @@ export default function NavBar() {
             <Search size={17} aria-hidden="true" />
             <span className={styles.label}>{t("search.title")}</span>
           </button>
-          {settingsOpen && (
-            <div className={styles.settingsMenu}>
-              <LanguageToggle variant="menu" />
-              <ThemeToggle variant="menu" />
-            </div>
-          )}
+          <LanguageToggle />
+          <ThemeToggle />
           {isAuthenticated ? (
             <>
               <Link to="/teams" className={styles.link}>
@@ -137,8 +133,8 @@ export default function NavBar() {
           </button>
           {settingsOpen && (
             <div className={styles.settingsMenu}>
-              <LanguageToggle />
-              <ThemeToggle />
+              <LanguageToggle variant="menu" />
+              <ThemeToggle variant="menu" />
             </div>
           )}
         </div>
