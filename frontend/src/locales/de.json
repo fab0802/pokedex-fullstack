@@ -3,7 +3,10 @@
     "teams": "Meine Teams",
     "logout": "Abmelden",
     "login": "Anmelden",
-    "register": "Registrieren"
+    "register": "Registrieren",
+    "home": "Pokédex",
+    "settings": "Einstellungen",
+    "menu": "Menü"
   },
   "search": {
     "title": "Suche",

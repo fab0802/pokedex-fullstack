@@ -43,3 +43,10 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
 }
+
+/* Platz für die fixierte untere Tab-Bar (mobil) */
+@media (max-width: 600px) {
+  body {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+}

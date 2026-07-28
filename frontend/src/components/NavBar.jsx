@@ -1,7 +1,15 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Users, LogOut, LogIn, UserPlus, Search } from "lucide-react";
+import {
+  Users,
+  LogOut,
+  LogIn,
+  UserPlus,
+  Search,
+  Settings,
+  CircleDot,
+} from "lucide-react";
 import { useAuth } from "../context/useAuth";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
@@ -13,6 +21,8 @@ export default function NavBar() {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const settingsRef = useRef(null);
 
   function handleLogout() {
     logout();
@@ -37,62 +47,139 @@ export default function NavBar() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // Einstellungs-Menü schliessen, wenn man daneben klickt
+  useEffect(() => {
+    if (!settingsOpen) return;
+    function onClickOutside(e) {
+      if (settingsRef.current && !settingsRef.current.contains(e.target)) {
+        setSettingsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [settingsOpen]);
+
+  const tabClass = ({ isActive }) =>
+    `${styles.tab} ${isActive ? styles.tabActive : ""}`;
+
   return (
-    <nav className={styles.nav}>
-      <Link to="/" className={styles.brand}>
-        <svg
-          className={styles.brandIcon}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-          <path d="M3 12h6" />
-          <path d="M15 12h6" />
-          <circle cx="12" cy="12" r="3" />
-        </svg>
-        Pokédex
-      </Link>
-      <div className={styles.links}>
-        <button
-          className={`${styles.link} ${styles.searchBtn}`}
-          onClick={() => setSearchOpen(true)}
-          aria-label={t("search.title")}
-        >
-          <Search size={17} aria-hidden="true" />
-          <span className={styles.label}>{t("search.title")}</span>
+    <>
+      <nav className={styles.nav}>
+        <Link to="/" className={styles.brand}>
+          <svg
+            className={styles.brandIcon}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+            <path d="M3 12h6" />
+            <path d="M15 12h6" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          Pokédex
+        </Link>
+
+        {/* Desktop: alle Elemente in der oberen Leiste */}
+        <div className={styles.links}>
+          <button
+            className={`${styles.link} ${styles.searchBtn}`}
+            onClick={() => setSearchOpen(true)}
+            aria-label={t("search.title")}
+          >
+            <Search size={17} aria-hidden="true" />
+            <span className={styles.label}>{t("search.title")}</span>
+          </button>
+          {settingsOpen && (
+            <div className={styles.settingsMenu}>
+              <LanguageToggle variant="menu" />
+              <ThemeToggle variant="menu" />
+            </div>
+          )}
+          {isAuthenticated ? (
+            <>
+              <Link to="/teams" className={styles.link}>
+                <Users size={17} aria-hidden="true" />
+                <span className={styles.label}>{t("nav.teams")}</span>
+              </Link>
+              <button onClick={handleLogout} className={styles.logout}>
+                <LogOut size={16} aria-hidden="true" />
+                <span className={styles.label}>{t("nav.logout")}</span>
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className={styles.link}>
+                <LogIn size={17} aria-hidden="true" />
+                <span className={styles.label}>{t("nav.login")}</span>
+              </Link>
+              <Link to="/register" className={styles.link}>
+                <UserPlus size={17} aria-hidden="true" />
+                <span className={styles.label}>{t("nav.register")}</span>
+              </Link>
+            </>
+          )}
+        </div>
+
+        {/* Mobile: Zahnrad mit Sprache + Theme */}
+        <div className={styles.settings} ref={settingsRef}>
+          <button
+            className={styles.gear}
+            onClick={() => setSettingsOpen((o) => !o)}
+            aria-label={t("nav.settings")}
+            aria-expanded={settingsOpen}
+          >
+            <Settings size={20} aria-hidden="true" />
+          </button>
+          {settingsOpen && (
+            <div className={styles.settingsMenu}>
+              <LanguageToggle />
+              <ThemeToggle />
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* Mobile: untere Tab-Bar */}
+      <nav className={styles.tabbar} aria-label={t("nav.menu")}>
+        <NavLink to="/" end className={tabClass}>
+          <CircleDot size={20} aria-hidden="true" />
+          <span>{t("nav.home")}</span>
+        </NavLink>
+        <button className={styles.tab} onClick={() => setSearchOpen(true)}>
+          <Search size={20} aria-hidden="true" />
+          <span>{t("search.title")}</span>
         </button>
-        <LanguageToggle />
-        <ThemeToggle />
         {isAuthenticated ? (
           <>
-            <Link to="/teams" className={styles.link}>
-              <Users size={17} aria-hidden="true" />
-              <span className={styles.label}>{t("nav.teams")}</span>
-            </Link>
-            <button onClick={handleLogout} className={styles.logout}>
-              <LogOut size={16} aria-hidden="true" />
-              <span className={styles.label}>{t("nav.logout")}</span>
+            <NavLink to="/teams" className={tabClass}>
+              <Users size={20} aria-hidden="true" />
+              <span>{t("nav.teams")}</span>
+            </NavLink>
+            <button className={styles.tab} onClick={handleLogout}>
+              <LogOut size={20} aria-hidden="true" />
+              <span>{t("nav.logout")}</span>
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className={styles.link}>
-              <LogIn size={17} aria-hidden="true" />
-              <span className={styles.label}>{t("nav.login")}</span>
-            </Link>
-            <Link to="/register" className={styles.link}>
-              <UserPlus size={17} aria-hidden="true" />
-              <span className={styles.label}>{t("nav.register")}</span>
-            </Link>
+            <NavLink to="/login" className={tabClass}>
+              <LogIn size={20} aria-hidden="true" />
+              <span>{t("nav.login")}</span>
+            </NavLink>
+            <NavLink to="/register" className={tabClass}>
+              <UserPlus size={20} aria-hidden="true" />
+              <span>{t("nav.register")}</span>
+            </NavLink>
           </>
         )}
-      </div>
+      </nav>
+
       {searchOpen && <GlobalSearch onClose={() => setSearchOpen(false)} />}
-    </nav>
+    </>
   );
 }

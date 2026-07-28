@@ -27,3 +27,23 @@
   background: #fff;
   color: var(--color-primary);
 }
+
+.groupMenu {
+  display: flex;
+  width: 100%;
+  background: var(--color-surface-alt);
+}
+.groupMenu .button {
+  flex: 1;
+  width: auto;
+  height: 40px;
+  border-radius: 16px;
+  color: var(--color-text-secondary);
+}
+.groupMenu .button:not(.active):hover {
+  color: var(--color-text);
+}
+.groupMenu .active {
+  background: var(--color-primary);
+  color: #fff;
+}
