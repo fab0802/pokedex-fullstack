@@ -66,14 +66,17 @@
     "deleteConfirmTitle": "Delete team?",
     "deleteConfirmMessage": "\"{{name}}\" will be permanently removed.",
     "cancel": "Cancel",
-    "confirmDelete": "Delete"
+    "confirmDelete": "Delete",
+    "teamDeleted": "{{team}} deleted",
+    "pokemonRemoved": "{{name}} removed from {{team}}"
   },
   "addToTeam": {
     "trigger": "+ Add to team",
     "noTeams": "No teams yet.",
     "full": "full",
     "newTeamName": "New team name",
-    "added": "{{name}} added to {{team}}"
+    "added": "{{name}} added to {{team}}",
+    "teamCreated": "{{team}} created"
   },
   "types": {
     "normal": "Normal",

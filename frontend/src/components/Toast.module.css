@@ -8,7 +8,7 @@
   align-items: center;
   gap: 8px;
   z-index: 1000;
-  pointer-events: none; /* Klicks gehen durch den leeren Bereich hindurch */
+  pointer-events: none;
 }
 
 .toast {
@@ -17,12 +17,36 @@
   gap: 8px;
   padding: 8px 14px;
   border-radius: 999px;
-  background: #0f6e56;
-  color: #e1f5ee;
   font-size: 0.85rem;
   box-shadow: var(--shadow-card-hover);
-  pointer-events: auto; /* aber der Toast selbst ist klickbar */
+  pointer-events: auto;
   animation: toast-in 0.2s ease-out;
+}
+
+.toast[data-type="success"] {
+  background: #0f6e56;
+  color: #e1f5ee;
+}
+
+.toast[data-type="neutral"] {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.toast[data-type="error"] {
+  background: #a32d2d;
+  color: #fcebeb;
+}
+
+.toast[data-type="info"] {
+  background: #185fa5;
+  color: #e6f1fb;
+}
+
+.toast[data-type="warning"] {
+  background: #854f0b;
+  color: #faeeda;
 }
 
 .icon {

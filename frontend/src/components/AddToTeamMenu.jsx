@@ -59,6 +59,7 @@ export default function AddToTeamMenu({ pokemonId, pokemonName }) {
       await createTeamWithPokemon(teamName, id);
       setNewName("");
       setOpen(false);
+      showToast(t("addToTeam.teamCreated", { team: teamName }));
       showToast(t("addToTeam.added", { name: pokemonName, team: teamName }));
     } catch (err) {
       setError(err.message);

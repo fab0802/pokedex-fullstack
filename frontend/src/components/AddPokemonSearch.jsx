@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Plus, Check } from "lucide-react";
 import { useTeams } from "../context/useTeams";
+import { useToast } from "../context/useToast";
 import { useTranslation } from "react-i18next";
 import allNames from "../data/pokemonNames.json";
 import { pokemonName } from "./pokemonName";
 import styles from "./AddPokemonSearch.module.css";
 
-export default function AddPokemonSearch({ teamId, currentIds }) {
+export default function AddPokemonSearch({ teamId, currentIds, teamName }) {
   const { t, i18n } = useTranslation();
   const { addPokemonToTeam } = useTeams();
+  const { showToast } = useToast();
   const [query, setQuery] = useState("");
   const [error, setError] = useState(null);
 
@@ -16,18 +18,21 @@ export default function AddPokemonSearch({ teamId, currentIds }) {
   const q = query.trim().toLowerCase();
   const matches = q
     ? allNames
-        .filter(
-          (p) =>
-            p.name.includes(q) || p.nameDe.toLowerCase().includes(q),
-        )
+        .filter((p) => p.name.includes(q) || p.nameDe.toLowerCase().includes(q))
         .slice(0, 8)
     : [];
 
-  async function handleAdd(id) {
+  async function handleAdd(pokemon) {
     setError(null);
     try {
-      await addPokemonToTeam(teamId, id);
+      await addPokemonToTeam(teamId, pokemon.id);
       setQuery("");
+      showToast(
+        t("addToTeam.added", {
+          name: pokemonName(pokemon, i18n.language),
+          team: teamName,
+        }),
+      );
     } catch (err) {
       setError(err.message);
     }
@@ -49,7 +54,7 @@ export default function AddPokemonSearch({ teamId, currentIds }) {
               <li key={p.id}>
                 <button
                   className={styles.result}
-                  onClick={() => handleAdd(p.id)}
+                  onClick={() => handleAdd(p)}
                   disabled={inTeam}
                 >
                   <span className={styles.resultId}>#{p.id}</span>

@@ -10,6 +10,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useTeams } from "../context/useTeams";
+import { useToast } from "../context/useToast";
 import { fetchPokemonById } from "../services/pokeApi";
 import { typeColors } from "./typeColors";
 import AddPokemonSearch from "./AddPokemonSearch";
@@ -22,6 +23,7 @@ export default function Teams() {
   const { t, i18n } = useTranslation();
   const { teams, removePokemonFromTeam, movePokemon, removeTeam, maxTeamSize } =
     useTeams();
+  const { showToast } = useToast();
   const [pokemonById, setPokemonById] = useState({});
   const [error, setError] = useState(null);
   const [editingId, setEditingId] = useState(null);
@@ -48,8 +50,12 @@ export default function Teams() {
 
   async function handleDelete(teamId) {
     setError(null);
+    const teamName = teams.find((tm) => tm._id === teamId)?.name ?? "";
     try {
       await removeTeam(teamId);
+      showToast(t("teams.teamDeleted", { team: teamName }), {
+        type: "neutral",
+      });
     } catch (err) {
       setError(err.message);
     }
@@ -63,8 +69,14 @@ export default function Teams() {
 
   async function handleRemovePokemon(teamId, pokemonId) {
     setError(null);
+    const teamName = teams.find((tm) => tm._id === teamId)?.name ?? "";
+    const name =
+      pokemonName(pokemonById[pokemonId], i18n.language) || `#${pokemonId}`;
     try {
       await removePokemonFromTeam(teamId, pokemonId);
+      showToast(t("teams.pokemonRemoved", { name, team: teamName }), {
+        type: "neutral",
+      });
     } catch (err) {
       setError(err.message);
     }
@@ -178,6 +190,7 @@ export default function Teams() {
                 <AddPokemonSearch
                   teamId={team._id}
                   currentIds={team.pokemonIds}
+                  teamName={team.name}
                 />
               ) : (
                 <p className={styles.fullNote}>{t("teams.full")}</p>
