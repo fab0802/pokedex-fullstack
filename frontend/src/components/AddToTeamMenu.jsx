@@ -18,6 +18,7 @@ export default function AddToTeamMenu({ pokemonId }) {
     setError(null);
     try {
       await addPokemonToTeam(teamId, id);
+      setOpen(false);
     } catch (err) {
       setError(err.message);
     }
@@ -29,6 +30,7 @@ export default function AddToTeamMenu({ pokemonId }) {
     try {
       await createTeamWithPokemon(newName.trim(), id);
       setNewName("");
+      setOpen(false);
     } catch (err) {
       setError(err.message);
     }
