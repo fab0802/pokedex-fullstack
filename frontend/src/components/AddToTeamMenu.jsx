@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Check, Plus } from "lucide-react";
 import { useTeams } from "../context/useTeams";
 import { useTranslation } from "react-i18next";
@@ -9,10 +9,31 @@ export default function AddToTeamMenu({ pokemonId }) {
   const { teams, addPokemonToTeam, createTeamWithPokemon, maxTeamSize } =
     useTeams();
   const [open, setOpen] = useState(false);
+  const wrapperRef = useRef(null);
   const [newName, setNewName] = useState("");
   const [error, setError] = useState(null);
 
   const id = Number(pokemonId);
+
+  useEffect(() => {
+    if (!open) return;
+
+    function handlePointerDown(e) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    function handleEscape(e) {
+      if (e.key === "Escape") setOpen(false);
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [open]);
 
   async function handleAdd(teamId) {
     setError(null);
@@ -37,7 +58,7 @@ export default function AddToTeamMenu({ pokemonId }) {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} ref={wrapperRef}>
       <button className={styles.trigger} onClick={() => setOpen((o) => !o)}>
         {t("addToTeam.trigger")} <ChevronDown size={16} />
       </button>
