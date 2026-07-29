@@ -13,6 +13,7 @@ import { useTeams } from "../context/useTeams";
 import { fetchPokemonById } from "../services/pokeApi";
 import { typeColors } from "./typeColors";
 import AddPokemonSearch from "./AddPokemonSearch";
+import ConfirmDialog from "./ConfirmDialog";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import styles from "./Teams.module.css";
@@ -24,6 +25,7 @@ export default function Teams() {
   const [pokemonById, setPokemonById] = useState({});
   const [error, setError] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [confirmTeamId, setConfirmTeamId] = useState(null);
 
   useEffect(() => {
     async function loadImages() {
@@ -53,6 +55,12 @@ export default function Teams() {
     }
   }
 
+  async function confirmDelete() {
+    const id = confirmTeamId;
+    setConfirmTeamId(null);
+    await handleDelete(id);
+  }
+
   async function handleRemovePokemon(teamId, pokemonId) {
     setError(null);
     try {
@@ -65,6 +73,8 @@ export default function Teams() {
   function toggleEdit(teamId) {
     setEditingId((prev) => (prev === teamId ? null : teamId));
   }
+
+  const confirmingTeam = teams.find((team) => team._id === confirmTeamId);
 
   return (
     <div className={styles.wrapper}>
@@ -84,7 +94,7 @@ export default function Teams() {
                 {isEditing && (
                   <button
                     className={styles.deleteButton}
-                    onClick={() => handleDelete(team._id)}
+                    onClick={() => setConfirmTeamId(team._id)}
                     title={t("teams.deleteTeam")}
                   >
                     <Trash2 size={16} />
@@ -175,6 +185,18 @@ export default function Teams() {
           </div>
         );
       })}
+      <ConfirmDialog
+        open={confirmTeamId !== null}
+        title={t("teams.deleteConfirmTitle")}
+        message={t("teams.deleteConfirmMessage", {
+          name: confirmingTeam?.name,
+        })}
+        confirmLabel={t("teams.confirmDelete")}
+        cancelLabel={t("teams.cancel")}
+        destructive
+        onConfirm={confirmDelete}
+        onCancel={() => setConfirmTeamId(null)}
+      />
     </div>
   );
 }

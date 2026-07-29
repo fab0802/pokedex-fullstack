@@ -62,7 +62,11 @@
     "moveLeft": "Nach links",
     "moveRight": "Nach rechts",
     "full": "Team ist voll (6/6)",
-    "addPlaceholder": "Pokémon hinzufügen…"
+    "addPlaceholder": "Pokémon hinzufügen…",
+    "deleteConfirmTitle": "Team löschen?",
+    "deleteConfirmMessage": "„{{name}}“ wird dauerhaft entfernt.",
+    "cancel": "Abbrechen",
+    "confirmDelete": "Löschen"
   },
   "addToTeam": {
     "trigger": "+ Zum Team",

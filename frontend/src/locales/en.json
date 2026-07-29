@@ -62,7 +62,11 @@
     "moveLeft": "Move left",
     "moveRight": "Move right",
     "full": "Team is full (6/6)",
-    "addPlaceholder": "Add Pokémon…"
+    "addPlaceholder": "Add Pokémon…",
+    "deleteConfirmTitle": "Delete team?",
+    "deleteConfirmMessage": "\"{{name}}\" will be permanently removed.",
+    "cancel": "Cancel",
+    "confirmDelete": "Delete"
   },
   "addToTeam": {
     "trigger": "+ Add to team",
