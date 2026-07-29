@@ -113,27 +113,12 @@
 }
 
 @media (max-width: 600px) {
-  .banner {
-    flex-direction: column;
-    text-align: center;
-    gap: 16px;
-    padding: 20px;
-  }
-  .image {
-    width: 120px;
-    height: 120px;
-  }
-  .headerInfo {
-    align-items: center;
-  }
-  .types {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .name {
-    font-size: 24px;
-  }
-  .catchButton {
+  .wrapper {
     align-self: center;
+  }
+  .menu {
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: calc(100vw - 24px);
   }
 }
