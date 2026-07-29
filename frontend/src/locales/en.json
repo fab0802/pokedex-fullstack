@@ -72,7 +72,8 @@
     "trigger": "+ Add to team",
     "noTeams": "No teams yet.",
     "full": "full",
-    "newTeamName": "New team name"
+    "newTeamName": "New team name",
+    "added": "{{name}} added to {{team}}"
   },
   "types": {
     "normal": "Normal",

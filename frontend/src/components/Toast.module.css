@@ -1,0 +1,80 @@
+.container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 1000;
+  pointer-events: none; /* Klicks gehen durch den leeren Bereich hindurch */
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #0f6e56;
+  color: #e1f5ee;
+  font-size: 0.85rem;
+  box-shadow: var(--shadow-card-hover);
+  pointer-events: auto; /* aber der Toast selbst ist klickbar */
+  animation: toast-in 0.2s ease-out;
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.message {
+  white-space: nowrap;
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-left: 2px;
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.close:hover {
+  opacity: 1;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    left: 12px;
+    right: 12px;
+    transform: none;
+    bottom: 16px;
+  }
+
+  .toast {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .message {
+    white-space: normal;
+  }
+}

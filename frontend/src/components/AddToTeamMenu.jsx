@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Check, Plus } from "lucide-react";
 import { useTeams } from "../context/useTeams";
+import { useToast } from "../context/useToast";
 import { useTranslation } from "react-i18next";
 import styles from "./AddToTeamMenu.module.css";
 
-export default function AddToTeamMenu({ pokemonId }) {
+export default function AddToTeamMenu({ pokemonId, pokemonName }) {
   const { t } = useTranslation();
+  const { showToast } = useToast();
   const { teams, addPokemonToTeam, createTeamWithPokemon, maxTeamSize } =
     useTeams();
   const [open, setOpen] = useState(false);
@@ -39,7 +41,11 @@ export default function AddToTeamMenu({ pokemonId }) {
     setError(null);
     try {
       await addPokemonToTeam(teamId, id);
+      const team = teams.find((t) => t._id === teamId);
       setOpen(false);
+      showToast(
+        t("addToTeam.added", { name: pokemonName, team: team?.name ?? "" }),
+      );
     } catch (err) {
       setError(err.message);
     }
@@ -48,10 +54,12 @@ export default function AddToTeamMenu({ pokemonId }) {
   async function handleCreate() {
     if (newName.trim() === "") return;
     setError(null);
+    const teamName = newName.trim();
     try {
-      await createTeamWithPokemon(newName.trim(), id);
+      await createTeamWithPokemon(teamName, id);
       setNewName("");
       setOpen(false);
+      showToast(t("addToTeam.added", { name: pokemonName, team: teamName }));
     } catch (err) {
       setError(err.message);
     }

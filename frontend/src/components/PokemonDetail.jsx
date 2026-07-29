@@ -270,7 +270,12 @@ export default function PokemonDetail() {
                   : t("detail.notCaught")}
               </button>
             )}
-            {isAuthenticated && <AddToTeamMenu pokemonId={pokemon.id} />}
+            {isAuthenticated && (
+              <AddToTeamMenu
+                pokemonId={pokemon.id}
+                pokemonName={pokemonName(pokemon, i18n.language)}
+              />
+            )}
           </div>
         </div>
 

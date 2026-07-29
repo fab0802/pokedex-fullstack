@@ -7,6 +7,7 @@ import { TeamsProvider } from "./context/TeamsContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import { PokemonListProvider } from "./context/PokemonListContext";
 import { GameProvider } from "./context/GameContext";
+import { ToastProvider } from "./context/ToastContext"; // NEU
 import "./index.css";
 import "./i18n";
 import App from "./App.jsx";
@@ -20,7 +21,9 @@ createRoot(document.getElementById("root")).render(
             <TeamsProvider>
               <GameProvider>
                 <PokemonListProvider>
-                  <App />
+                  <ToastProvider>
+                    <App />
+                  </ToastProvider>
                 </PokemonListProvider>
               </GameProvider>
             </TeamsProvider>
