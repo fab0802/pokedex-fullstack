@@ -54,6 +54,7 @@
   },
   "teams": {
     "title": "My Teams",
+    "loading": "Loading teams…",
     "noTeams": "No teams yet.",
     "deleteTeam": "Delete team",
     "editTeam": "Edit team",

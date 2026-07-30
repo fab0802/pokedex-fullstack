@@ -13,16 +13,22 @@ const MAX_TEAM_SIZE = 6;
 export function TeamsProvider({ children }) {
   const { isAuthenticated } = useAuth();
   const [teams, setTeams] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!isAuthenticated) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setTeams([]);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLoading(false);
       return;
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLoading(true);
     getTeams()
       .then(setTeams)
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
   }, [isAuthenticated]);
 
   async function addPokemonToTeam(teamId, pokemonId) {
@@ -73,6 +79,7 @@ export function TeamsProvider({ children }) {
 
   const value = {
     teams,
+    loading,
     addPokemonToTeam,
     removePokemonFromTeam,
     movePokemon,

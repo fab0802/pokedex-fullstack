@@ -21,8 +21,14 @@ import styles from "./Teams.module.css";
 
 export default function Teams() {
   const { t, i18n } = useTranslation();
-  const { teams, removePokemonFromTeam, movePokemon, removeTeam, maxTeamSize } =
-    useTeams();
+  const {
+    teams,
+    loading,
+    removePokemonFromTeam,
+    movePokemon,
+    removeTeam,
+    maxTeamSize,
+  } = useTeams();
   const { showToast } = useToast();
   const [pokemonById, setPokemonById] = useState({});
   const [error, setError] = useState(null);
@@ -92,6 +98,8 @@ export default function Teams() {
     <div className={styles.wrapper}>
       <h1>{t("teams.title")}</h1>
       {error && <p className={styles.message}>{error}</p>}
+      {loading && <p className={styles.message}>{t("teams.loading")}</p>}
+      {!loading && teams.length === 0 && <p>{t("teams.noTeams")}</p>}
       {teams.length === 0 && <p>{t("teams.noTeams")}</p>}
       {teams.map((team) => {
         const isEditing = editingId === team._id;
