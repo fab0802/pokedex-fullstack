@@ -64,7 +64,10 @@ export default function AddToTeamMenu({ pokemonId, pokemonName }) {
     try {
       await removePokemonFromTeam(teamId, id);
       showToast(
-        t("teams.pokemonRemoved", { name: pokemonName, team: team?.name ?? "" }),
+        t("teams.pokemonRemoved", {
+          name: pokemonName,
+          team: team?.name ?? "",
+        }),
         { type: "neutral" },
       );
     } catch (err) {
@@ -147,6 +150,9 @@ export default function AddToTeamMenu({ pokemonId, pokemonName }) {
               placeholder={t("addToTeam.newTeamName")}
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleCreate();
+              }}
             />
             <button
               className={styles.createButton}

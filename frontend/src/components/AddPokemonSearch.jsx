@@ -45,6 +45,12 @@ export default function AddPokemonSearch({ teamId, currentIds, teamName }) {
         placeholder={t("teams.addPlaceholder")}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            const first = matches.find((p) => !currentIds.includes(p.id));
+            if (first) handleAdd(first);
+          }
+        }}
       />
       {matches.length > 0 && (
         <ul className={styles.results}>
