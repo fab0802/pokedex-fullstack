@@ -1,19 +1,26 @@
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown, Check, Plus } from "lucide-react";
+import { ChevronDown, Check, Plus, X } from "lucide-react";
 import { useTeams } from "../context/useTeams";
 import { useToast } from "../context/useToast";
 import { useTranslation } from "react-i18next";
+import ConfirmDialog from "./ConfirmDialog";
 import styles from "./AddToTeamMenu.module.css";
 
 export default function AddToTeamMenu({ pokemonId, pokemonName }) {
   const { t } = useTranslation();
   const { showToast } = useToast();
-  const { teams, addPokemonToTeam, createTeamWithPokemon, maxTeamSize } =
-    useTeams();
+  const {
+    teams,
+    addPokemonToTeam,
+    removePokemonFromTeam,
+    createTeamWithPokemon,
+    maxTeamSize,
+  } = useTeams();
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
   const [newName, setNewName] = useState("");
   const [error, setError] = useState(null);
+  const [confirmTeamId, setConfirmTeamId] = useState(null);
 
   const id = Number(pokemonId);
 
@@ -51,6 +58,27 @@ export default function AddToTeamMenu({ pokemonId, pokemonName }) {
     }
   }
 
+  async function handleRemove(teamId) {
+    setError(null);
+    const team = teams.find((t) => t._id === teamId);
+    try {
+      await removePokemonFromTeam(teamId, id);
+      showToast(
+        t("teams.pokemonRemoved", { name: pokemonName, team: team?.name ?? "" }),
+        { type: "neutral" },
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  async function confirmRemove() {
+    const teamId = confirmTeamId;
+    setConfirmTeamId(null);
+    setOpen(false);
+    await handleRemove(teamId);
+  }
+
   async function handleCreate() {
     if (newName.trim() === "") return;
     setError(null);
@@ -65,6 +93,8 @@ export default function AddToTeamMenu({ pokemonId, pokemonName }) {
       setError(err.message);
     }
   }
+
+  const confirmingTeam = teams.find((t) => t._id === confirmTeamId);
 
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
@@ -83,14 +113,24 @@ export default function AddToTeamMenu({ pokemonId, pokemonName }) {
             return (
               <button
                 key={team._id}
-                className={styles.item}
-                onClick={() => handleAdd(team._id)}
-                disabled={inTeam || full}
+                className={`${styles.item} ${inTeam ? styles.inTeam : ""}`}
+                onClick={() =>
+                  inTeam ? setConfirmTeamId(team._id) : handleAdd(team._id)
+                }
+                disabled={!inTeam && full}
+                title={inTeam ? t("teams.remove") : undefined}
               >
                 <span>{team.name}</span>
                 <span className={styles.status}>
                   {inTeam ? (
-                    <Check size={16} />
+                    <>
+                      <span className={styles.inTeamDefault}>
+                        <Check size={16} />
+                      </span>
+                      <span className={styles.inTeamHover}>
+                        <X size={14} /> {t("teams.remove")}
+                      </span>
+                    </>
                   ) : full ? (
                     t("addToTeam.full")
                   ) : (
@@ -121,6 +161,20 @@ export default function AddToTeamMenu({ pokemonId, pokemonName }) {
           {error && <p className={styles.error}>{error}</p>}
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmTeamId !== null}
+        title={t("teams.removeConfirmTitle")}
+        message={t("teams.removeConfirmMessage", {
+          name: pokemonName,
+          team: confirmingTeam?.name,
+        })}
+        confirmLabel={t("teams.confirmRemove")}
+        cancelLabel={t("teams.cancel")}
+        destructive
+        onConfirm={confirmRemove}
+        onCancel={() => setConfirmTeamId(null)}
+      />
     </div>
   );
 }

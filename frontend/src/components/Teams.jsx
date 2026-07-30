@@ -34,6 +34,7 @@ export default function Teams() {
   const [error, setError] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [confirmTeamId, setConfirmTeamId] = useState(null);
+  const [confirmRemove, setConfirmRemove] = useState(null); // { teamId, pokemonId } | null
 
   useEffect(() => {
     async function loadImages() {
@@ -88,11 +89,24 @@ export default function Teams() {
     }
   }
 
+  async function confirmRemovePokemon() {
+    const pending = confirmRemove;
+    setConfirmRemove(null);
+    if (pending) await handleRemovePokemon(pending.teamId, pending.pokemonId);
+  }
+
   function toggleEdit(teamId) {
     setEditingId((prev) => (prev === teamId ? null : teamId));
   }
 
   const confirmingTeam = teams.find((team) => team._id === confirmTeamId);
+  const removingTeam = confirmRemove
+    ? teams.find((team) => team._id === confirmRemove.teamId)
+    : null;
+  const removingName = confirmRemove
+    ? pokemonName(pokemonById[confirmRemove.pokemonId], i18n.language) ||
+      `#${confirmRemove.pokemonId}`
+    : "";
 
   return (
     <div className={styles.wrapper}>
@@ -143,7 +157,12 @@ export default function Teams() {
                       <>
                         <button
                           className={styles.removeButton}
-                          onClick={() => handleRemovePokemon(team._id, id)}
+                          onClick={() =>
+                            setConfirmRemove({
+                              teamId: team._id,
+                              pokemonId: id,
+                            })
+                          }
                           title={t("teams.remove")}
                         >
                           <X size={14} />
@@ -217,6 +236,19 @@ export default function Teams() {
         destructive
         onConfirm={confirmDelete}
         onCancel={() => setConfirmTeamId(null)}
+      />
+      <ConfirmDialog
+        open={confirmRemove !== null}
+        title={t("teams.removeConfirmTitle")}
+        message={t("teams.removeConfirmMessage", {
+          name: removingName,
+          team: removingTeam?.name,
+        })}
+        confirmLabel={t("teams.confirmRemove")}
+        cancelLabel={t("teams.cancel")}
+        destructive
+        onConfirm={confirmRemovePokemon}
+        onCancel={() => setConfirmRemove(null)}
       />
     </div>
   );

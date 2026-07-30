@@ -64,6 +64,28 @@
   color: var(--color-text-muted);
 }
 
+.inTeamDefault {
+  display: inline-flex;
+  align-items: center;
+}
+
+.inTeamHover {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-primary);
+}
+
+/* Auf Zeilen mit dem Pokémon: bei Hover das ✓ durch „✕ Entfernen" ersetzen.
+   Auf Touch-Geräten (kein Hover) bleibt das ✓ – Tippen entfernt trotzdem. */
+.item.inTeam:hover .inTeamDefault {
+  display: none;
+}
+
+.item.inTeam:hover .inTeamHover {
+  display: inline-flex;
+}
+
 .newTeam {
   display: flex;
   gap: 6px;

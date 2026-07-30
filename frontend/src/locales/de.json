@@ -69,7 +69,10 @@
     "cancel": "Abbrechen",
     "confirmDelete": "Löschen",
     "teamDeleted": "{{team}} gelöscht",
-    "pokemonRemoved": "{{name}} aus {{team}} entfernt"
+    "pokemonRemoved": "{{name}} aus {{team}} entfernt",
+    "removeConfirmTitle": "Pokémon entfernen?",
+    "removeConfirmMessage": "{{name}} wird aus „{{team}}“ entfernt.",
+    "confirmRemove": "Entfernen"
   },
   "addToTeam": {
     "trigger": "+ Zum Team",
