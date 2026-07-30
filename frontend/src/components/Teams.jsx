@@ -114,7 +114,6 @@ export default function Teams() {
       {error && <p className={styles.message}>{error}</p>}
       {loading && <p className={styles.message}>{t("teams.loading")}</p>}
       {!loading && teams.length === 0 && <p>{t("teams.noTeams")}</p>}
-      {teams.length === 0 && <p>{t("teams.noTeams")}</p>}
       {teams.map((team) => {
         const isEditing = editingId === team._id;
         return (
