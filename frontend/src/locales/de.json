@@ -8,6 +8,9 @@
     "settings": "Einstellungen",
     "menu": "Menü"
   },
+  "common": {
+    "scrollToTop": "Nach oben scrollen"
+  },
   "search": {
     "title": "Suche",
     "placeholder": "Pokémon suchen…",

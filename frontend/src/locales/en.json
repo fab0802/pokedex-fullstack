@@ -8,6 +8,9 @@
     "settings": "Settings",
     "menu": "Menu"
   },
+  "common": {
+    "scrollToTop": "Scroll to top"
+  },
   "search": {
     "title": "Search",
     "placeholder": "Search Pokémon…",
