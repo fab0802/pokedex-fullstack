@@ -18,7 +18,29 @@ import ConfirmDialog from "./ConfirmDialog";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import NewTeamCard from "./NewTeamCard";
+import Skeleton from "./Skeleton";
 import styles from "./Teams.module.css";
+
+// Platzhalter-Karten im Team-Layout, solange die Teams geladen werden.
+function TeamsSkeleton() {
+  const fakeTeams = [3, 2, 4]; // Anzahl Platzhalter-Pokémon pro Karte
+  return (
+    <div aria-hidden="true">
+      {fakeTeams.map((count, i) => (
+        <div key={i} className={styles.team}>
+          <div className={styles.teamHeader}>
+            <Skeleton width="40%" height={20} />
+          </div>
+          <div className={styles.members}>
+            {Array.from({ length: count }).map((_, j) => (
+              <Skeleton key={j} width={90} height={96} radius={12} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function Teams() {
   const { t, i18n } = useTranslation();
@@ -113,7 +135,14 @@ export default function Teams() {
     <div className={styles.wrapper}>
       <h1>{t("teams.title")}</h1>
       {error && <p className={styles.message}>{error}</p>}
-      {loading && <p className={styles.message}>{t("teams.loading")}</p>}
+      {loading && (
+        <>
+          <p className={styles.srOnly} role="status">
+            {t("teams.loading")}
+          </p>
+          <TeamsSkeleton />
+        </>
+      )}
       {!loading && <NewTeamCard onCreated={(id) => setEditingId(id)} />}
       {!loading && teams.length === 0 && <p>{t("teams.noTeams")}</p>}
       {teams.map((team) => {
