@@ -75,7 +75,9 @@
     "pokemonRemoved": "{{name}} removed from {{team}}",
     "removeConfirmTitle": "Remove Pokémon?",
     "removeConfirmMessage": "{{name}} will be removed from \"{{team}}\".",
-    "confirmRemove": "Remove"
+    "confirmRemove": "Remove",
+    "newTeamPlaceholder": "Team name",
+    "createTeam": "Create team"
   },
   "addToTeam": {
     "trigger": "+ Add to team",

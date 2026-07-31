@@ -17,6 +17,7 @@ import AddPokemonSearch from "./AddPokemonSearch";
 import ConfirmDialog from "./ConfirmDialog";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
+import NewTeamCard from "./NewTeamCard";
 import styles from "./Teams.module.css";
 
 export default function Teams() {
@@ -113,6 +114,7 @@ export default function Teams() {
       <h1>{t("teams.title")}</h1>
       {error && <p className={styles.message}>{error}</p>}
       {loading && <p className={styles.message}>{t("teams.loading")}</p>}
+      {!loading && <NewTeamCard onCreated={(id) => setEditingId(id)} />}
       {!loading && teams.length === 0 && <p>{t("teams.noTeams")}</p>}
       {teams.map((team) => {
         const isEditing = editingId === team._id;
