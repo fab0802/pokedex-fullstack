@@ -6,6 +6,7 @@ const DEFAULT_SORT = { field: "number", dir: "asc" };
 
 export function FilterProvider({ children }) {
   const [sort, setSort] = useState(DEFAULT_SORT);
+  const [types, setTypes] = useState([]);
 
   const setSortField = useCallback((field) => {
     setSort((prev) => ({ ...prev, field }));
@@ -15,15 +16,31 @@ export function FilterProvider({ children }) {
     setSort((prev) => ({ ...prev, dir }));
   }, []);
 
-  const reset = useCallback(() => setSort(DEFAULT_SORT), []);
+  const toggleType = useCallback((type) => {
+    setTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type],
+    );
+  }, []);
 
-  // Sobald hier Typ-/Stat-Filter dazukommen, wandern sie in dieses isActive.
-  const isSortActive = sort.field !== "number";
-  const isActive = isSortActive;
+  const reset = useCallback(() => {
+    setSort(DEFAULT_SORT);
+    setTypes([]);
+  }, []);
+
+  // Aktiv, sobald sortiert oder mindestens ein Typ gewählt ist.
+  const isActive = sort.field !== "number" || types.length > 0;
 
   const value = useMemo(
-    () => ({ sort, setSortField, setSortDir, reset, isActive }),
-    [sort, setSortField, setSortDir, reset, isActive],
+    () => ({
+      sort,
+      setSortField,
+      setSortDir,
+      types,
+      toggleType,
+      reset,
+      isActive,
+    }),
+    [sort, setSortField, setSortDir, types, toggleType, reset, isActive],
   );
 
   return (

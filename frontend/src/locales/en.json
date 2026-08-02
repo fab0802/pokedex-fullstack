@@ -134,6 +134,8 @@
   "filter": {
     "title": "Filter",
     "game": "Game",
+    "type": "Type",
+    "noResults": "No Pokémon match the filters.",
     "reset": "Reset"
   },
   "sort": {

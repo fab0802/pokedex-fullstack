@@ -18,6 +18,7 @@ import GlobalSearch from "./GlobalSearch";
 import FilterDrawer from "./FilterDrawer";
 import GameFilter from "./GameFilter";
 import SortControl from "./SortControl";
+import TypeFilter from "./TypeFilter";
 import { useFilter } from "../context/useFilter";
 import styles from "./NavBar.module.css";
 
@@ -202,6 +203,7 @@ export default function NavBar() {
       <FilterDrawer open={filterOpen} onClose={() => setFilterOpen(false)}>
         <GameFilter />
         <SortControl />
+        <TypeFilter />
         {isActive && (
           <button
             type="button"

@@ -10,7 +10,7 @@ import { useFilter } from "../context/useFilter";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import { useGame } from "../context/useGame";
-import { comparePokemon } from "./sortPokemons";
+import { derivePokemonView } from "./pokemonView";
 
 // Wie viele Karten die aktive (sortierte) Ansicht pro Schritt zeigt. Die Daten
 // liegen komplett im Speicher; das hier hält nur das DOM schlank.
@@ -30,7 +30,7 @@ export default function PokemonList() {
     allProgress,
     loadAll,
   } = usePokemonList();
-  const { sort, isActive } = useFilter();
+  const { sort, types, isActive } = useFilter();
   const { selectedGame } = useGame();
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
@@ -53,7 +53,7 @@ export default function PokemonList() {
 
   // Ansichts-Schlüssel: Spiel + (bei aktiver Sortierung) Feld/Richtung.
   const viewKey = isActive
-    ? `${selectedGame.id}|${sort.field}|${sort.dir}`
+    ? `${selectedGame.id}|${sort.field}|${sort.dir}|${types.join(",")}`
     : `${selectedGame.id}|default`;
 
   // Wechselt die Ansicht, das Fenster zurücksetzen – im Render statt im
@@ -80,15 +80,15 @@ export default function PokemonList() {
     if (isActive) loadAll();
   }, [isActive, loadAll]);
 
-  // Sortierte Vollansicht ableiten (nur wenn aktiv).
-  const sortedView = useMemo(() => {
+  // Gefilterte + sortierte Vollansicht ableiten (nur wenn aktiv).
+  const activeView = useMemo(() => {
     if (!isActive) return null;
-    return [...allPokemons].sort(comparePokemon(sort));
-  }, [isActive, allPokemons, sort]);
+    return derivePokemonView(allPokemons, { types, sort });
+  }, [isActive, allPokemons, types, sort]);
 
-  // Was tatsächlich gerendert wird: aktiv = sortiertes Fenster, sonst die
-  // per Infinite-Scroll geladene Teilmenge.
-  const items = isActive ? (sortedView ?? []).slice(0, visibleCount) : pokemons;
+  // Was tatsächlich gerendert wird: aktiv = gefiltertes/sortiertes Fenster,
+  // sonst die per Infinite-Scroll geladene Teilmenge.
+  const items = isActive ? (activeView ?? []).slice(0, visibleCount) : pokemons;
 
   // Sentinel: aktiv erweitert das Fenster, sonst lädt es die nächste Seite.
   useEffect(() => {
@@ -179,6 +179,9 @@ export default function PokemonList() {
         ))}
       </ul>
 
+      {isActive && !loadingAll && activeView && activeView.length === 0 && (
+        <p className={styles.loading}>{t("filter.noResults")}</p>
+      )}
       {error && <p>{error}</p>}
       <div ref={sentinelRef} />
       {!isActive && loading && (
