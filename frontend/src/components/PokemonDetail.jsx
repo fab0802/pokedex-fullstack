@@ -5,6 +5,7 @@ import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { fetchPokemonById } from "../services/pokeApi";
 import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
+import { useOrderedIds } from "../context/useOrderedIds";
 import { typeColors } from "./typeColors";
 import { typeBackgrounds } from "./typeBackgrounds";
 import AddToTeamMenu from "./AddToTeamMenu";
@@ -36,9 +37,28 @@ export default function PokemonDetail() {
   const touchStartX = useRef(null);
   const touchStartY = useRef(null);
 
+  const orderedIds = useOrderedIds();
   const currentId = Number(id);
-  const hasPrev = currentId > MIN_ID;
-  const hasNext = currentId < MAX_ID;
+  const index = orderedIds.indexOf(currentId);
+  const inSequence = index !== -1;
+
+  // Nachbar-IDs aus der aktuellen Reihenfolge (Sortierung bzw. Spiel-Dex).
+  // Fallback auf ±1, wenn das Pokémon (noch) nicht in der Sequenz liegt,
+  // z. B. bei einem Direkt-Link ohne geladene Liste.
+  const prevId = inSequence
+    ? index > 0
+      ? orderedIds[index - 1]
+      : null
+    : currentId > MIN_ID
+      ? currentId - 1
+      : null;
+  const nextId = inSequence
+    ? index < orderedIds.length - 1
+      ? orderedIds[index + 1]
+      : null
+    : currentId < MAX_ID
+      ? currentId + 1
+      : null;
 
   useEffect(() => {
     fetchPokemonById(id)
@@ -53,20 +73,22 @@ export default function PokemonDetail() {
   useEffect(() => {
     let cancelled = false;
     async function loadNeighbors() {
-      const prev = hasPrev
-        ? await fetchPokemonById(currentId - 1).catch(() => null)
-        : null;
+      const prev =
+        prevId != null
+          ? await fetchPokemonById(prevId).catch(() => null)
+          : null;
       if (!cancelled) setPrevPokemon(prev);
-      const next = hasNext
-        ? await fetchPokemonById(currentId + 1).catch(() => null)
-        : null;
+      const next =
+        nextId != null
+          ? await fetchPokemonById(nextId).catch(() => null)
+          : null;
       if (!cancelled) setNextPokemon(next);
     }
     loadNeighbors();
     return () => {
       cancelled = true;
     };
-  }, [currentId, hasPrev, hasNext]);
+  }, [prevId, nextId]);
 
   function go(targetId, dir) {
     setDirection(dir);
@@ -78,19 +100,19 @@ export default function PokemonDetail() {
     function onKey(e) {
       if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
         return;
-      if (e.key === "ArrowLeft" && currentId > MIN_ID) {
+      if (e.key === "ArrowLeft" && prevId != null) {
         setDirection(-1);
-        navigate(`/pokemon/${currentId - 1}`);
-      } else if (e.key === "ArrowRight" && currentId < MAX_ID) {
+        navigate(`/pokemon/${prevId}`);
+      } else if (e.key === "ArrowRight" && nextId != null) {
         setDirection(1);
-        navigate(`/pokemon/${currentId + 1}`);
+        navigate(`/pokemon/${nextId}`);
       } else if (e.key === "Escape") {
         navigate("/");
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [currentId, navigate]);
+  }, [prevId, nextId, navigate]);
 
   function onTouchStart(e) {
     touchStartX.current = e.touches[0].clientX;
@@ -103,8 +125,8 @@ export default function PokemonDetail() {
     const dy = e.changedTouches[0].clientY - touchStartY.current;
     touchStartX.current = null;
     if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy)) return;
-    if (dx < 0 && currentId < MAX_ID) go(currentId + 1, 1);
-    else if (dx > 0 && currentId > MIN_ID) go(currentId - 1, -1);
+    if (dx < 0 && nextId != null) go(nextId, 1);
+    else if (dx > 0 && prevId != null) go(prevId, -1);
   }
 
   if (error) return <p className={styles.message}>{error}</p>;
@@ -193,7 +215,7 @@ export default function PokemonDetail() {
         {prevPokemon ? (
           <button
             className={styles.preview}
-            onClick={() => go(currentId - 1, -1)}
+            onClick={() => go(prevId, -1)}
             title={t("detail.prev")}
           >
             <ChevronLeft size={18} />
@@ -211,7 +233,7 @@ export default function PokemonDetail() {
         {nextPokemon ? (
           <button
             className={`${styles.preview} ${styles.previewRight}`}
-            onClick={() => go(currentId + 1, 1)}
+            onClick={() => go(nextId, 1)}
             title={t("detail.next")}
           >
             <span className={styles.previewText}>

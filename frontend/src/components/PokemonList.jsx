@@ -10,17 +10,11 @@ import { useFilter } from "../context/useFilter";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import { useGame } from "../context/useGame";
+import { comparePokemon } from "./sortPokemons";
 
 // Wie viele Karten die aktive (sortierte) Ansicht pro Schritt zeigt. Die Daten
 // liegen komplett im Speicher; das hier hält nur das DOM schlank.
 const WINDOW_STEP = 20;
-
-function statValue(p, field) {
-  if (field === "number") return p.id;
-  if (field === "total") return p.stats.reduce((sum, s) => sum + s.value, 0);
-  const s = p.stats.find((x) => x.name === field);
-  return s ? s.value : 0;
-}
 
 export default function PokemonList() {
   const { t, i18n } = useTranslation();
@@ -57,36 +51,39 @@ export default function PokemonList() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [scrollYRef]);
 
-  // Der Spiel-Filter sitzt jetzt global im Drawer. Wechselt das Spiel, soll
-  // die Liste wieder oben starten (der erste Render ändert nichts).
-  const prevGameId = useRef(selectedGame.id);
+  // Ansichts-Schlüssel: Spiel + (bei aktiver Sortierung) Feld/Richtung.
+  const viewKey = isActive
+    ? `${selectedGame.id}|${sort.field}|${sort.dir}`
+    : `${selectedGame.id}|default`;
+
+  // Wechselt die Ansicht, das Fenster zurücksetzen – im Render statt im
+  // Effect, das vermeidet die von React gewarnten Kaskaden-Renders.
+  const [prevViewKey, setPrevViewKey] = useState(viewKey);
+  if (prevViewKey !== viewKey) {
+    setPrevViewKey(viewKey);
+    setVisibleCount(WINDOW_STEP);
+  }
+
+  // Nach einem Ansichtswechsel nach oben scrollen (echter Seiteneffekt). Der
+  // Ref-Vergleich überspringt den ersten Lauf, damit die gespeicherte
+  // Scroll-Position beim Zurückkommen erhalten bleibt.
+  const lastViewKeyRef = useRef(viewKey);
   useEffect(() => {
-    if (prevGameId.current === selectedGame.id) return;
-    prevGameId.current = selectedGame.id;
+    if (lastViewKeyRef.current === viewKey) return;
+    lastViewKeyRef.current = viewKey;
     scrollYRef.current = 0;
     window.scrollTo(0, 0);
-  }, [selectedGame.id, scrollYRef]);
+  }, [viewKey, scrollYRef]);
 
   // Sobald ein Filter/Sortierung aktiv ist, den ganzen Dex nachladen.
   useEffect(() => {
     if (isActive) loadAll();
   }, [isActive, loadAll]);
 
-  // Bei neuer Sortierung/neuem Spiel das Fenster zurücksetzen (und in der
-  // aktiven Ansicht nach oben, weil sich die Reihenfolge komplett ändert).
-  useEffect(() => {
-    setVisibleCount(WINDOW_STEP);
-    if (isActive) window.scrollTo(0, 0);
-  }, [sort, isActive, selectedGame.id]);
-
   // Sortierte Vollansicht ableiten (nur wenn aktiv).
   const sortedView = useMemo(() => {
     if (!isActive) return null;
-    return [...allPokemons].sort((a, b) => {
-      const primary = statValue(a, sort.field) - statValue(b, sort.field);
-      if (primary !== 0) return sort.dir === "asc" ? primary : -primary;
-      return a.id - b.id;
-    });
+    return [...allPokemons].sort(comparePokemon(sort));
   }, [isActive, allPokemons, sort]);
 
   // Was tatsächlich gerendert wird: aktiv = sortiertes Fenster, sonst die
