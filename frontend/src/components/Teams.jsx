@@ -220,6 +220,13 @@ export default function Teams() {
                     {p ? (
                       <Link
                         to={`/pokemon/${p.id}`}
+                        state={{
+                          team: {
+                            ids: team.pokemonIds,
+                            id: team._id,
+                            name: team.name,
+                          },
+                        }}
                         className={styles.member}
                         style={{ backgroundColor: typeColors[p.types[0]] }}
                       >

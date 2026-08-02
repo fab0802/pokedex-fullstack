@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { fetchPokemonById } from "../services/pokeApi";
@@ -37,8 +37,18 @@ export default function PokemonDetail() {
   const touchStartX = useRef(null);
   const touchStartY = useRef(null);
 
-  const orderedIds = useOrderedIds();
+  const location = useLocation();
+  const teamNav = location.state?.team;
+  const fallbackIds = useOrderedIds();
   const currentId = Number(id);
+
+  // Kommt man aus einem Team, wird nur innerhalb dieses Teams navigiert.
+  // pokemonIds sicherheitshalber auf Zahlen normalisieren (Route-ID ist numerisch).
+  const teamIds = Array.isArray(teamNav?.ids) ? teamNav.ids.map(Number) : null;
+  const inTeam = teamIds ? teamIds.includes(currentId) : false;
+  const orderedIds = inTeam ? teamIds : fallbackIds;
+  const backTo = teamNav ? "/teams" : "/";
+
   const index = orderedIds.indexOf(currentId);
   const inSequence = index !== -1;
 
@@ -92,7 +102,9 @@ export default function PokemonDetail() {
 
   function go(targetId, dir) {
     setDirection(dir);
-    navigate(`/pokemon/${targetId}`);
+    // State (z. B. Team-Kontext) mitreichen, sonst geht er nach dem ersten
+    // Schritt verloren.
+    navigate(`/pokemon/${targetId}`, { state: location.state });
   }
 
   // Tastatur-Navigation
@@ -102,17 +114,17 @@ export default function PokemonDetail() {
         return;
       if (e.key === "ArrowLeft" && prevId != null) {
         setDirection(-1);
-        navigate(`/pokemon/${prevId}`);
+        navigate(`/pokemon/${prevId}`, { state: location.state });
       } else if (e.key === "ArrowRight" && nextId != null) {
         setDirection(1);
-        navigate(`/pokemon/${nextId}`);
+        navigate(`/pokemon/${nextId}`, { state: location.state });
       } else if (e.key === "Escape") {
-        navigate("/");
+        navigate(backTo);
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [prevId, nextId, navigate]);
+  }, [prevId, nextId, navigate, location.state, backTo]);
 
   function onTouchStart(e) {
     touchStartX.current = e.touches[0].clientX;
@@ -205,9 +217,9 @@ export default function PokemonDetail() {
       onTouchEnd={onTouchEnd}
     >
       <div className={styles.topNav}>
-        <button className={styles.backButton} onClick={() => navigate("/")}>
+        <button className={styles.backButton} onClick={() => navigate(backTo)}>
           <ArrowLeft size={16} />
-          {t("detail.back")}
+          {teamNav ? t("detail.backToTeams") : t("detail.back")}
         </button>
       </div>
 
