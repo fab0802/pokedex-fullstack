@@ -8,6 +8,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { PokemonListProvider } from "./context/PokemonListContext";
 import { GameProvider } from "./context/GameContext";
 import { ToastProvider } from "./context/ToastContext"; // NEU
+import { FilterProvider } from "./context/FilterContext";
 import "./index.css";
 import "./i18n";
 import App from "./App.jsx";
@@ -21,9 +22,11 @@ createRoot(document.getElementById("root")).render(
             <TeamsProvider>
               <GameProvider>
                 <PokemonListProvider>
-                  <ToastProvider>
-                    <App />
-                  </ToastProvider>
+                  <FilterProvider>
+                    <ToastProvider>
+                      <App />
+                    </ToastProvider>
+                  </FilterProvider>
                 </PokemonListProvider>
               </GameProvider>
             </TeamsProvider>

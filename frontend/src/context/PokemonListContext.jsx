@@ -1,9 +1,12 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { PokemonListContext } from "./pokemonListContextObject";
 import { fetchPokemonById, fetchPokedexIds } from "../services/pokeApi";
 import { useGame } from "./useGame";
 
 const LIMIT = 20;
+// Gleichzeitige Detail-Abrufe beim Voll-Load. Höher = schneller, aber mehr
+// Last auf die PokéAPI (jeder Abruf = 2 Requests). Gecachte IDs sind gratis.
+const ALL_CONCURRENCY = 20;
 
 export function PokemonListProvider({ children }) {
   const { selectedGame } = useGame();
@@ -15,11 +18,21 @@ export function PokemonListProvider({ children }) {
   const isFetchingRef = useRef(false);
   const scrollYRef = useRef(0);
 
+  // Voll-Load: alle Details des aktuellen Dex, für Filter/Sortierung.
+  const [allPokemons, setAllPokemons] = useState([]);
+  const [loadingAll, setLoadingAll] = useState(false);
+  const [allProgress, setAllProgress] = useState({ loaded: 0, total: 0 });
+  const isLoadingAllRef = useRef(false);
+  const allLoadedForRef = useRef(null);
+
   useEffect(() => {
     let cancelled = false;
     async function setupFilter() {
       setError(null);
       setLoading(true);
+      // Voll-Load gehört zum alten Spiel -> beim Wechsel verwerfen.
+      setAllPokemons([]);
+      setAllProgress({ loaded: 0, total: 0 });
       try {
         const list = await fetchPokedexIds(selectedGame.dexes);
         if (cancelled) return;
@@ -64,6 +77,46 @@ export function PokemonListProvider({ children }) {
     }
   }
 
+  // Lädt die Details ALLER Dex-IDs (für Filter/Sortierung), gedrosselt über
+  // mehrere Worker. Läuft nur einmal pro Dex; gecachte IDs sind sofort da.
+  const loadAll = useCallback(async () => {
+    if (isLoadingAllRef.current) return;
+    if (!ids.length) return;
+    if (allLoadedForRef.current === ids) return;
+
+    isLoadingAllRef.current = true;
+    setLoadingAll(true);
+    setAllProgress({ loaded: 0, total: ids.length });
+
+    const queue = [...ids];
+    const results = [];
+    let loaded = 0;
+
+    async function worker() {
+      while (queue.length) {
+        const id = queue.shift();
+        try {
+          results.push(await fetchPokemonById(id));
+        } catch {
+          // Einzelnes Pokémon überspringen, der Rest lädt weiter.
+        }
+        loaded++;
+        // Fortschritt gedrosselt melden, sonst rendert der Kontext zu oft.
+        if (loaded % 25 === 0 || loaded === ids.length) {
+          setAllProgress({ loaded, total: ids.length });
+        }
+      }
+    }
+
+    await Promise.all(Array.from({ length: ALL_CONCURRENCY }, worker));
+
+    results.sort((a, b) => a.id - b.id);
+    allLoadedForRef.current = ids;
+    setAllPokemons(results);
+    setLoadingAll(false);
+    isLoadingAllRef.current = false;
+  }, [ids]);
+
   const value = {
     pokemons,
     ids,
@@ -72,6 +125,10 @@ export function PokemonListProvider({ children }) {
     hasMore: loadedCount < ids.length,
     loadMore,
     scrollYRef,
+    allPokemons,
+    loadingAll,
+    allProgress,
+    loadAll,
   };
 
   return (

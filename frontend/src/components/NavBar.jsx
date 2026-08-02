@@ -17,11 +17,14 @@ import LanguageToggle from "./LanguageToggle";
 import GlobalSearch from "./GlobalSearch";
 import FilterDrawer from "./FilterDrawer";
 import GameFilter from "./GameFilter";
+import SortControl from "./SortControl";
+import { useFilter } from "../context/useFilter";
 import styles from "./NavBar.module.css";
 
 export default function NavBar() {
   const { t } = useTranslation();
   const { isAuthenticated, logout } = useAuth();
+  const { reset, isActive } = useFilter();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -198,6 +201,16 @@ export default function NavBar() {
 
       <FilterDrawer open={filterOpen} onClose={() => setFilterOpen(false)}>
         <GameFilter />
+        <SortControl />
+        {isActive && (
+          <button
+            type="button"
+            className={styles.filterReset}
+            onClick={reset}
+          >
+            {t("filter.reset")}
+          </button>
+        )}
       </FilterDrawer>
     </>
   );

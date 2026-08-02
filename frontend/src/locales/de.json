@@ -132,7 +132,15 @@
   },
   "filter": {
     "title": "Filter",
-    "game": "Spiel"
+    "game": "Spiel",
+    "reset": "Zurücksetzen"
+  },
+  "sort": {
+    "label": "Sortieren nach",
+    "number": "Pokédex-Nummer",
+    "asc": "Aufsteigend",
+    "desc": "Absteigend",
+    "loadingDex": "Dex wird geladen … {{loaded}} / {{total}}"
   },
   "games": {
     "all": "Alle",

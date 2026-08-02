@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import styles from "./PokemonList.module.css";
 import { typeColors } from "./typeColors";
@@ -6,18 +6,42 @@ import { typeBackgrounds } from "./typeBackgrounds";
 import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
 import { usePokemonList } from "../context/usePokemonList";
+import { useFilter } from "../context/useFilter";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import { useGame } from "../context/useGame";
 
+// Wie viele Karten die aktive (sortierte) Ansicht pro Schritt zeigt. Die Daten
+// liegen komplett im Speicher; das hier hält nur das DOM schlank.
+const WINDOW_STEP = 20;
+
+function statValue(p, field) {
+  if (field === "number") return p.id;
+  if (field === "total") return p.stats.reduce((sum, s) => sum + s.value, 0);
+  const s = p.stats.find((x) => x.name === field);
+  return s ? s.value : 0;
+}
+
 export default function PokemonList() {
   const { t, i18n } = useTranslation();
-  const { pokemons, loading, error, hasMore, loadMore, scrollYRef } =
-    usePokemonList();
+  const {
+    pokemons,
+    loading,
+    error,
+    hasMore,
+    loadMore,
+    scrollYRef,
+    allPokemons,
+    loadingAll,
+    allProgress,
+    loadAll,
+  } = usePokemonList();
+  const { sort, isActive } = useFilter();
   const { selectedGame } = useGame();
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
   const sentinelRef = useRef(null);
+  const [visibleCount, setVisibleCount] = useState(WINDOW_STEP);
 
   // Scroll-Position beim Zurückkommen wiederherstellen
   useLayoutEffect(() => {
@@ -43,13 +67,42 @@ export default function PokemonList() {
     window.scrollTo(0, 0);
   }, [selectedGame.id, scrollYRef]);
 
-  // Infinite Scroll: nachladen, wenn der Sentinel in Sicht kommt
+  // Sobald ein Filter/Sortierung aktiv ist, den ganzen Dex nachladen.
+  useEffect(() => {
+    if (isActive) loadAll();
+  }, [isActive, loadAll]);
+
+  // Bei neuer Sortierung/neuem Spiel das Fenster zurücksetzen (und in der
+  // aktiven Ansicht nach oben, weil sich die Reihenfolge komplett ändert).
+  useEffect(() => {
+    setVisibleCount(WINDOW_STEP);
+    if (isActive) window.scrollTo(0, 0);
+  }, [sort, isActive, selectedGame.id]);
+
+  // Sortierte Vollansicht ableiten (nur wenn aktiv).
+  const sortedView = useMemo(() => {
+    if (!isActive) return null;
+    return [...allPokemons].sort((a, b) => {
+      const primary = statValue(a, sort.field) - statValue(b, sort.field);
+      if (primary !== 0) return sort.dir === "asc" ? primary : -primary;
+      return a.id - b.id;
+    });
+  }, [isActive, allPokemons, sort]);
+
+  // Was tatsächlich gerendert wird: aktiv = sortiertes Fenster, sonst die
+  // per Infinite-Scroll geladene Teilmenge.
+  const items = isActive ? (sortedView ?? []).slice(0, visibleCount) : pokemons;
+
+  // Sentinel: aktiv erweitert das Fenster, sonst lädt es die nächste Seite.
   useEffect(() => {
     const el = sentinelRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasMore && !loading) {
+        if (!entries[0].isIntersecting) return;
+        if (isActive) {
+          setVisibleCount((c) => c + WINDOW_STEP);
+        } else if (hasMore && !loading) {
           loadMore();
         }
       },
@@ -57,7 +110,7 @@ export default function PokemonList() {
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [hasMore, loading, loadMore]);
+  }, [isActive, hasMore, loading, loadMore]);
 
   function handleToggle(e, id) {
     e.preventDefault();
@@ -67,8 +120,16 @@ export default function PokemonList() {
 
   return (
     <div>
+      {isActive && loadingAll && (
+        <p className={styles.loading}>
+          {t("sort.loadingDex", {
+            loaded: allProgress.loaded,
+            total: allProgress.total,
+          })}
+        </p>
+      )}
       <ul className={styles.list}>
-        {pokemons.map((p) => (
+        {items.map((p) => (
           <li key={p.id} className={styles.card}>
             <Link to={`/pokemon/${p.id}`} className={styles.cardLink}>
               <div
@@ -123,7 +184,9 @@ export default function PokemonList() {
 
       {error && <p>{error}</p>}
       <div ref={sentinelRef} />
-      {loading && <p className={styles.loading}>{t("list.loading")}</p>}
+      {!isActive && loading && (
+        <p className={styles.loading}>{t("list.loading")}</p>
+      )}
     </div>
   );
 }

@@ -164,3 +164,19 @@
     border-top: 1px solid var(--color-border);
   }
 }
+
+.filterReset {
+  align-self: center;
+  padding: 4px 8px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.filterReset:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+}
