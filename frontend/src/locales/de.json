@@ -9,6 +9,7 @@
     "menu": "Menü"
   },
   "common": {
+    "close": "Schliessen",
     "scrollToTop": "Nach oben scrollen"
   },
   "search": {
@@ -130,6 +131,7 @@
     "error": "Attacken konnten nicht geladen werden."
   },
   "filter": {
+    "title": "Filter",
     "game": "Spiel"
   },
   "games": {

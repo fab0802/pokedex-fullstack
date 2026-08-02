@@ -9,11 +9,14 @@ import {
   Search,
   Settings,
   CircleDot,
+  SlidersHorizontal,
 } from "lucide-react";
 import { useAuth } from "../context/useAuth";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
 import GlobalSearch from "./GlobalSearch";
+import FilterDrawer from "./FilterDrawer";
+import GameFilter from "./GameFilter";
 import styles from "./NavBar.module.css";
 
 export default function NavBar() {
@@ -21,6 +24,7 @@ export default function NavBar() {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const settingsRef = useRef(null);
 
@@ -94,6 +98,14 @@ export default function NavBar() {
             <Search size={17} aria-hidden="true" />
             <span className={styles.label}>{t("search.title")}</span>
           </button>
+          <button
+            className={`${styles.link} ${styles.searchBtn}`}
+            onClick={() => setFilterOpen(true)}
+            aria-label={t("filter.title")}
+          >
+            <SlidersHorizontal size={17} aria-hidden="true" />
+            <span className={styles.label}>{t("filter.title")}</span>
+          </button>
           <LanguageToggle />
           <ThemeToggle />
           {isAuthenticated ? (
@@ -123,6 +135,13 @@ export default function NavBar() {
 
         {/* Mobile: Zahnrad mit Sprache + Theme */}
         <div className={styles.settings} ref={settingsRef}>
+          <button
+            className={styles.gear}
+            onClick={() => setFilterOpen(true)}
+            aria-label={t("filter.title")}
+          >
+            <SlidersHorizontal size={20} aria-hidden="true" />
+          </button>
           <button
             className={styles.gear}
             onClick={() => setSettingsOpen((o) => !o)}
@@ -176,6 +195,10 @@ export default function NavBar() {
       </nav>
 
       {searchOpen && <GlobalSearch onClose={() => setSearchOpen(false)} />}
+
+      <FilterDrawer open={filterOpen} onClose={() => setFilterOpen(false)}>
+        <GameFilter />
+      </FilterDrawer>
     </>
   );
 }

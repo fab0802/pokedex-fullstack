@@ -9,6 +9,7 @@
     "menu": "Menu"
   },
   "common": {
+    "close": "Close",
     "scrollToTop": "Scroll to top"
   },
   "search": {
@@ -130,6 +131,7 @@
     "error": "Could not load moves."
   },
   "filter": {
+    "title": "Filter",
     "game": "Game"
   },
   "games": {

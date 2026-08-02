@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styles from "./PokemonList.module.css";
 import { typeColors } from "./typeColors";
 import { typeBackgrounds } from "./typeBackgrounds";
-import { games } from "./games";
 import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
 import { usePokemonList } from "../context/usePokemonList";
@@ -15,7 +14,7 @@ export default function PokemonList() {
   const { t, i18n } = useTranslation();
   const { pokemons, loading, error, hasMore, loadMore, scrollYRef } =
     usePokemonList();
-  const { selectedGame, setSelectedGame } = useGame();
+  const { selectedGame } = useGame();
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
   const sentinelRef = useRef(null);
@@ -33,6 +32,16 @@ export default function PokemonList() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [scrollYRef]);
+
+  // Der Spiel-Filter sitzt jetzt global im Drawer. Wechselt das Spiel, soll
+  // die Liste wieder oben starten (der erste Render ändert nichts).
+  const prevGameId = useRef(selectedGame.id);
+  useEffect(() => {
+    if (prevGameId.current === selectedGame.id) return;
+    prevGameId.current = selectedGame.id;
+    scrollYRef.current = 0;
+    window.scrollTo(0, 0);
+  }, [selectedGame.id, scrollYRef]);
 
   // Infinite Scroll: nachladen, wenn der Sentinel in Sicht kommt
   useEffect(() => {
@@ -56,35 +65,8 @@ export default function PokemonList() {
     toggleCaught(id);
   }
 
-  function handleGameChange(e) {
-    setSelectedGame(games.find((g) => g.id === e.target.value));
-    scrollYRef.current = 0;
-    window.scrollTo(0, 0);
-  }
-
   return (
     <div>
-      <div className={styles.filterBar}>
-        <div className={styles.filterBarInner}>
-          <label htmlFor="gameFilter" className={styles.filterLabel}>
-            {t("filter.game")}
-          </label>
-          <select
-            id="gameFilter"
-            className={styles.genSelect}
-            value={selectedGame.id}
-            onChange={handleGameChange}
-            aria-label={t("filter.game")}
-          >
-            {games.map((g) => (
-              <option key={g.id} value={g.id}>
-                {t(`games.${g.id}`)}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
       <ul className={styles.list}>
         {pokemons.map((p) => (
           <li key={p.id} className={styles.card}>

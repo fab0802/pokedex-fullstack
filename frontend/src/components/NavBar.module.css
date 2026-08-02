@@ -70,6 +70,8 @@
 .settings {
   display: none;
   position: relative;
+  align-items: center;
+  gap: 4px;
 }
 
 .gear {
