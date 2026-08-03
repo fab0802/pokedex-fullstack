@@ -26,7 +26,8 @@
     "loggingIn": "Anmelden…",
     "creatingAccount": "Konto wird erstellt…",
     "loginButton": "Anmelden",
-    "registerButton": "Registrieren"
+    "registerButton": "Registrieren",
+    "sessionExpired": "Sitzung abgelaufen, bitte neu anmelden."
   },
   "list": {
     "loading": "Lädt…",

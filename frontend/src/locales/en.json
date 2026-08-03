@@ -26,7 +26,8 @@
     "loggingIn": "Logging in...",
     "creatingAccount": "Creating account...",
     "loginButton": "Login",
-    "registerButton": "Register"
+    "registerButton": "Register",
+    "sessionExpired": "Session expired, please log in again."
   },
   "list": {
     "loading": "Loading…",
