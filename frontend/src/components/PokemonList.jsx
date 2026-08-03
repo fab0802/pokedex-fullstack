@@ -188,12 +188,28 @@ export default function PokemonList() {
                     )}
                     {isAuthenticated && (
                       <button
-                        className={styles.catchButton}
+                        type="button"
+                        className={styles.catchToggle}
+                        data-caught={isCaught(p.id)}
                         onClick={(e) => handleToggle(e, p.id)}
+                        aria-pressed={isCaught(p.id)}
+                        aria-label={
+                          isCaught(p.id)
+                            ? t("list.caught")
+                            : t("list.notCaught")
+                        }
+                        title={
+                          isCaught(p.id)
+                            ? t("list.caught")
+                            : t("list.notCaught")
+                        }
                       >
-                        {isCaught(p.id)
-                          ? t("list.caught")
-                          : t("list.notCaught")}
+                        <img
+                          src="/fallback-pokeball.svg"
+                          alt=""
+                          aria-hidden="true"
+                          className={styles.catchIcon}
+                        />
                       </button>
                     )}
                   </div>
