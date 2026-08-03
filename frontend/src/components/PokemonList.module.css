@@ -24,11 +24,29 @@
 }
 
 .imagePanel {
+  position: relative;
   width: 130px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.teamBadge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 7px;
+  border-radius: 20px;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .info {

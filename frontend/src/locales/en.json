@@ -32,7 +32,8 @@
   "list": {
     "loading": "Loading…",
     "caught": "Caught ✓",
-    "notCaught": "Not caught"
+    "notCaught": "Not caught",
+    "inTeam": "In team"
   },
   "detail": {
     "loading": "Loading...",

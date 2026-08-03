@@ -13,6 +13,8 @@ import { useGame } from "../context/useGame";
 import { derivePokemonView } from "./pokemonView";
 import { useDisplay } from "../context/useDisplay";
 import { statValue, statPercent } from "./sortPokemons";
+import { Users } from "lucide-react";
+import { useTeams } from "../context/useTeams";
 
 // Wie viele Karten die aktive (sortierte) Ansicht pro Schritt zeigt. Die Daten
 // liegen komplett im Speicher; das hier hält nur das DOM schlank.
@@ -39,6 +41,7 @@ export default function PokemonList() {
   const { isCaught, toggleCaught } = useCollection();
   const sentinelRef = useRef(null);
   const [visibleCount, setVisibleCount] = useState(WINDOW_STEP);
+  const { teams } = useTeams();
 
   // Scroll-Position beim Zurückkommen wiederherstellen
   useLayoutEffect(() => {
@@ -118,6 +121,18 @@ export default function PokemonList() {
     toggleCaught(id);
   }
 
+  const teamsByPokemon = useMemo(() => {
+    const map = new Map();
+    for (const team of teams) {
+      for (const id of team.pokemonIds) {
+        const arr = map.get(id) || [];
+        arr.push(team.name);
+        map.set(id, arr);
+      }
+    }
+    return map;
+  }, [teams]);
+
   return (
     <div>
       {isActive && loadingAll && (
@@ -146,6 +161,17 @@ export default function PokemonList() {
                     e.target.src = "/fallback-pokeball.svg";
                   }}
                 />
+                {teamsByPokemon.get(p.id) && (
+                  <span
+                    className={styles.teamBadge}
+                    aria-label={t("list.inTeam")}
+                    title={teamsByPokemon.get(p.id).join(", ")}
+                  >
+                    <Users size={12} aria-hidden="true" />
+                    {teamsByPokemon.get(p.id).length > 1 &&
+                      teamsByPokemon.get(p.id).length}
+                  </span>
+                )}
               </div>
               <div className={styles.info}>
                 <div className={styles.identity}>
