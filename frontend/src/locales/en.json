@@ -48,7 +48,8 @@
     "next": "Next",
     "matchups": "Type effectiveness",
     "moves": "Moves",
-    "locations": "Locations"
+    "locations": "Locations",
+    "inTeams": "In {{count}} teams"
   },
   "stats": {
     "hp": "HP",

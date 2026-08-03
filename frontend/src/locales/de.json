@@ -48,7 +48,8 @@
     "next": "Nächstes",
     "matchups": "Typeneffektivitäten",
     "moves": "Attacken",
-    "locations": "Fundorte"
+    "locations": "Fundorte",
+    "inTeams": "In {{count}} Teams"
   },
   "stats": {
     "hp": "KP",

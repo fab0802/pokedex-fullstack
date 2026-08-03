@@ -321,6 +321,22 @@
   cursor: not-allowed;
 }
 
+.teamBadge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
 @media (max-width: 600px) {
   .previewName {
     display: none;
@@ -346,6 +362,9 @@
     font-size: 24px;
   }
   .catchButton {
+    align-self: center;
+  }
+  .teamBadge {
     align-self: center;
   }
 }

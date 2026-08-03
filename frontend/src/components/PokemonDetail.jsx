@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, Users } from "lucide-react";
+import { useTeams } from "../context/useTeams";
 import { fetchPokemonById } from "../services/pokeApi";
 import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
@@ -36,11 +37,11 @@ export default function PokemonDetail() {
   const { isCaught, toggleCaught } = useCollection();
   const touchStartX = useRef(null);
   const touchStartY = useRef(null);
-
   const location = useLocation();
   const teamNav = location.state?.team;
   const fallbackIds = useOrderedIds();
   const currentId = Number(id);
+  const { teams } = useTeams();
 
   // Kommt man aus einem Team, wird nur innerhalb dieses Teams navigiert.
   // pokemonIds sicherheitshalber auf Zahlen normalisieren (Route-ID ist numerisch).
@@ -143,6 +144,14 @@ export default function PokemonDetail() {
 
   if (error) return <p className={styles.message}>{error}</p>;
   if (!pokemon) return <p className={styles.message}>{t("detail.loading")}</p>;
+
+  const pokemonTeams = teams
+    .filter((tm) => tm.pokemonIds.includes(pokemon.id))
+    .map((tm) => tm.name);
+  const teamBadgeLabel =
+    pokemonTeams.length > 1
+      ? t("detail.inTeams", { count: pokemonTeams.length })
+      : t("common.inTeam");
 
   const typeColor = typeColors[pokemon.types[0]];
 
@@ -294,6 +303,16 @@ export default function PokemonDetail() {
                 </span>
               ))}
             </div>
+            {pokemonTeams.length > 0 && (
+              <span
+                className={styles.teamBadge}
+                aria-label={teamBadgeLabel}
+                title={pokemonTeams.join(", ")}
+              >
+                <Users size={14} aria-hidden="true" />
+                {teamBadgeLabel}
+              </span>
+            )}
             {isAuthenticated && (
               <button
                 type="button"
