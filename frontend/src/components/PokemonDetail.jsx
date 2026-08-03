@@ -296,9 +296,18 @@ export default function PokemonDetail() {
             </div>
             {isAuthenticated && (
               <button
+                type="button"
                 className={styles.catchButton}
+                data-caught={isCaught(pokemon.id)}
                 onClick={() => toggleCaught(pokemon.id)}
+                aria-pressed={isCaught(pokemon.id)}
               >
+                <img
+                  src="/fallback-pokeball.svg"
+                  alt=""
+                  aria-hidden="true"
+                  className={styles.catchIcon}
+                />
                 {isCaught(pokemon.id)
                   ? t("detail.caught")
                   : t("detail.notCaught")}
