@@ -11,6 +11,8 @@ import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import { useGame } from "../context/useGame";
 import { derivePokemonView } from "./pokemonView";
+import { useDisplay } from "../context/useDisplay";
+import { statValue, statPercent } from "./sortPokemons";
 
 // Wie viele Karten die aktive (sortierte) Ansicht pro Schritt zeigt. Die Daten
 // liegen komplett im Speicher; das hier hält nur das DOM schlank.
@@ -31,6 +33,7 @@ export default function PokemonList() {
     loadAll,
   } = usePokemonList();
   const { sort, types, isActive } = useFilter();
+  const { statField } = useDisplay();
   const { selectedGame } = useGame();
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
@@ -163,14 +166,36 @@ export default function PokemonList() {
                     ))}
                   </div>
                 </div>
-                {isAuthenticated && (
+                {(statField !== "off" || isAuthenticated) && (
                   <div className={styles.actions}>
-                    <button
-                      className={styles.catchButton}
-                      onClick={(e) => handleToggle(e, p.id)}
-                    >
-                      {isCaught(p.id) ? t("list.caught") : t("list.notCaught")}
-                    </button>
+                    {statField !== "off" && (
+                      <div className={styles.stat}>
+                        <div className={styles.statHead}>
+                          <span className={styles.statLabel}>
+                            {t(`stats.${statField}`)}
+                          </span>
+                          <span className={styles.statValue}>
+                            {statValue(p, statField)}
+                          </span>
+                        </div>
+                        <div className={styles.statTrack}>
+                          <div
+                            className={styles.statFill}
+                            style={{ width: `${statPercent(p, statField)}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {isAuthenticated && (
+                      <button
+                        className={styles.catchButton}
+                        onClick={(e) => handleToggle(e, p.id)}
+                      >
+                        {isCaught(p.id)
+                          ? t("list.caught")
+                          : t("list.notCaught")}
+                      </button>
+                    )}
                   </div>
                 )}
               </div>

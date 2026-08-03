@@ -146,6 +146,10 @@
     "desc": "Absteigend",
     "loadingDex": "Dex wird geladen … {{loaded}} / {{total}}"
   },
+  "display": {
+    "label": "Stat in Liste",
+    "off": "Aus"
+  },
   "games": {
     "all": "Alle",
     "rby": "Rot/Blau/Gelb",

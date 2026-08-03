@@ -115,6 +115,42 @@
   color: var(--color-text-secondary);
 }
 
+.stat {
+  width: 104px;
+}
+
+.statHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  letter-spacing: 0.5px;
+}
+
+.statValue {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.statTrack {
+  height: 5px;
+  border-radius: 3px;
+  background: var(--color-surface-alt);
+  overflow: hidden;
+}
+
+.statFill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 3px;
+}
+
 @media (max-width: 600px) {
   .imagePanel {
     width: 104px;

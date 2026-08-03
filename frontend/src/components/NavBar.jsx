@@ -20,6 +20,7 @@ import GameFilter from "./GameFilter";
 import SortControl from "./SortControl";
 import TypeFilter from "./TypeFilter";
 import { useFilter } from "../context/useFilter";
+import DisplayControl from "./DisplayControl";
 import styles from "./NavBar.module.css";
 
 export default function NavBar() {
@@ -203,13 +204,10 @@ export default function NavBar() {
       <FilterDrawer open={filterOpen} onClose={() => setFilterOpen(false)}>
         <GameFilter />
         <SortControl />
+        <DisplayControl />
         <TypeFilter />
         {isActive && (
-          <button
-            type="button"
-            className={styles.filterReset}
-            onClick={reset}
-          >
+          <button type="button" className={styles.filterReset} onClick={reset}>
             {t("filter.reset")}
           </button>
         )}

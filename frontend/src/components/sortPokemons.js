@@ -16,3 +16,25 @@ export function comparePokemon(sort) {
     return a.id - b.id;
   };
 }
+
+// Referenz-Maxima je Feld für den Balken in der Liste. Bewusst leicht
+// grosszügig, damit reale Werte selten anschlagen; Fill wird ohnehin gekappt.
+const STAT_MAX = {
+  total: 720,
+  hp: 255,
+  attack: 190,
+  defense: 230,
+  "special-attack": 194,
+  "special-defense": 230,
+  speed: 200,
+};
+
+export function statMax(field) {
+  return STAT_MAX[field] ?? 255;
+}
+
+// Prozentwert (0–100) relativ zum Referenz-Max, gekappt.
+export function statPercent(p, field) {
+  const pct = (statValue(p, field) / statMax(field)) * 100;
+  return Math.max(0, Math.min(100, pct));
+}
