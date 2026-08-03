@@ -10,7 +10,8 @@
   },
   "common": {
     "close": "Close",
-    "scrollToTop": "Scroll to top"
+    "scrollToTop": "Scroll to top",
+    "inTeam": "In team"
   },
   "search": {
     "title": "Search",
@@ -32,8 +33,7 @@
   "list": {
     "loading": "Loading…",
     "caught": "Caught ✓",
-    "notCaught": "Not caught",
-    "inTeam": "In team"
+    "notCaught": "Not caught"
   },
   "detail": {
     "loading": "Loading...",
