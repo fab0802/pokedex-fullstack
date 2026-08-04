@@ -85,7 +85,8 @@
     "createTeam": "Team erstellen",
     "reorderError": "Reihenfolge konnte nicht gespeichert werden",
     "moveUp": "Nach oben",
-    "moveDown": "Nach unten"
+    "moveDown": "Nach unten",
+    "dragHandle": "Zum Verschieben ziehen"
   },
   "addToTeam": {
     "trigger": "+ Zum Team",

@@ -85,7 +85,8 @@
     "createTeam": "Create team",
     "reorderError": "Could not save the new order",
     "moveUp": "Move up",
-    "moveDown": "Move down"
+    "moveDown": "Move down",
+    "dragHandle": "Drag to reorder"
   },
   "addToTeam": {
     "trigger": "+ Add to team",

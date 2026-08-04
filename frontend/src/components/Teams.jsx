@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Reorder } from "framer-motion";
+import { Reorder, useDragControls } from "framer-motion";
 import {
   Pencil,
   Check,
@@ -10,6 +10,7 @@ import {
   ChevronRight,
   ChevronUp,
   ChevronDown,
+  GripVertical,
 } from "lucide-react";
 import { useTeams } from "../context/useTeams";
 import { useToast } from "../context/useToast";
@@ -44,6 +45,27 @@ function TeamsSkeleton() {
   );
 }
 
+// Eine Team-Karte als ziehbares Reorder-Item.
+// dragListener=false + dragControls: Ziehen startet NUR über den Griff,
+// nicht über die ganze Karte (sonst blockiert es das Seiten-Scrollen).
+// Render-Prop reicht `controls` an den Griff durch – so bleibt der restliche
+// Karten-Inhalt in Teams.jsx ohne Prop-Drilling.
+function TeamItem({ team, onDragEnd, children }) {
+  const controls = useDragControls();
+  return (
+    <Reorder.Item
+      value={team}
+      as="div"
+      dragListener={false}
+      dragControls={controls}
+      onDragEnd={onDragEnd}
+      className={styles.team}
+    >
+      {children(controls)}
+    </Reorder.Item>
+  );
+}
+
 export default function Teams() {
   const { t, i18n } = useTranslation();
   const {
@@ -54,6 +76,8 @@ export default function Teams() {
     reorderPokemon,
     persistPokemonOrder,
     moveTeam,
+    reorderTeamsLive,
+    persistTeamsOrder,
     removeTeam,
     maxTeamSize,
   } = useTeams();
@@ -150,166 +174,207 @@ export default function Teams() {
       )}
       {!loading && <NewTeamCard onCreated={(id) => setEditingId(id)} />}
       {!loading && teams.length === 0 && <p>{t("teams.noTeams")}</p>}
-      {teams.map((team, teamIndex) => {
-        const isEditing = editingId === team._id;
-        return (
-          <div key={team._id} className={styles.team}>
-            <div className={styles.teamHeader}>
-              <h2 className={styles.teamName}>{team.name}</h2>
-              <div className={styles.headerRight}>
-                <div className={styles.teamMoveButtons}>
-                  <button
-                    className={styles.moveButton}
-                    onClick={() =>
-                      moveTeam(team._id, -1).catch(() =>
-                        showToast(t("teams.reorderError"), { type: "error" }),
-                      )
-                    }
-                    disabled={teamIndex === 0}
-                    title={t("teams.moveUp")}
-                  >
-                    <ChevronUp size={16} />
-                  </button>
-                  <button
-                    className={styles.moveButton}
-                    onClick={() =>
-                      moveTeam(team._id, 1).catch(() =>
-                        showToast(t("teams.reorderError"), { type: "error" }),
-                      )
-                    }
-                    disabled={teamIndex === teams.length - 1}
-                    title={t("teams.moveDown")}
-                  >
-                    <ChevronDown size={16} />
-                  </button>
-                </div>
-                <span className={styles.count}>
-                  {team.pokemonIds.length} / {maxTeamSize}
-                </span>
-                {isEditing && (
-                  <button
-                    className={styles.deleteButton}
-                    onClick={() => setConfirmTeamId(team._id)}
-                    title={t("teams.deleteTeam")}
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                )}
-                <button
-                  className={styles.editButton}
-                  onClick={() => toggleEdit(team._id)}
-                  title={isEditing ? t("teams.done") : t("teams.editTeam")}
-                >
-                  {isEditing ? <Check size={18} /> : <Pencil size={16} />}
-                </button>
-              </div>
-            </div>
-            <Reorder.Group
-              as="div"
-              axis="x"
-              values={team.pokemonIds}
-              onReorder={(newIds) => reorderPokemon(team._id, newIds)}
-              className={styles.members}
+      <Reorder.Group
+        as="div"
+        axis="y"
+        values={teams}
+        onReorder={reorderTeamsLive}
+      >
+        {teams.map((team, teamIndex) => {
+          const isEditing = editingId === team._id;
+          return (
+            <TeamItem
+              key={team._id}
+              team={team}
+              onDragEnd={() =>
+                persistTeamsOrder(teams.map((tm) => tm._id)).catch(() =>
+                  showToast(t("teams.reorderError"), { type: "error" }),
+                )
+              }
             >
-              {team.pokemonIds.map((id, index) => {
-                const p = pokemonById[id];
-                return (
-                  <Reorder.Item
-                    key={id}
-                    value={id}
-                    as="div"
-                    dragListener={isEditing}
-                    onDragEnd={() =>
-                      persistPokemonOrder(
-                        team._id,
-                        team.name,
-                        team.pokemonIds,
-                      ).catch(() =>
-                        showToast(t("teams.reorderError"), { type: "error" }),
-                      )
-                    }
-                    data-editing={isEditing}
-                    className={styles.memberWrap}
-                  >
-                    {isEditing && (
-                      <>
-                        <button
-                          className={styles.removeButton}
-                          onClick={() =>
-                            setConfirmRemove({
-                              teamId: team._id,
-                              pokemonId: id,
-                            })
-                          }
-                          title={t("teams.remove")}
-                        >
-                          <X size={14} />
-                        </button>
-                        <div className={styles.moveButtons}>
-                          <button
-                            className={styles.moveButton}
-                            onClick={() => movePokemon(team._id, id, -1)}
-                            disabled={index === 0}
-                            title={t("teams.moveLeft")}
-                          >
-                            <ChevronLeft size={16} />
-                          </button>
-                          <button
-                            className={styles.moveButton}
-                            onClick={() => movePokemon(team._id, id, 1)}
-                            disabled={index === team.pokemonIds.length - 1}
-                            title={t("teams.moveRight")}
-                          >
-                            <ChevronRight size={16} />
-                          </button>
-                        </div>
-                      </>
-                    )}
-                    {p ? (
-                      <Link
-                        to={`/pokemon/${p.id}`}
-                        state={{
-                          team: {
-                            ids: team.pokemonIds,
-                            id: team._id,
-                            name: team.name,
-                          },
-                        }}
-                        className={styles.member}
-                        style={{ backgroundColor: typeColors[p.types[0]] }}
+              {(controls) => (
+                <>
+                  <div className={styles.teamHeader}>
+                    <div className={styles.teamNameGroup}>
+                      <button
+                        className={styles.dragHandle}
+                        onPointerDown={(e) => controls.start(e)}
+                        title={t("teams.dragHandle")}
+                        aria-label={t("teams.dragHandle")}
                       >
-                        <img
-                          src={p.image}
-                          alt={pokemonName(p, i18n.language)}
-                          width={64}
-                          height={64}
-                        />
-                        <span className={styles.memberName}>
-                          {pokemonName(p, i18n.language)}
-                        </span>
-                      </Link>
-                    ) : (
-                      <div className={styles.member}>
-                        <span>#{id}</span>
+                        <GripVertical size={18} />
+                      </button>
+                      <h2 className={styles.teamName}>{team.name}</h2>
+                    </div>
+                    <div className={styles.headerRight}>
+                      <div className={styles.teamMoveButtons}>
+                        <button
+                          className={styles.moveButton}
+                          onClick={() =>
+                            moveTeam(team._id, -1).catch(() =>
+                              showToast(t("teams.reorderError"), {
+                                type: "error",
+                              }),
+                            )
+                          }
+                          disabled={teamIndex === 0}
+                          title={t("teams.moveUp")}
+                        >
+                          <ChevronUp size={16} />
+                        </button>
+                        <button
+                          className={styles.moveButton}
+                          onClick={() =>
+                            moveTeam(team._id, 1).catch(() =>
+                              showToast(t("teams.reorderError"), {
+                                type: "error",
+                              }),
+                            )
+                          }
+                          disabled={teamIndex === teams.length - 1}
+                          title={t("teams.moveDown")}
+                        >
+                          <ChevronDown size={16} />
+                        </button>
                       </div>
-                    )}
-                  </Reorder.Item>
-                );
-              })}
-            </Reorder.Group>
-            {isEditing &&
-              (team.pokemonIds.length < maxTeamSize ? (
-                <AddPokemonSearch
-                  teamId={team._id}
-                  currentIds={team.pokemonIds}
-                  teamName={team.name}
-                />
-              ) : (
-                <p className={styles.fullNote}>{t("teams.full")}</p>
-              ))}
-          </div>
-        );
-      })}
+                      <span className={styles.count}>
+                        {team.pokemonIds.length} / {maxTeamSize}
+                      </span>
+                      {isEditing && (
+                        <button
+                          className={styles.deleteButton}
+                          onClick={() => setConfirmTeamId(team._id)}
+                          title={t("teams.deleteTeam")}
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      )}
+                      <button
+                        className={styles.editButton}
+                        onClick={() => toggleEdit(team._id)}
+                        title={
+                          isEditing ? t("teams.done") : t("teams.editTeam")
+                        }
+                      >
+                        {isEditing ? <Check size={18} /> : <Pencil size={16} />}
+                      </button>
+                    </div>
+                  </div>
+                  <Reorder.Group
+                    as="div"
+                    axis="x"
+                    values={team.pokemonIds}
+                    onReorder={(newIds) => reorderPokemon(team._id, newIds)}
+                    className={styles.members}
+                  >
+                    {team.pokemonIds.map((id, index) => {
+                      const p = pokemonById[id];
+                      return (
+                        <Reorder.Item
+                          key={id}
+                          value={id}
+                          as="div"
+                          dragListener={isEditing}
+                          onDragEnd={() =>
+                            persistPokemonOrder(
+                              team._id,
+                              team.name,
+                              team.pokemonIds,
+                            ).catch(() =>
+                              showToast(t("teams.reorderError"), {
+                                type: "error",
+                              }),
+                            )
+                          }
+                          data-editing={isEditing}
+                          className={styles.memberWrap}
+                        >
+                          {isEditing && (
+                            <>
+                              <button
+                                className={styles.removeButton}
+                                onClick={() =>
+                                  setConfirmRemove({
+                                    teamId: team._id,
+                                    pokemonId: id,
+                                  })
+                                }
+                                title={t("teams.remove")}
+                              >
+                                <X size={14} />
+                              </button>
+                              <div className={styles.moveButtons}>
+                                <button
+                                  className={styles.moveButton}
+                                  onClick={() => movePokemon(team._id, id, -1)}
+                                  disabled={index === 0}
+                                  title={t("teams.moveLeft")}
+                                >
+                                  <ChevronLeft size={16} />
+                                </button>
+                                <button
+                                  className={styles.moveButton}
+                                  onClick={() => movePokemon(team._id, id, 1)}
+                                  disabled={
+                                    index === team.pokemonIds.length - 1
+                                  }
+                                  title={t("teams.moveRight")}
+                                >
+                                  <ChevronRight size={16} />
+                                </button>
+                              </div>
+                            </>
+                          )}
+                          {p ? (
+                            <Link
+                              to={`/pokemon/${p.id}`}
+                              state={{
+                                team: {
+                                  ids: team.pokemonIds,
+                                  id: team._id,
+                                  name: team.name,
+                                },
+                              }}
+                              className={styles.member}
+                              style={{
+                                backgroundColor: typeColors[p.types[0]],
+                              }}
+                            >
+                              <img
+                                src={p.image}
+                                alt={pokemonName(p, i18n.language)}
+                                width={64}
+                                height={64}
+                              />
+                              <span className={styles.memberName}>
+                                {pokemonName(p, i18n.language)}
+                              </span>
+                            </Link>
+                          ) : (
+                            <div className={styles.member}>
+                              <span>#{id}</span>
+                            </div>
+                          )}
+                        </Reorder.Item>
+                      );
+                    })}
+                  </Reorder.Group>
+                  {isEditing &&
+                    (team.pokemonIds.length < maxTeamSize ? (
+                      <AddPokemonSearch
+                        teamId={team._id}
+                        currentIds={team.pokemonIds}
+                        teamName={team.name}
+                      />
+                    ) : (
+                      <p className={styles.fullNote}>{t("teams.full")}</p>
+                    ))}
+                </>
+              )}
+            </TeamItem>
+          );
+        })}
+      </Reorder.Group>
       <ConfirmDialog
         open={confirmTeamId !== null}
         title={t("teams.deleteConfirmTitle")}

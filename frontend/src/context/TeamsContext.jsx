@@ -118,6 +118,24 @@ export function TeamsProvider({ children }) {
     }
   }
 
+  // Live-Update während des Team-Ziehens – nur lokal, kein API-Call.
+  function reorderTeamsLive(newTeams) {
+    setTeams(newTeams);
+  }
+
+  // Neue Team-Reihenfolge speichern (am Ende des Ziehens).
+  async function persistTeamsOrder(orderedIds) {
+    try {
+      const server = await reorderTeams(orderedIds);
+      setTeams(server);
+    } catch (err) {
+      // Bei Fehler den sauberen Server-Stand wiederherstellen.
+      const fresh = await getTeams();
+      setTeams(fresh);
+      throw err;
+    }
+  }
+
   const value = {
     teams,
     loading,
@@ -127,6 +145,8 @@ export function TeamsProvider({ children }) {
     reorderPokemon,
     persistPokemonOrder,
     moveTeam,
+    reorderTeamsLive,
+    persistTeamsOrder,
     createTeamWithPokemon,
     removeTeam,
     maxTeamSize: MAX_TEAM_SIZE,
