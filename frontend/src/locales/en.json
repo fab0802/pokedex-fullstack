@@ -82,7 +82,8 @@
     "removeConfirmMessage": "{{name}} will be removed from \"{{team}}\".",
     "confirmRemove": "Remove",
     "newTeamPlaceholder": "Team name",
-    "createTeam": "Create team"
+    "createTeam": "Create team",
+    "reorderError": "Could not save the new order"
   },
   "addToTeam": {
     "trigger": "+ Add to team",

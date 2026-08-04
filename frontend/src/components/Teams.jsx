@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { Reorder } from "framer-motion";
 import {
   Pencil,
   Check,
@@ -49,6 +49,8 @@ export default function Teams() {
     loading,
     removePokemonFromTeam,
     movePokemon,
+    reorderPokemon,
+    persistPokemonOrder,
     removeTeam,
     maxTeamSize,
   } = useTeams();
@@ -173,14 +175,31 @@ export default function Teams() {
                 </button>
               </div>
             </div>
-            <div className={styles.members}>
+            <Reorder.Group
+              as="div"
+              axis="x"
+              values={team.pokemonIds}
+              onReorder={(newIds) => reorderPokemon(team._id, newIds)}
+              className={styles.members}
+            >
               {team.pokemonIds.map((id, index) => {
                 const p = pokemonById[id];
                 return (
-                  <motion.div
+                  <Reorder.Item
                     key={id}
-                    layout
-                    transition={{ duration: 0.25 }}
+                    value={id}
+                    as="div"
+                    dragListener={isEditing}
+                    onDragEnd={() =>
+                      persistPokemonOrder(
+                        team._id,
+                        team.name,
+                        team.pokemonIds,
+                      ).catch(() =>
+                        showToast(t("teams.reorderError"), { type: "error" }),
+                      )
+                    }
+                    data-editing={isEditing}
                     className={styles.memberWrap}
                   >
                     {isEditing && (
@@ -245,10 +264,10 @@ export default function Teams() {
                         <span>#{id}</span>
                       </div>
                     )}
-                  </motion.div>
+                  </Reorder.Item>
                 );
               })}
-            </div>
+            </Reorder.Group>
             {isEditing &&
               (team.pokemonIds.length < maxTeamSize ? (
                 <AddPokemonSearch

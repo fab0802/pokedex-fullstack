@@ -77,12 +77,34 @@ export function TeamsProvider({ children }) {
     setTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
   }
 
+  // Live-Update während des Ziehens – nur lokal, kein API-Call.
+  function reorderPokemon(teamId, newIds) {
+    setTeams((prev) =>
+      prev.map((t) => (t._id === teamId ? { ...t, pokemonIds: newIds } : t)),
+    );
+  }
+
+  // Neue Reihenfolge speichern (am Ende des Ziehens).
+  async function persistPokemonOrder(teamId, teamName, ids) {
+    try {
+      const updated = await updateTeam(teamId, teamName, ids);
+      setTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
+    } catch (err) {
+      // Bei Fehler den sauberen Server-Stand wiederherstellen.
+      const fresh = await getTeams();
+      setTeams(fresh);
+      throw err;
+    }
+  }
+
   const value = {
     teams,
     loading,
     addPokemonToTeam,
     removePokemonFromTeam,
     movePokemon,
+    reorderPokemon,
+    persistPokemonOrder,
     createTeamWithPokemon,
     removeTeam,
     maxTeamSize: MAX_TEAM_SIZE,

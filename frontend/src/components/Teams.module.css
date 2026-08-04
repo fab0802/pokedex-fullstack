@@ -114,6 +114,16 @@
   position: relative;
 }
 
+/* Im Edit-Modus ziehbar: Greif-Cursor + Touch-Drag statt Scrollen. */
+.memberWrap[data-editing="true"] {
+  cursor: grab;
+  touch-action: none;
+}
+
+.memberWrap[data-editing="true"]:active {
+  cursor: grabbing;
+}
+
 .removeButton {
   position: absolute;
   top: -6px;

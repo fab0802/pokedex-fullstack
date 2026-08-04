@@ -82,7 +82,8 @@
     "removeConfirmMessage": "{{name}} wird aus „{{team}}“ entfernt.",
     "confirmRemove": "Entfernen",
     "newTeamPlaceholder": "Teamname",
-    "createTeam": "Team erstellen"
+    "createTeam": "Team erstellen",
+    "reorderError": "Reihenfolge konnte nicht gespeichert werden"
   },
   "addToTeam": {
     "trigger": "+ Zum Team",
