@@ -6,6 +6,7 @@ import {
   createTeam,
   updateTeam,
   deleteTeam,
+  reorderTeams,
 } from "../services/teamApi";
 
 const MAX_TEAM_SIZE = 6;
@@ -97,6 +98,26 @@ export function TeamsProvider({ children }) {
     }
   }
 
+  // Team per Pfeil verschieben: benachbarte Teams tauschen + speichern.
+  async function moveTeam(teamId, direction) {
+    const index = teams.findIndex((t) => t._id === teamId);
+    const target = index + direction; // -1 = hoch, +1 = runter
+    if (index < 0 || target < 0 || target >= teams.length) return; // Rand
+    const reordered = [...teams];
+    [reordered[index], reordered[target]] = [
+      reordered[target],
+      reordered[index],
+    ];
+    setTeams(reordered); // optimistisch
+    try {
+      const server = await reorderTeams(reordered.map((t) => t._id));
+      setTeams(server);
+    } catch (err) {
+      setTeams(teams); // zurückrollen auf den Stand vor dem Tausch
+      throw err;
+    }
+  }
+
   const value = {
     teams,
     loading,
@@ -105,6 +126,7 @@ export function TeamsProvider({ children }) {
     movePokemon,
     reorderPokemon,
     persistPokemonOrder,
+    moveTeam,
     createTeamWithPokemon,
     removeTeam,
     maxTeamSize: MAX_TEAM_SIZE,

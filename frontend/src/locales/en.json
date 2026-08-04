@@ -83,7 +83,9 @@
     "confirmRemove": "Remove",
     "newTeamPlaceholder": "Team name",
     "createTeam": "Create team",
-    "reorderError": "Could not save the new order"
+    "reorderError": "Could not save the new order",
+    "moveUp": "Move up",
+    "moveDown": "Move down"
   },
   "addToTeam": {
     "trigger": "+ Add to team",

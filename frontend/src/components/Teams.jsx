@@ -8,6 +8,8 @@ import {
   Trash2,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react";
 import { useTeams } from "../context/useTeams";
 import { useToast } from "../context/useToast";
@@ -51,6 +53,7 @@ export default function Teams() {
     movePokemon,
     reorderPokemon,
     persistPokemonOrder,
+    moveTeam,
     removeTeam,
     maxTeamSize,
   } = useTeams();
@@ -147,13 +150,39 @@ export default function Teams() {
       )}
       {!loading && <NewTeamCard onCreated={(id) => setEditingId(id)} />}
       {!loading && teams.length === 0 && <p>{t("teams.noTeams")}</p>}
-      {teams.map((team) => {
+      {teams.map((team, teamIndex) => {
         const isEditing = editingId === team._id;
         return (
           <div key={team._id} className={styles.team}>
             <div className={styles.teamHeader}>
               <h2 className={styles.teamName}>{team.name}</h2>
               <div className={styles.headerRight}>
+                <div className={styles.teamMoveButtons}>
+                  <button
+                    className={styles.moveButton}
+                    onClick={() =>
+                      moveTeam(team._id, -1).catch(() =>
+                        showToast(t("teams.reorderError"), { type: "error" }),
+                      )
+                    }
+                    disabled={teamIndex === 0}
+                    title={t("teams.moveUp")}
+                  >
+                    <ChevronUp size={16} />
+                  </button>
+                  <button
+                    className={styles.moveButton}
+                    onClick={() =>
+                      moveTeam(team._id, 1).catch(() =>
+                        showToast(t("teams.reorderError"), { type: "error" }),
+                      )
+                    }
+                    disabled={teamIndex === teams.length - 1}
+                    title={t("teams.moveDown")}
+                  >
+                    <ChevronDown size={16} />
+                  </button>
+                </div>
                 <span className={styles.count}>
                   {team.pokemonIds.length} / {maxTeamSize}
                 </span>

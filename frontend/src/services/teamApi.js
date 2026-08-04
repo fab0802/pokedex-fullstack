@@ -21,3 +21,10 @@ export async function updateTeam(id, name, pokemonIds) {
 export async function deleteTeam(id) {
   return apiFetch(`/teams/${id}`, { method: "DELETE" });
 }
+
+export async function reorderTeams(orderedIds) {
+  return apiFetch("/teams/reorder", {
+    method: "PUT",
+    body: JSON.stringify({ orderedIds }),
+  }); // die neu sortierte Team-Liste
+}

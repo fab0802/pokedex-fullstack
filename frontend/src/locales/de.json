@@ -83,7 +83,9 @@
     "confirmRemove": "Entfernen",
     "newTeamPlaceholder": "Teamname",
     "createTeam": "Team erstellen",
-    "reorderError": "Reihenfolge konnte nicht gespeichert werden"
+    "reorderError": "Reihenfolge konnte nicht gespeichert werden",
+    "moveUp": "Nach oben",
+    "moveDown": "Nach unten"
   },
   "addToTeam": {
     "trigger": "+ Zum Team",

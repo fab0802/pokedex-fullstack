@@ -153,6 +153,11 @@
   z-index: 1;
 }
 
+.teamMoveButtons {
+  display: flex;
+  gap: 4px;
+}
+
 .moveButton {
   display: inline-flex;
   align-items: center;
