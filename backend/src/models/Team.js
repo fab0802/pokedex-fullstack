@@ -8,6 +8,7 @@ const teamSchema = new mongoose.Schema(
       type: [Number],
       validate: [(arr) => arr.length <= 6, "Maximal 6 Pokémon pro Team"],
     },
+    order: { type: Number, default: 0 },
   },
   { timestamps: true },
 );
