@@ -72,9 +72,17 @@
 }
 
 .members {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
+}
+
+/* Edit-Modus: Mitglieder als vertikale Liste (kein Umbruch, sauberes y-Drag). */
+.members[data-editing="true"] {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 8px;
 }
 
 .member {
@@ -82,12 +90,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 90px;
+  width: 100%;
   padding: 8px;
   border-radius: 12px;
   text-decoration: none;
   color: #fff;
   transition: transform 0.15s ease;
+}
+
+.member img {
+  max-width: 100%;
+  height: auto;
 }
 
 .member:hover {
@@ -137,10 +150,45 @@
   position: relative;
 }
 
-/* Im Edit-Modus ziehbar: Greif-Cursor + Touch-Drag statt Scrollen. */
+/* Im Edit-Modus wird die Kachel zur vollen Zeile: Griff | Pokémon | Controls. */
 .memberWrap[data-editing="true"] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: var(--color-surface-alt);
   cursor: grab;
-  touch-action: none;
+  touch-action: none; /* Finger zieht die Zeile, statt die Seite zu scrollen */
+}
+
+.memberWrap[data-editing="true"] .member {
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+  width: auto;
+  padding: 4px 8px;
+}
+
+.memberWrap[data-editing="true"] .member img {
+  width: 40px;
+  height: 40px;
+}
+
+.dragGrip {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.memberControls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 .memberWrap[data-editing="true"]:active {
@@ -148,10 +196,6 @@
 }
 
 .removeButton {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -164,16 +208,6 @@
   color: #fff;
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.moveButtons {
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 4px;
-  z-index: 1;
 }
 
 .teamMoveButtons {

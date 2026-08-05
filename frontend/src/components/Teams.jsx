@@ -6,8 +6,6 @@ import {
   Check,
   X,
   Trash2,
-  ChevronLeft,
-  ChevronRight,
   ChevronUp,
   ChevronDown,
   GripVertical,
@@ -262,9 +260,10 @@ export default function Teams() {
                   </div>
                   <Reorder.Group
                     as="div"
-                    axis="x"
+                    axis={isEditing ? "y" : "x"}
                     values={team.pokemonIds}
                     onReorder={(newIds) => reorderPokemon(team._id, newIds)}
+                    data-editing={isEditing}
                     className={styles.members}
                   >
                     {team.pokemonIds.map((id, index) => {
@@ -290,40 +289,12 @@ export default function Teams() {
                           className={styles.memberWrap}
                         >
                           {isEditing && (
-                            <>
-                              <button
-                                className={styles.removeButton}
-                                onClick={() =>
-                                  setConfirmRemove({
-                                    teamId: team._id,
-                                    pokemonId: id,
-                                  })
-                                }
-                                title={t("teams.remove")}
-                              >
-                                <X size={14} />
-                              </button>
-                              <div className={styles.moveButtons}>
-                                <button
-                                  className={styles.moveButton}
-                                  onClick={() => movePokemon(team._id, id, -1)}
-                                  disabled={index === 0}
-                                  title={t("teams.moveLeft")}
-                                >
-                                  <ChevronLeft size={16} />
-                                </button>
-                                <button
-                                  className={styles.moveButton}
-                                  onClick={() => movePokemon(team._id, id, 1)}
-                                  disabled={
-                                    index === team.pokemonIds.length - 1
-                                  }
-                                  title={t("teams.moveRight")}
-                                >
-                                  <ChevronRight size={16} />
-                                </button>
-                              </div>
-                            </>
+                            <span
+                              className={styles.dragGrip}
+                              aria-hidden="true"
+                            >
+                              <GripVertical size={16} />
+                            </span>
                           )}
                           {p ? (
                             <Link
@@ -353,6 +324,38 @@ export default function Teams() {
                           ) : (
                             <div className={styles.member}>
                               <span>#{id}</span>
+                            </div>
+                          )}
+                          {isEditing && (
+                            <div className={styles.memberControls}>
+                              <button
+                                className={styles.moveButton}
+                                onClick={() => movePokemon(team._id, id, -1)}
+                                disabled={index === 0}
+                                title={t("teams.moveUp")}
+                              >
+                                <ChevronUp size={16} />
+                              </button>
+                              <button
+                                className={styles.moveButton}
+                                onClick={() => movePokemon(team._id, id, 1)}
+                                disabled={index === team.pokemonIds.length - 1}
+                                title={t("teams.moveDown")}
+                              >
+                                <ChevronDown size={16} />
+                              </button>
+                              <button
+                                className={styles.removeButton}
+                                onClick={() =>
+                                  setConfirmRemove({
+                                    teamId: team._id,
+                                    pokemonId: id,
+                                  })
+                                }
+                                title={t("teams.remove")}
+                              >
+                                <X size={14} />
+                              </button>
                             </div>
                           )}
                         </Reorder.Item>
