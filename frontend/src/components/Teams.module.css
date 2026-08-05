@@ -72,13 +72,14 @@
 }
 
 .members {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
 /* Edit-Modus: Mitglieder als vertikale Liste (kein Umbruch, sauberes y-Drag). */
 .members[data-editing="true"] {
+  display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   gap: 8px;
@@ -89,12 +90,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 90px;
+  width: 100%;
   padding: 8px;
   border-radius: 12px;
   text-decoration: none;
   color: #fff;
   transition: transform 0.15s ease;
+}
+
+.member img {
+  max-width: 100%;
+  height: auto;
 }
 
 .member:hover {
