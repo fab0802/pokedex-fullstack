@@ -154,6 +154,9 @@
     "caught_all": "All",
     "caught_caught": "Caught",
     "caught_uncaught": "Missing",
+    "category": "Category",
+    "legendary": "Legendary",
+    "mythical": "Mythical",
     "reset": "Reset"
   },
   "sort": {

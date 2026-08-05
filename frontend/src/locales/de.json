@@ -154,6 +154,9 @@
     "caught_all": "Alle",
     "caught_caught": "Gefangen",
     "caught_uncaught": "Offen",
+    "category": "Kategorie",
+    "legendary": "Legendär",
+    "mythical": "Mystisch",
     "reset": "Zurücksetzen"
   },
   "sort": {

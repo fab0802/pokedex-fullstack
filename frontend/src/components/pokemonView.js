@@ -28,7 +28,7 @@ function inGenerations(id, gens) {
 // Detail-Navigation) dieselbe Funktion nutzen können.
 export function matchesFilters(
   p,
-  { types, generations, stat, caughtStatus, isCaught } = {},
+  { types, generations, categories, stat, caughtStatus, isCaught } = {},
 ) {
   // Typ (ODER): mindestens einer der gewählten Typen muss passen.
   if (types && types.length) {
@@ -38,6 +38,16 @@ export function matchesFilters(
   // Generation (ODER): ID muss in einem der gewählten Bereiche liegen.
   if (generations && generations.length) {
     if (!inGenerations(p.id, generations)) return false;
+  }
+
+  // Kategorie (ODER): legendär und/oder mystisch.
+  if (categories && categories.length) {
+    const ok = categories.some(
+      (c) =>
+        (c === "legendary" && p.isLegendary) ||
+        (c === "mythical" && p.isMythical),
+    );
+    if (!ok) return false;
   }
 
   // Basiswert-Range: nur wenn ein Feld gewählt ist. Leere Grenze = offen.

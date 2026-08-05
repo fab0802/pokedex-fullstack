@@ -1,5 +1,5 @@
 const BASE_URL = "https://pokeapi.co/api/v2";
-const CACHE_KEY = "pokemon-cache-v4";
+const CACHE_KEY = "pokemon-cache-v5";
 const EVO_CACHE_KEY = "pokemon-evolution-v1";
 const NAME_CACHE_KEY = "pokeapi-names-v1";
 const NATIONAL_MAX = 1025;
@@ -27,11 +27,15 @@ export async function fetchPokemonById(id) {
 
   let nameDe = p.name;
   let evolutionChainUrl = null;
+  let isLegendary = false;
+  let isMythical = false;
   if (sRes.ok) {
     const s = await sRes.json();
     const deEntry = s.names.find((n) => n.language.name === "de");
     if (deEntry) nameDe = deEntry.name;
     evolutionChainUrl = s.evolution_chain?.url ?? null;
+    isLegendary = s.is_legendary ?? false;
+    isMythical = s.is_mythical ?? false;
   }
 
   const result = {
@@ -43,6 +47,8 @@ export async function fetchPokemonById(id) {
       p.sprites.front_default,
     types: p.types.map((t) => t.type.name),
     evolutionChainUrl,
+    isLegendary,
+    isMythical,
     height: p.height,
     weight: p.weight,
     stats: p.stats.map((s) => ({ name: s.stat.name, value: s.base_stat })),

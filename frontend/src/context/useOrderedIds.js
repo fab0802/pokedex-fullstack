@@ -8,7 +8,7 @@ import { derivePokemonView } from "../components/pokemonView";
 // UND der volle Datensatz geladen ist), sonst die Reihenfolge des aktiven
 // Spiel-Dex. Liste und Detailseite lesen dieselbe Quelle.
 export function useOrderedIds() {
-  const { sort, types, generations, stat, caughtStatus, isActive } =
+  const { sort, types, generations, categories, stat, caughtStatus, isActive } =
     useFilter();
   const { ids, allPokemons } = usePokemonList();
   const { isCaught } = useCollection();
@@ -18,6 +18,7 @@ export function useOrderedIds() {
       return derivePokemonView(allPokemons, {
         types,
         generations,
+        categories,
         stat,
         caughtStatus,
         isCaught,
@@ -30,6 +31,7 @@ export function useOrderedIds() {
     allPokemons,
     types,
     generations,
+    categories,
     stat,
     caughtStatus,
     isCaught,

@@ -20,6 +20,7 @@ import GameFilter from "./GameFilter";
 import SortControl from "./SortControl";
 import TypeFilter from "./TypeFilter";
 import GenerationFilter from "./GenerationFilter";
+import CategoryFilter from "./CategoryFilter";
 import StatFilter from "./StatFilter";
 import CaughtFilter from "./CaughtFilter";
 import { useFilter } from "../context/useFilter";
@@ -210,6 +211,7 @@ export default function NavBar() {
         <DisplayControl />
         <TypeFilter />
         <GenerationFilter />
+        <CategoryFilter />
         <StatFilter />
         <CaughtFilter />
         {isActive && (

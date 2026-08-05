@@ -34,7 +34,7 @@ export default function PokemonList() {
     allProgress,
     loadAll,
   } = usePokemonList();
-  const { sort, types, generations, stat, caughtStatus, isActive } =
+  const { sort, types, generations, categories, stat, caughtStatus, isActive } =
     useFilter();
   const { statField } = useDisplay();
   const { selectedGame } = useGame();
@@ -60,7 +60,7 @@ export default function PokemonList() {
 
   // Ansichts-Schlüssel: Spiel + (bei aktiver Sortierung) Feld/Richtung.
   const viewKey = isActive
-    ? `${selectedGame.id}|${sort.field}|${sort.dir}|${types.join(",")}|${generations.join(",")}|${stat.field ?? ""}|${stat.min}|${stat.max}|${caughtStatus}`
+    ? `${selectedGame.id}|${sort.field}|${sort.dir}|${types.join(",")}|${generations.join(",")}|${categories.join(",")}|${stat.field ?? ""}|${stat.min}|${stat.max}|${caughtStatus}`
     : `${selectedGame.id}|default`;
 
   // Wechselt die Ansicht, das Fenster zurücksetzen – im Render statt im
@@ -93,6 +93,7 @@ export default function PokemonList() {
     return derivePokemonView(allPokemons, {
       types,
       generations,
+      categories,
       stat,
       caughtStatus,
       isCaught,
@@ -103,6 +104,7 @@ export default function PokemonList() {
     allPokemons,
     types,
     generations,
+    categories,
     stat,
     caughtStatus,
     isCaught,

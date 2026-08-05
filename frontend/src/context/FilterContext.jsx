@@ -12,6 +12,7 @@ export function FilterProvider({ children }) {
   const [sort, setSort] = useState(DEFAULT_SORT);
   const [types, setTypes] = useState([]);
   const [generations, setGenerations] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [stat, setStat] = useState(DEFAULT_STAT);
   const [caughtStatus, setCaughtStatus] = useState(DEFAULT_CAUGHT);
 
@@ -35,6 +36,12 @@ export function FilterProvider({ children }) {
     );
   }, []);
 
+  const toggleCategory = useCallback((cat) => {
+    setCategories((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat],
+    );
+  }, []);
+
   // Basiswert wählen; bei "" (Beliebig) den Filter samt Range zurücksetzen.
   const setStatField = useCallback((field) => {
     setStat((prev) =>
@@ -54,6 +61,7 @@ export function FilterProvider({ children }) {
     setSort(DEFAULT_SORT);
     setTypes([]);
     setGenerations([]);
+    setCategories([]);
     setStat(DEFAULT_STAT);
     setCaughtStatus(DEFAULT_CAUGHT);
   }, []);
@@ -63,6 +71,7 @@ export function FilterProvider({ children }) {
     sort.field !== "number" ||
     types.length > 0 ||
     generations.length > 0 ||
+    categories.length > 0 ||
     stat.field !== null ||
     caughtStatus !== "all";
 
@@ -75,6 +84,8 @@ export function FilterProvider({ children }) {
       toggleType,
       generations,
       toggleGeneration,
+      categories,
+      toggleCategory,
       stat,
       setStatField,
       setStatMin,
@@ -92,6 +103,8 @@ export function FilterProvider({ children }) {
       toggleType,
       generations,
       toggleGeneration,
+      categories,
+      toggleCategory,
       stat,
       setStatField,
       setStatMin,
