@@ -143,6 +143,17 @@
     "game": "Spiel",
     "type": "Typ",
     "noResults": "Keine Pokémon entsprechen den Filtern.",
+    "generation": "Generation",
+    "gen": "Gen {{n}}",
+    "stat": "Basiswert",
+    "statAny": "Beliebig",
+    "min": "Min",
+    "max": "Max",
+    "to": "bis",
+    "caughtStatus": "Fangstatus",
+    "caught_all": "Alle",
+    "caught_caught": "Gefangen",
+    "caught_uncaught": "Offen",
     "reset": "Zurücksetzen"
   },
   "sort": {

@@ -143,6 +143,17 @@
     "game": "Game",
     "type": "Type",
     "noResults": "No Pokémon match the filters.",
+    "generation": "Generation",
+    "gen": "Gen {{n}}",
+    "stat": "Base stat",
+    "statAny": "Any",
+    "min": "Min",
+    "max": "Max",
+    "to": "to",
+    "caughtStatus": "Caught status",
+    "caught_all": "All",
+    "caught_caught": "Caught",
+    "caught_uncaught": "Missing",
     "reset": "Reset"
   },
   "sort": {

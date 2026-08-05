@@ -34,7 +34,8 @@ export default function PokemonList() {
     allProgress,
     loadAll,
   } = usePokemonList();
-  const { sort, types, isActive } = useFilter();
+  const { sort, types, generations, stat, caughtStatus, isActive } =
+    useFilter();
   const { statField } = useDisplay();
   const { selectedGame } = useGame();
   const { isAuthenticated } = useAuth();
@@ -59,7 +60,7 @@ export default function PokemonList() {
 
   // Ansichts-Schlüssel: Spiel + (bei aktiver Sortierung) Feld/Richtung.
   const viewKey = isActive
-    ? `${selectedGame.id}|${sort.field}|${sort.dir}|${types.join(",")}`
+    ? `${selectedGame.id}|${sort.field}|${sort.dir}|${types.join(",")}|${generations.join(",")}|${stat.field ?? ""}|${stat.min}|${stat.max}|${caughtStatus}`
     : `${selectedGame.id}|default`;
 
   // Wechselt die Ansicht, das Fenster zurücksetzen – im Render statt im
@@ -89,8 +90,24 @@ export default function PokemonList() {
   // Gefilterte + sortierte Vollansicht ableiten (nur wenn aktiv).
   const activeView = useMemo(() => {
     if (!isActive) return null;
-    return derivePokemonView(allPokemons, { types, sort });
-  }, [isActive, allPokemons, types, sort]);
+    return derivePokemonView(allPokemons, {
+      types,
+      generations,
+      stat,
+      caughtStatus,
+      isCaught,
+      sort,
+    });
+  }, [
+    isActive,
+    allPokemons,
+    types,
+    generations,
+    stat,
+    caughtStatus,
+    isCaught,
+    sort,
+  ]);
 
   // Was tatsächlich gerendert wird: aktiv = gefiltertes/sortiertes Fenster,
   // sonst die per Infinite-Scroll geladene Teilmenge.

@@ -1,11 +1,60 @@
-import { comparePokemon } from "./sortPokemons";
+import { comparePokemon, statValue } from "./sortPokemons";
 
-// Typ-Filter (ODER): gibt es eine Auswahl, muss das Pokémon mindestens einen
-// der gewählten Typen haben.
-export function matchesFilters(p, { types }) {
+// Generationen als ID-Bereiche (National-Dex). Index 0 = Gen 1 usw.
+export const GEN_RANGES = [
+  [1, 151],
+  [152, 251],
+  [252, 386],
+  [387, 493],
+  [494, 649],
+  [650, 721],
+  [722, 809],
+  [810, 905],
+  [906, 1025],
+];
+
+// Verfügbare Generationsnummern (1..9) für die UI.
+export const GENERATIONS = GEN_RANGES.map((_, i) => i + 1);
+
+function inGenerations(id, gens) {
+  return gens.some((g) => {
+    const range = GEN_RANGES[g - 1];
+    return range && id >= range[0] && id <= range[1];
+  });
+}
+
+// Alle Filterkriterien an einer Stelle (ODER innerhalb, UND zwischen Gruppen).
+// Fehlende Felder = Kriterium inaktiv, damit Aufrufer ohne Collection (z. B. die
+// Detail-Navigation) dieselbe Funktion nutzen können.
+export function matchesFilters(
+  p,
+  { types, generations, stat, caughtStatus, isCaught } = {},
+) {
+  // Typ (ODER): mindestens einer der gewählten Typen muss passen.
   if (types && types.length) {
     if (!types.some((type) => p.types.includes(type))) return false;
   }
+
+  // Generation (ODER): ID muss in einem der gewählten Bereiche liegen.
+  if (generations && generations.length) {
+    if (!inGenerations(p.id, generations)) return false;
+  }
+
+  // Basiswert-Range: nur wenn ein Feld gewählt ist. Leere Grenze = offen.
+  if (stat && stat.field) {
+    const v = statValue(p, stat.field);
+    const min = stat.min === "" || stat.min == null ? -Infinity : Number(stat.min);
+    const max = stat.max === "" || stat.max == null ? Infinity : Number(stat.max);
+    if (v < min || v > max) return false;
+  }
+
+  // Fangstatus: braucht isCaught; ohne (oder "all") wird nicht gefiltert.
+  if (caughtStatus && caughtStatus !== "all" && typeof isCaught === "function") {
+    const caught = isCaught(p.id);
+    if (caughtStatus === "caught" && !caught) return false;
+    if (caughtStatus === "uncaught" && caught) return false;
+  }
+
   return true;
 }
 

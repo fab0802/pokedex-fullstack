@@ -19,6 +19,9 @@ import FilterDrawer from "./FilterDrawer";
 import GameFilter from "./GameFilter";
 import SortControl from "./SortControl";
 import TypeFilter from "./TypeFilter";
+import GenerationFilter from "./GenerationFilter";
+import StatFilter from "./StatFilter";
+import CaughtFilter from "./CaughtFilter";
 import { useFilter } from "../context/useFilter";
 import DisplayControl from "./DisplayControl";
 import styles from "./NavBar.module.css";
@@ -206,6 +209,9 @@ export default function NavBar() {
         <SortControl />
         <DisplayControl />
         <TypeFilter />
+        <GenerationFilter />
+        <StatFilter />
+        <CaughtFilter />
         {isActive && (
           <button type="button" className={styles.filterReset} onClick={reset}>
             {t("filter.reset")}
