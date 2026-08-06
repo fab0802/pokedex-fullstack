@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { fetchPokemonMoves } from "../services/pokeApi";
 import { useGame } from "../context/useGame";
 import { moveName } from "./moveName";
+import { moveType } from "./moveType";
+import { typeColors } from "./typeColors";
 import { VERSION_GROUP_ORDER, VG_TO_GAME_ID } from "./games";
 import styles from "./PokemonMoves.module.css";
 
@@ -125,16 +127,33 @@ export default function PokemonMoves({ pokemonId }) {
             >
               <div className={styles.collapsibleInner}>
                 <ul className={styles.list}>
-                  {list.map((mv, i) => (
-                    <li key={`${mv.slug}-${i}`} className={styles.item}>
-                      <span>{moveName(mv.slug, i18n.language)}</span>
-                      {method === "level-up" && mv.level > 0 && (
-                        <span className={styles.level}>
-                          {t("moves.lv", { level: mv.level })}
+                  {list.map((mv, i) => {
+                    const type = moveType(mv.slug);
+                    return (
+                      <li key={`${mv.slug}-${i}`} className={styles.item}>
+                        <span className={styles.moveInfo}>
+                          {type && (
+                            <span
+                              className={styles.typeBadge}
+                              style={{
+                                color: typeColors[type],
+                                backgroundColor: `${typeColors[type]}22`,
+                                borderColor: `${typeColors[type]}55`,
+                              }}
+                            >
+                              {t(`types.${type}`)}
+                            </span>
+                          )}
+                          <span>{moveName(mv.slug, i18n.language)}</span>
                         </span>
-                      )}
-                    </li>
-                  ))}
+                        {method === "level-up" && mv.level > 0 && (
+                          <span className={styles.level}>
+                            {t("moves.lv", { level: mv.level })}
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>

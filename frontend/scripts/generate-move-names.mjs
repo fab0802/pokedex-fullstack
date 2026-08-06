@@ -1,6 +1,6 @@
 // Einmalig ausführen:  node scripts/generate-move-names.mjs
-// Holt alle Move-Namen (EN/DE) via PokéAPI-GraphQL (v1beta2) und schreibt
-// sie nach frontend/src/data/moveNames.json – Lookup nach Slug.
+// Holt alle Move-Namen (EN/DE) und den Typ via PokéAPI-GraphQL (v1beta2) und
+// schreibt sie nach frontend/src/data/moveNames.json – Lookup nach Slug.
 import { writeFile } from "node:fs/promises";
 
 const ENDPOINT = "https://graphql.pokeapi.co/v1beta2";
@@ -10,6 +10,7 @@ const query = `
   query MoveNames {
     move(order_by: { id: asc }) {
       name
+      type { name }
       de: movenames(where: { language_id: { _eq: 6 } }) { name }
       en: movenames(where: { language_id: { _eq: 9 } }) { name }
     }
@@ -33,6 +34,7 @@ for (const move of json.data.move) {
   result[move.name] = {
     en: move.en[0]?.name ?? null,
     de: move.de[0]?.name ?? null,
+    type: move.type?.name ?? null,
   };
 }
 
