@@ -9,13 +9,13 @@ import { usePokemonList } from "../context/usePokemonList";
 import { useFilter } from "../context/useFilter";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
+import AddToComparisonButton from "./AddToComparisonButton";
 import { useGame } from "../context/useGame";
 import { derivePokemonView } from "./pokemonView";
 import { useDisplay } from "../context/useDisplay";
 import { statValue, statPercent } from "./sortPokemons";
 import { Users } from "lucide-react";
 import { useTeams } from "../context/useTeams";
-import AddToComparisonButton from "./AddToComparisonButton";
 
 // Wie viele Karten die aktive (sortierte) Ansicht pro Schritt zeigt. Die Daten
 // liegen komplett im Speicher; das hier hält nur das DOM schlank.

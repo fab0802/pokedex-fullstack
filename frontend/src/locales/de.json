@@ -1,6 +1,7 @@
 {
   "nav": {
     "teams": "Meine Teams",
+    "compare": "Vergleich",
     "logout": "Abmelden",
     "login": "Anmelden",
     "register": "Registrieren",
@@ -102,7 +103,12 @@
     "add": "Vergleichen",
     "added": "Im Vergleich",
     "addToast": "{{name}} zum Vergleich hinzugefügt",
-    "removeToast": "{{name}} aus Vergleich entfernt"
+    "removeToast": "{{name}} aus Vergleich entfernt",
+    "title": "Vergleich",
+    "loginPrompt": "Melde dich an, um Pokémon zu vergleichen.",
+    "loading": "Vergleich wird geladen…",
+    "empty": "Noch keine Pokémon im Vergleich. Füge welche über den Vergleichen-Button hinzu.",
+    "remove": "Aus Vergleich entfernen"
   },
   "types": {
     "normal": "Normal",

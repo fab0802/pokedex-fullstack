@@ -11,13 +11,13 @@ import { typeColors } from "./typeColors";
 import { typeBackgrounds } from "./typeBackgrounds";
 import { typeBanners } from "./typeBanners";
 import AddToTeamMenu from "./AddToTeamMenu";
+import AddToComparisonButton from "./AddToComparisonButton";
 import EvolutionChain from "./EvolutionChain";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import TypeMatchups from "./TypeMatchups";
 import PokemonMoves from "./PokemonMoves";
 import PokemonLocations from "./PokemonLocations";
-import AddToComparisonButton from "./AddToComparisonButton";
 import styles from "./PokemonDetail.module.css";
 
 const MAX_STAT = 200;

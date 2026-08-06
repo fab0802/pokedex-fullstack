@@ -7,6 +7,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
 import Teams from "./components/Teams";
+import Comparison from "./components/Comparison";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import { useAuth } from "./context/useAuth";
 import { useToast } from "./context/useToast";
@@ -42,6 +43,7 @@ function App() {
         <Route path="/" element={<PokemonList />} />
         <Route path="/pokemon/:id" element={<PokemonDetail />} />
         <Route path="/teams" element={<Teams />} />
+        <Route path="/compare" element={<Comparison />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
       </Routes>

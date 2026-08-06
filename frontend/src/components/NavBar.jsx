@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   Users,
+  Scale,
   LogOut,
   LogIn,
   UserPlus,
@@ -123,6 +124,10 @@ export default function NavBar() {
                 <Users size={17} aria-hidden="true" />
                 <span className={styles.label}>{t("nav.teams")}</span>
               </Link>
+              <Link to="/compare" className={styles.link}>
+                <Scale size={17} aria-hidden="true" />
+                <span className={styles.label}>{t("nav.compare")}</span>
+              </Link>
               <button onClick={handleLogout} className={styles.logout}>
                 <LogOut size={16} aria-hidden="true" />
                 <span className={styles.label}>{t("nav.logout")}</span>
@@ -183,6 +188,10 @@ export default function NavBar() {
             <NavLink to="/teams" className={tabClass}>
               <Users size={20} aria-hidden="true" />
               <span>{t("nav.teams")}</span>
+            </NavLink>
+            <NavLink to="/compare" className={tabClass}>
+              <Scale size={20} aria-hidden="true" />
+              <span>{t("nav.compare")}</span>
             </NavLink>
             <button className={styles.tab} onClick={handleLogout}>
               <LogOut size={20} aria-hidden="true" />

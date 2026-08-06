@@ -1,6 +1,7 @@
 {
   "nav": {
     "teams": "My Teams",
+    "compare": "Compare",
     "logout": "Logout",
     "login": "Login",
     "register": "Register",
@@ -102,7 +103,12 @@
     "add": "Compare",
     "added": "In comparison",
     "addToast": "{{name}} added to comparison",
-    "removeToast": "{{name}} removed from comparison"
+    "removeToast": "{{name}} removed from comparison",
+    "title": "Comparison",
+    "loginPrompt": "Log in to compare Pokémon.",
+    "loading": "Loading comparison…",
+    "empty": "No Pokémon in comparison yet. Add some with the compare button.",
+    "remove": "Remove from comparison"
   },
   "types": {
     "normal": "Normal",
