@@ -28,6 +28,7 @@ app.use(express.json());
 app.use("/auth", require("./src/routes/auth"));
 app.use("/collection", require("./src/routes/collection"));
 app.use("/teams", require("./src/routes/teams"));
+app.use("/comparison", require("./src/routes/comparison"));
 
 mongoose
   .connect(process.env.MONGO_URI)
