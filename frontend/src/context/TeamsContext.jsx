@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { TeamsContext } from "./teamsContextObject";
 import { useAuth } from "./useAuth";
 import {
@@ -16,15 +16,60 @@ export function TeamsProvider({ children }) {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Undo-Verlauf pro Team: { [teamId]: number[][] } – ein Stapel von
+  // pokemonIds-Snapshots. Jeder Snapshot ist der Stand VOR einer Änderung.
+  const [history, setHistory] = useState({});
+  // Merkt sich beim Drag-Start den Vor-Drag-Stand, bis das Ziehen endet.
+  const dragSnapshot = useRef(null);
+
+  // Aktuellen Stand eines Teams auf den Undo-Stapel legen.
+  function pushHistory(teamId, ids) {
+    setHistory((prev) => ({
+      ...prev,
+      [teamId]: [...(prev[teamId] || []), [...ids]],
+    }));
+  }
+
+  // Gibt es für dieses Team etwas rückgängig zu machen?
+  function canUndo(teamId) {
+    return (history[teamId]?.length || 0) > 0;
+  }
+
+  // Letzten Snapshot wiederherstellen und speichern.
+  async function undoTeamChange(teamId) {
+    const stack = history[teamId];
+    if (!stack || stack.length === 0) return;
+    const previousIds = stack[stack.length - 1];
+    const team = teams.find((t) => t._id === teamId);
+    if (!team) return;
+    setHistory((prev) => ({ ...prev, [teamId]: prev[teamId].slice(0, -1) }));
+    const updated = await updateTeam(teamId, team.name, previousIds);
+    setTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
+  }
+
+  // Verlauf eines Teams leeren (beim Verlassen des Bearbeiten-Modus).
+  function clearHistory(teamId) {
+    setHistory((prev) => {
+      if (!(teamId in prev)) return prev;
+      const next = { ...prev };
+      delete next[teamId];
+      return next;
+    });
+  }
+
+  // Vor-Drag-Stand merken (onDragStart), damit Umsortieren undo-bar wird.
+  function beginPokemonDrag(teamId) {
+    const team = teams.find((t) => t._id === teamId);
+    if (team) dragSnapshot.current = { teamId, ids: [...team.pokemonIds] };
+  }
+
   useEffect(() => {
     if (!isAuthenticated) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setTeams([]);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLoading(false);
       return;
     }
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     getTeams()
       .then(setTeams)
@@ -38,6 +83,7 @@ export function TeamsProvider({ children }) {
     const id = Number(pokemonId);
     if (team.pokemonIds.includes(id)) return; // keine Duplikate
     if (team.pokemonIds.length >= MAX_TEAM_SIZE) return; // max. 6
+    pushHistory(teamId, team.pokemonIds); // Undo-Snapshot vor der Änderung
     const updated = await updateTeam(teamId, team.name, [
       ...team.pokemonIds,
       id,
@@ -50,6 +96,7 @@ export function TeamsProvider({ children }) {
     if (!team) return;
     const id = Number(pokemonId);
     const newIds = team.pokemonIds.filter((pid) => pid !== id);
+    pushHistory(teamId, team.pokemonIds); // Undo-Snapshot vor der Änderung
     const updated = await updateTeam(teamId, team.name, newIds);
     setTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
   }
@@ -73,6 +120,7 @@ export function TeamsProvider({ children }) {
     const index = ids.indexOf(Number(pokemonId));
     const target = index + direction; // -1 = nach links, +1 = nach rechts
     if (target < 0 || target >= ids.length) return; // Rand erreicht
+    pushHistory(teamId, team.pokemonIds); // Undo-Snapshot vor der Änderung
     [ids[index], ids[target]] = [ids[target], ids[index]]; // tauschen
     const updated = await updateTeam(teamId, team.name, ids);
     setTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
@@ -87,6 +135,14 @@ export function TeamsProvider({ children }) {
 
   // Neue Reihenfolge speichern (am Ende des Ziehens).
   async function persistPokemonOrder(teamId, teamName, ids) {
+    // Undo-Snapshot: nur sichern, wenn sich die Reihenfolge wirklich geändert hat.
+    const snap = dragSnapshot.current;
+    dragSnapshot.current = null;
+    if (snap && snap.teamId === teamId) {
+      const changed =
+        snap.ids.length !== ids.length || snap.ids.some((v, i) => v !== ids[i]);
+      if (changed) pushHistory(teamId, snap.ids);
+    }
     try {
       const updated = await updateTeam(teamId, teamName, ids);
       setTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
@@ -149,6 +205,10 @@ export function TeamsProvider({ children }) {
     persistTeamsOrder,
     createTeamWithPokemon,
     removeTeam,
+    undoTeamChange,
+    canUndo,
+    clearHistory,
+    beginPokemonDrag,
     maxTeamSize: MAX_TEAM_SIZE,
   };
 

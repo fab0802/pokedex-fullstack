@@ -86,7 +86,9 @@
     "reorderError": "Could not save the new order",
     "moveUp": "Move up",
     "moveDown": "Move down",
-    "dragHandle": "Drag to reorder"
+    "dragHandle": "Drag to reorder",
+    "undo": "Undo",
+    "undoError": "Could not undo the last change"
   },
   "addToTeam": {
     "trigger": "+ Add to team",

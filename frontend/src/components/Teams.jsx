@@ -9,6 +9,7 @@ import {
   ChevronUp,
   ChevronDown,
   GripVertical,
+  RotateCcw,
 } from "lucide-react";
 import { useTeams } from "../context/useTeams";
 import { useToast } from "../context/useToast";
@@ -73,6 +74,10 @@ export default function Teams() {
     movePokemon,
     reorderPokemon,
     persistPokemonOrder,
+    undoTeamChange,
+    canUndo,
+    clearHistory,
+    beginPokemonDrag,
     moveTeam,
     reorderTeamsLive,
     persistTeamsOrder,
@@ -146,7 +151,15 @@ export default function Teams() {
   }
 
   function toggleEdit(teamId) {
-    setEditingId((prev) => (prev === teamId ? null : teamId));
+    const wasEditing = editingId;
+    // Beim Wechsel auf ein anderes Team dessen Verlauf mit verwerfen.
+    if (wasEditing && wasEditing !== teamId) clearHistory(wasEditing);
+    if (wasEditing === teamId) {
+      clearHistory(teamId); // dasselbe Team schliessen → Verlauf leeren
+      setEditingId(null);
+    } else {
+      setEditingId(teamId);
+    }
   }
 
   const confirmingTeam = teams.find((team) => team._id === confirmTeamId);
@@ -240,6 +253,23 @@ export default function Teams() {
                       </span>
                       {isEditing && (
                         <button
+                          className={styles.moveButton}
+                          onClick={() =>
+                            undoTeamChange(team._id).catch(() =>
+                              showToast(t("teams.undoError"), {
+                                type: "error",
+                              }),
+                            )
+                          }
+                          disabled={!canUndo(team._id)}
+                          title={t("teams.undo")}
+                          aria-label={t("teams.undo")}
+                        >
+                          <RotateCcw size={16} />
+                        </button>
+                      )}
+                      {isEditing && (
+                        <button
                           className={styles.deleteButton}
                           onClick={() => setConfirmTeamId(team._id)}
                           title={t("teams.deleteTeam")}
@@ -274,6 +304,7 @@ export default function Teams() {
                           value={id}
                           as="div"
                           dragListener={isEditing}
+                          onDragStart={() => beginPokemonDrag(team._id)}
                           onDragEnd={() =>
                             persistPokemonOrder(
                               team._id,

@@ -86,7 +86,9 @@
     "reorderError": "Reihenfolge konnte nicht gespeichert werden",
     "moveUp": "Nach oben",
     "moveDown": "Nach unten",
-    "dragHandle": "Zum Verschieben ziehen"
+    "dragHandle": "Zum Verschieben ziehen",
+    "undo": "Rückgängig",
+    "undoError": "Änderung konnte nicht rückgängig gemacht werden"
   },
   "addToTeam": {
     "trigger": "+ Zum Team",
