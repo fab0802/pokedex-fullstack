@@ -17,6 +17,7 @@ import { pokemonName } from "./pokemonName";
 import TypeMatchups from "./TypeMatchups";
 import PokemonMoves from "./PokemonMoves";
 import PokemonLocations from "./PokemonLocations";
+import AddToComparisonButton from "./AddToComparisonButton";
 import styles from "./PokemonDetail.module.css";
 
 const MAX_STAT = 200;
@@ -342,6 +343,12 @@ export default function PokemonDetail() {
             )}
             {isAuthenticated && (
               <AddToTeamMenu
+                pokemonId={pokemon.id}
+                pokemonName={pokemonName(pokemon, i18n.language)}
+              />
+            )}
+            {isAuthenticated && (
+              <AddToComparisonButton
                 pokemonId={pokemon.id}
                 pokemonName={pokemonName(pokemon, i18n.language)}
               />

@@ -98,6 +98,12 @@
     "added": "{{name}} zu {{team}} hinzugefügt",
     "teamCreated": "{{team}} wurde erstellt"
   },
+  "comparison": {
+    "add": "Vergleichen",
+    "added": "Im Vergleich",
+    "addToast": "{{name}} zum Vergleich hinzugefügt",
+    "removeToast": "{{name}} aus Vergleich entfernt"
+  },
   "types": {
     "normal": "Normal",
     "fire": "Feuer",

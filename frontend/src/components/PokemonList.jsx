@@ -15,6 +15,7 @@ import { useDisplay } from "../context/useDisplay";
 import { statValue, statPercent } from "./sortPokemons";
 import { Users } from "lucide-react";
 import { useTeams } from "../context/useTeams";
+import AddToComparisonButton from "./AddToComparisonButton";
 
 // Wie viele Karten die aktive (sortierte) Ansicht pro Schritt zeigt. Die Daten
 // liegen komplett im Speicher; das hier hält nur das DOM schlank.
@@ -256,6 +257,13 @@ export default function PokemonList() {
                           className={styles.catchIcon}
                         />
                       </button>
+                    )}
+                    {isAuthenticated && (
+                      <AddToComparisonButton
+                        pokemonId={p.id}
+                        pokemonName={pokemonName(p, i18n.language)}
+                        compact
+                      />
                     )}
                   </div>
                 )}

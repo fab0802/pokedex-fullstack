@@ -98,6 +98,12 @@
     "added": "{{name}} added to {{team}}",
     "teamCreated": "{{team}} created"
   },
+  "comparison": {
+    "add": "Compare",
+    "added": "In comparison",
+    "addToast": "{{name}} added to comparison",
+    "removeToast": "{{name}} removed from comparison"
+  },
   "types": {
     "normal": "Normal",
     "fire": "Fire",
