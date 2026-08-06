@@ -10,6 +10,7 @@ import { GameProvider } from "./context/GameContext";
 import { ToastProvider } from "./context/ToastContext";
 import { FilterProvider } from "./context/FilterContext";
 import { DisplayProvider } from "./context/DisplayContext";
+import { ComparisonProvider } from "./context/ComparisonContext";
 import "./index.css";
 import "./i18n";
 import App from "./App.jsx";
@@ -21,17 +22,19 @@ createRoot(document.getElementById("root")).render(
         <AuthProvider>
           <CollectionProvider>
             <TeamsProvider>
-              <GameProvider>
-                <PokemonListProvider>
-                  <FilterProvider>
-                    <DisplayProvider>
-                      <ToastProvider>
-                        <App />
-                      </ToastProvider>
-                    </DisplayProvider>
-                  </FilterProvider>
-                </PokemonListProvider>
-              </GameProvider>
+              <ComparisonProvider>
+                <GameProvider>
+                  <PokemonListProvider>
+                    <FilterProvider>
+                      <DisplayProvider>
+                        <ToastProvider>
+                          <App />
+                        </ToastProvider>
+                      </DisplayProvider>
+                    </FilterProvider>
+                  </PokemonListProvider>
+                </GameProvider>
+              </ComparisonProvider>
             </TeamsProvider>
           </CollectionProvider>
         </AuthProvider>
