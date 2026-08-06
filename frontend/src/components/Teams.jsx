@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Reorder, useDragControls } from "framer-motion";
 import {
@@ -49,12 +49,13 @@ function TeamsSkeleton() {
 // nicht über die ganze Karte (sonst blockiert es das Seiten-Scrollen).
 // Render-Prop reicht `controls` an den Griff durch – so bleibt der restliche
 // Karten-Inhalt in Teams.jsx ohne Prop-Drilling.
-function TeamItem({ team, onDragEnd, children }) {
+function TeamItem({ team, onDragEnd, registerRef, children }) {
   const controls = useDragControls();
   return (
     <Reorder.Item
       value={team}
       as="div"
+      ref={(node) => registerRef(team._id, node)}
       dragListener={false}
       dragControls={controls}
       onDragEnd={onDragEnd}
@@ -90,6 +91,21 @@ export default function Teams() {
   const [editingId, setEditingId] = useState(null);
   const [confirmTeamId, setConfirmTeamId] = useState(null);
   const [confirmRemove, setConfirmRemove] = useState(null); // { teamId, pokemonId } | null
+  const teamRefs = useRef({}); // _id -> DOM-Node der Team-Karte
+  const pendingScrollId = useRef(null); // ID des neuen Teams, das noch gescrollt werden soll
+
+  // Neu erstelltes Team sichtbar scrollen. Reagiert auf teams-Aenderungen und
+  // laeuft nach dem Render, wenn die neue Karte im DOM haengt. Reset ueber die
+  // Ref (kein setState) => kein zusaetzlicher Re-Render.
+  useEffect(() => {
+    const id = pendingScrollId.current;
+    if (!id) return;
+    const node = teamRefs.current[id];
+    if (node) {
+      node.scrollIntoView({ behavior: "smooth", block: "center" });
+      pendingScrollId.current = null; // nur einmal ausfuehren
+    }
+  }, [teams]);
 
   useEffect(() => {
     async function loadImages() {
@@ -183,7 +199,14 @@ export default function Teams() {
           <TeamsSkeleton />
         </>
       )}
-      {!loading && <NewTeamCard onCreated={(id) => setEditingId(id)} />}
+      {!loading && (
+        <NewTeamCard
+          onCreated={(id) => {
+            setEditingId(id);
+            pendingScrollId.current = id;
+          }}
+        />
+      )}
       {!loading && teams.length === 0 && <p>{t("teams.noTeams")}</p>}
       <Reorder.Group
         as="div"
@@ -197,6 +220,10 @@ export default function Teams() {
             <TeamItem
               key={team._id}
               team={team}
+              registerRef={(id, node) => {
+                if (node) teamRefs.current[id] = node;
+                else delete teamRefs.current[id];
+              }}
               onDragEnd={() =>
                 persistTeamsOrder(teams.map((tm) => tm._id)).catch(() =>
                   showToast(t("teams.reorderError"), { type: "error" }),
