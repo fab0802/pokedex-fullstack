@@ -9,6 +9,7 @@ import { useCollection } from "../context/useCollection";
 import { useOrderedIds } from "../context/useOrderedIds";
 import { typeColors } from "./typeColors";
 import { typeBackgrounds } from "./typeBackgrounds";
+import { typeBanners } from "./typeBanners";
 import AddToTeamMenu from "./AddToTeamMenu";
 import EvolutionChain from "./EvolutionChain";
 import { useTranslation } from "react-i18next";
@@ -154,6 +155,7 @@ export default function PokemonDetail() {
       : t("common.inTeam");
 
   const typeColor = typeColors[pokemon.types[0]];
+  const typeBanner = typeBanners[pokemon.types[0]];
 
   const tabs = [
     {
@@ -277,7 +279,13 @@ export default function PokemonDetail() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.2 }}
       >
-        <div className={styles.banner} style={{ backgroundColor: typeColor }}>
+        <div
+          className={styles.banner}
+          style={{
+            backgroundColor: typeColor,
+            backgroundImage: typeBanner ? `url("${typeBanner}")` : undefined,
+          }}
+        >
           <img
             src={pokemon.image}
             alt={pokemonName(pokemon, i18n.language)}
