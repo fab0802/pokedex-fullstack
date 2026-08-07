@@ -108,7 +108,10 @@
     "loginPrompt": "Log in to compare Pokémon.",
     "loading": "Loading comparison…",
     "empty": "No Pokémon in comparison yet. Add some with the compare button.",
-    "remove": "Remove from comparison"
+    "remove": "Remove from comparison",
+    "moves": "Moves",
+    "movesLoading": "Loading moves…",
+    "sharedLegend": "Highlighted = learned by several"
   },
   "types": {
     "normal": "Normal",

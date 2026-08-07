@@ -108,7 +108,10 @@
     "loginPrompt": "Melde dich an, um Pokémon zu vergleichen.",
     "loading": "Vergleich wird geladen…",
     "empty": "Noch keine Pokémon im Vergleich. Füge welche über den Vergleichen-Button hinzu.",
-    "remove": "Aus Vergleich entfernen"
+    "remove": "Aus Vergleich entfernen",
+    "moves": "Attacken",
+    "movesLoading": "Attacken werden geladen…",
+    "sharedLegend": "Hervorgehoben = von mehreren erlernbar"
   },
   "types": {
     "normal": "Normal",

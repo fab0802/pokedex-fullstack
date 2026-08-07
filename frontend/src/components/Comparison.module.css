@@ -154,3 +154,115 @@
     height: 72px;
   }
 }
+
+/* --- Attacken-Sektion --- */
+.sectionHead {
+  position: sticky;
+  left: 0;
+  text-align: left;
+  padding: 16px 12px 8px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sectionMeta {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.methodHead {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  padding: 0;
+  vertical-align: top;
+  background: var(--color-surface);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.methodToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.chevron {
+  font-size: 10px;
+  transition: transform 0.15s ease;
+}
+
+.chevron[data-open="true"] {
+  transform: rotate(90deg);
+}
+
+.moveCell {
+  vertical-align: top;
+  padding: 8px;
+  border-left: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.moveList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.moveChip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 3px 6px 3px 8px;
+  border-left: 3px solid transparent;
+  border-radius: 4px;
+  background: var(--color-surface-alt);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+/* Geteilte Attacke: Primär-Rand + (falls unterstützt) dezent getönter Grund. */
+.moveChip[data-shared="true"] {
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface-alt));
+  box-shadow: inset 0 0 0 1.5px var(--color-primary);
+}
+
+.moveChipName {
+  color: var(--color-text);
+}
+
+.moveChipLevel {
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.moveDash {
+  color: var(--color-text-muted);
+}
+
+.movesLoading {
+  padding: 12px;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.movesLegend {
+  margin: 8px 2px 0;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
