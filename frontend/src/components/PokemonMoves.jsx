@@ -5,7 +5,8 @@ import { useGame } from "../context/useGame";
 import { moveName } from "./moveName";
 import { moveType } from "./moveType";
 import { typeColors } from "./typeColors";
-import { VERSION_GROUP_ORDER, VG_TO_GAME_ID } from "./games";
+import { VG_TO_GAME_ID } from "./games";
+import { buildMoveset, prettifyVg } from "./moveset";
 import styles from "./PokemonMoves.module.css";
 
 const METHOD_ORDER = ["level-up", "machine", "egg", "tutor"];
@@ -15,56 +16,6 @@ const METHOD_LABEL = {
   egg: "moves.egg",
   tutor: "moves.tutor",
 };
-
-// Welche Version-Group zeigen wir? Erst die des gewählten Spiels, sonst die
-// neueste, in der das Pokémon überhaupt Moves hat.
-function pickVersionGroup(moves, game) {
-  const available = new Set();
-  for (const m of moves)
-    for (const d of m.details) available.add(d.versionGroup);
-
-  for (const vg of game.versionGroups) if (available.has(vg)) return vg;
-
-  let best = null;
-  let bestRank = Infinity;
-  for (const vg of available) {
-    const idx = VERSION_GROUP_ORDER.indexOf(vg);
-    const rank = idx === -1 ? Infinity : idx;
-    if (rank < bestRank) {
-      bestRank = rank;
-      best = vg;
-    }
-  }
-  return best ?? [...available][0] ?? null;
-}
-
-function buildMoveset(moves, game) {
-  if (!moves || moves.length === 0) return null;
-  const vg = pickVersionGroup(moves, game);
-  if (!vg) return null;
-
-  const byMethod = { "level-up": [], machine: [], egg: [], tutor: [] };
-  for (const m of moves) {
-    for (const d of m.details) {
-      if (d.versionGroup !== vg || !byMethod[d.method]) continue;
-      byMethod[d.method].push({ slug: m.slug, level: d.level });
-    }
-  }
-  byMethod["level-up"].sort(
-    (a, b) => a.level - b.level || a.slug.localeCompare(b.slug),
-  );
-  for (const k of ["machine", "egg", "tutor"]) {
-    byMethod[k].sort((a, b) => a.slug.localeCompare(b.slug));
-  }
-  return { versionGroup: vg, byMethod };
-}
-
-function prettifyVg(vg) {
-  return vg
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-}
 
 export default function PokemonMoves({ pokemonId }) {
   const { t, i18n } = useTranslation();
