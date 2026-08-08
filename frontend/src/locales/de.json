@@ -9,6 +9,14 @@
     "settings": "Einstellungen",
     "menu": "Menü"
   },
+  "ball": {
+    "label": "Design",
+    "poke": "Pokéball",
+    "great": "Superball",
+    "ultra": "Hyperball",
+    "master": "Meisterball"
+  },
+
   "common": {
     "close": "Schliessen",
     "scrollToTop": "Nach oben scrollen",

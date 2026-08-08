@@ -9,6 +9,13 @@
     "settings": "Settings",
     "menu": "Menu"
   },
+  "ball": {
+    "label": "Design",
+    "poke": "Poké Ball",
+    "great": "Great Ball",
+    "ultra": "Ultra Ball",
+    "master": "Master Ball"
+  },
   "common": {
     "close": "Close",
     "scrollToTop": "Scroll to top",

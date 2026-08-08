@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "../context/useAuth";
 import ThemeToggle from "./ThemeToggle";
+import BallToggle from "./BallToggle";
 import LanguageToggle from "./LanguageToggle";
 import GlobalSearch from "./GlobalSearch";
 import FilterDrawer from "./FilterDrawer";
@@ -118,6 +119,7 @@ export default function NavBar() {
           </button>
           <LanguageToggle />
           <ThemeToggle />
+          <BallToggle />
           {isAuthenticated ? (
             <>
               <Link to="/teams" className={styles.link}>
@@ -168,6 +170,7 @@ export default function NavBar() {
             <div className={styles.settingsMenu}>
               <LanguageToggle variant="menu" />
               <ThemeToggle variant="menu" />
+              <BallToggle variant="menu" />
             </div>
           )}
         </div>

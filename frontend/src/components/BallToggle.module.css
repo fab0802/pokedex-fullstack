@@ -1,0 +1,53 @@
+.group {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.55;
+}
+
+.button:not(.active):hover {
+  opacity: 0.85;
+}
+
+.active {
+  opacity: 1;
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.icon {
+  display: block;
+}
+
+/* Variante fürs Zahnrad-Menü (helle Fläche, gestreckt, grösser) */
+.groupMenu {
+  display: flex;
+  width: 100%;
+  background: var(--color-surface-alt);
+}
+
+.groupMenu .button {
+  flex: 1;
+  width: auto;
+  height: 40px;
+  border-radius: 16px;
+}
+
+.groupMenu .active {
+  background: var(--color-surface);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}

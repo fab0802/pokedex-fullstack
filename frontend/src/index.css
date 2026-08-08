@@ -38,6 +38,23 @@ body * {
   --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.45);
 }
 
+/* Ball-Designs: überschreiben nur die Akzentfarbe, unabhängig von hell/dunkel.
+   "poke" (Pokéball) ist der Standard und braucht keinen eigenen Block. */
+[data-ball="great"] {
+  --color-primary: #2f6fb3;
+  --color-primary-dark: #255d99;
+}
+
+[data-ball="ultra"] {
+  --color-primary: #c98a00;
+  --color-primary-dark: #a87400;
+}
+
+[data-ball="master"] {
+  --color-primary: #7a4fa3;
+  --color-primary-dark: #653f8a;
+}
+
 body {
   font-family: system-ui, sans-serif;
   background: var(--color-bg);
