@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import styles from "./PokemonList.module.css";
-import { typeColors } from "./typeColors";
+import { typeBannerStyle } from "./typeBannerStyle";
 import { typeBackgrounds } from "./typeBackgrounds";
 import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
@@ -169,7 +169,7 @@ export default function PokemonList() {
             <Link to={`/pokemon/${p.id}`} className={styles.cardLink}>
               <div
                 className={styles.imagePanel}
-                style={{ backgroundColor: typeColors[p.types[0]] }}
+                style={typeBannerStyle(p.types)}
               >
                 <img
                   src={p.image}
