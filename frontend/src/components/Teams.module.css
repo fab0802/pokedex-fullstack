@@ -96,6 +96,8 @@
   text-decoration: none;
   color: #fff;
   transition: transform 0.15s ease;
+  background-size: cover;
+  background-position: center;
 }
 
 .member img {

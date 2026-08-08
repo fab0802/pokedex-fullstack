@@ -14,7 +14,7 @@ import {
 import { useTeams } from "../context/useTeams";
 import { useToast } from "../context/useToast";
 import { fetchPokemonById } from "../services/pokeApi";
-import { typeColors } from "./typeColors";
+import { typeBannerStyle } from "./typeBannerStyle";
 import AddPokemonSearch from "./AddPokemonSearch";
 import ConfirmDialog from "./ConfirmDialog";
 import { useTranslation } from "react-i18next";
@@ -365,9 +365,7 @@ export default function Teams() {
                                 },
                               }}
                               className={styles.member}
-                              style={{
-                                backgroundColor: typeColors[p.types[0]],
-                              }}
+                              style={typeBannerStyle(p.types)}
                             >
                               <img
                                 src={p.image}
