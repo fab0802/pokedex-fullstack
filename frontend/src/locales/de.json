@@ -213,7 +213,8 @@
     "none": "In diesem Spiel nicht als Wild-Fundort erfasst.",
     "noneAnywhere": "Keine Fundort-Daten verfügbar.",
     "noData": "Für dieses Spiel liegen bei der PokéAPI keine Fundort-Daten vor.",
-    "error": "Fundorte konnten nicht geladen werden."
+    "error": "Fundorte konnten nicht geladen werden.",
+    "gameSwitcher": "Spiel wählen"
   },
   "versions": {
     "red": "Rot",

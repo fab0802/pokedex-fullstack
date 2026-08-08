@@ -212,7 +212,8 @@
     "none": "Not recorded as a wild encounter in this game.",
     "noneAnywhere": "No location data available.",
     "noData": "PokéAPI has no location data for this game.",
-    "error": "Could not load locations."
+    "error": "Could not load locations.",
+    "gameSwitcher": "Select game"
   },
   "versions": {
     "red": "Red",

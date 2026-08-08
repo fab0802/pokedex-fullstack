@@ -5,7 +5,7 @@ import {
   fetchLocalizedNames,
 } from "../services/pokeApi";
 import { useGame } from "../context/useGame";
-import { games, GAMES_WITHOUT_ENCOUNTERS } from "./games";
+import { games } from "./games";
 import styles from "./PokemonLocations.module.css";
 
 function prettifyLocation(slug) {
@@ -26,31 +26,26 @@ function locationName(slug, entry, lang) {
   return prettifyLocation(slug);
 }
 
-// Für ein gewähltes Spiel genau dessen Versionen; bei "Alle" das neueste
-// Spiel mit Fundorten. Pro Ort merken wir uns die Versionen (für Exklusivität).
-function buildEncounters(encounters, selected) {
-  if (!encounters || encounters.length === 0) {
-    return { gameId: null, gameVersions: [], locations: [] };
-  }
+// Alle Spiele (ausser "Alle"), in denen dieses Pokémon tatsächlich Fundorte
+// hat - in chronologischer Reihenfolge (games ist alt -> neu geordnet).
+function availableGamesFor(encounters) {
+  if (!encounters || encounters.length === 0) return [];
   const available = new Set();
   for (const e of encounters)
     for (const v of e.versions) available.add(v.version);
-  const hasMatch = (g) => g.versions.some((v) => available.has(v));
+  return games.filter(
+    (g) => g.id !== "all" && g.versions.some((v) => available.has(v)),
+  );
+}
 
-  let game;
-  if (selected.id === "all") {
-    game = null;
-    for (let i = games.length - 1; i >= 0; i--) {
-      if (games[i].id === "all") continue;
-      if (hasMatch(games[i])) {
-        game = games[i];
-        break;
-      }
-    }
-  } else {
-    game = selected;
-  }
-  if (!game) return { gameId: null, gameVersions: [], locations: [] };
+// Fundorte für genau ein Spiel aufbereiten. Pro Ort merken wir uns die
+// Versionen (für die Exklusiv-Kennzeichnung bei Mehr-Versionen-Spielen).
+function buildEncounters(encounters, game) {
+  if (!encounters || !game) return { gameVersions: [], locations: [] };
+
+  const available = new Set();
+  for (const e of encounters)
+    for (const v of e.versions) available.add(v.version);
 
   const gameVersions = game.versions.filter((v) => available.has(v));
   const versions = new Set(game.versions);
@@ -68,7 +63,7 @@ function buildEncounters(encounters, selected) {
   locations.sort(
     (a, b) => a.min - b.min || a.location.localeCompare(b.location),
   );
-  return { gameId: game.id, gameVersions, locations };
+  return { gameVersions, locations };
 }
 
 export default function PokemonLocations({ pokemonId }) {
@@ -76,6 +71,7 @@ export default function PokemonLocations({ pokemonId }) {
   const { selectedGame } = useGame();
   const [result, setResult] = useState(null);
   const [names, setNames] = useState({});
+  const [activeGameId, setActiveGameId] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -89,12 +85,38 @@ export default function PokemonLocations({ pokemonId }) {
 
   const current = result && result.pokemonId === pokemonId ? result : null;
 
+  const availableGames = useMemo(
+    () =>
+      current && !current.error ? availableGamesFor(current.encounters) : [],
+    [current],
+  );
+
+  // Standard-Spiel wählen: das global gewählte (falls es Fundorte hat),
+  // sonst das neuste verfügbare. Bei Pokémon-Wechsel neu bestimmt.
+  useEffect(() => {
+    if (availableGames.length === 0) {
+      setActiveGameId(null);
+      return;
+    }
+    const ids = availableGames.map((g) => g.id);
+    const preferred =
+      selectedGame.id !== "all" && ids.includes(selectedGame.id)
+        ? selectedGame.id
+        : ids[ids.length - 1];
+    setActiveGameId((prev) => (prev && ids.includes(prev) ? prev : preferred));
+  }, [availableGames, selectedGame]);
+
+  const activeGame = useMemo(
+    () => availableGames.find((g) => g.id === activeGameId) || null,
+    [availableGames, activeGameId],
+  );
+
   const data = useMemo(
     () =>
-      current && !current.error
-        ? buildEncounters(current.encounters, selectedGame)
+      current && activeGame
+        ? buildEncounters(current.encounters, activeGame)
         : null,
-    [current, selectedGame],
+    [current, activeGame],
   );
 
   useEffect(() => {
@@ -125,26 +147,37 @@ export default function PokemonLocations({ pokemonId }) {
   }
   if (!current) return <p className={styles.empty}>{t("detail.loading")}</p>;
 
-  // Gen 8/9: PokéAPI hat dafür keine Daten - ehrlich benennen
-  if (
-    selectedGame.id !== "all" &&
-    GAMES_WITHOUT_ENCOUNTERS.has(selectedGame.id)
-  ) {
-    return <p className={styles.empty}>{t("locations.noData")}</p>;
-  }
-
-  if (!data || (!data.gameId && data.locations.length === 0)) {
+  // Keine Fundort-Daten in irgendeinem Spiel (z. B. nur Gen 8/9 -> PokéAPI leer)
+  if (availableGames.length === 0) {
     return <p className={styles.empty}>{t("locations.noneAnywhere")}</p>;
   }
 
-  const multiVersion = data.gameVersions.length > 1;
+  const multiVersion = data && data.gameVersions.length > 1;
 
   return (
     <div>
-      {data.gameId && (
-        <p className={styles.version}>{t(`games.${data.gameId}`)}</p>
-      )}
-      {data.locations.length === 0 ? (
+      <div
+        className={styles.switcher}
+        role="group"
+        aria-label={t("locations.gameSwitcher")}
+      >
+        {availableGames.map((g) => {
+          const active = g.id === activeGameId;
+          return (
+            <button
+              key={g.id}
+              type="button"
+              className={`${styles.chip} ${active ? styles.chipActive : ""}`}
+              aria-pressed={active}
+              onClick={() => setActiveGameId(g.id)}
+            >
+              {t(`games.${g.id}`)}
+            </button>
+          );
+        })}
+      </div>
+
+      {!data || data.locations.length === 0 ? (
         <p className={styles.empty}>{t("locations.none")}</p>
       ) : (
         <ul className={styles.list}>
