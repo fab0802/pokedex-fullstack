@@ -6,8 +6,21 @@
     "login": "Anmelden",
     "register": "Registrieren",
     "home": "Pokédex",
+    "guide": "Spielhilfen",
     "settings": "Einstellungen",
     "menu": "Menü"
+  },
+  "guide": {
+    "title": "Spielhilfen",
+    "selectGame": "Spiel auswählen",
+    "gyms": "Arenen",
+    "eliteFour": "Top Vier",
+    "champion": "Champion",
+    "weakTo": "Schwächen:",
+    "ace": "Ass",
+    "mixed": "gemischt",
+    "level": "Lv. {{level}}",
+    "starterVariants": "Restliches Team – je nach Starter"
   },
   "ball": {
     "label": "Design",

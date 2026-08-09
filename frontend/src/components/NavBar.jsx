@@ -11,6 +11,7 @@ import {
   Settings,
   CircleDot,
   SlidersHorizontal,
+  BookOpen,
 } from "lucide-react";
 import { useAuth } from "../context/useAuth";
 import ThemeToggle from "./ThemeToggle";
@@ -117,6 +118,10 @@ export default function NavBar() {
             <SlidersHorizontal size={17} aria-hidden="true" />
             <span className={styles.label}>{t("filter.title")}</span>
           </button>
+          <Link to="/guide" className={styles.link}>
+            <BookOpen size={17} aria-hidden="true" />
+            <span className={styles.label}>{t("nav.guide")}</span>
+          </Link>
           <LanguageToggle />
           <ThemeToggle />
           <BallToggle />
@@ -186,6 +191,10 @@ export default function NavBar() {
           <Search size={20} aria-hidden="true" />
           <span>{t("search.title")}</span>
         </button>
+        <NavLink to="/guide" className={tabClass}>
+          <BookOpen size={20} aria-hidden="true" />
+          <span>{t("nav.guide")}</span>
+        </NavLink>
         {isAuthenticated ? (
           <>
             <NavLink to="/teams" className={tabClass}>

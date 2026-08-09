@@ -6,8 +6,21 @@
     "login": "Login",
     "register": "Register",
     "home": "Pokédex",
+    "guide": "Guides",
     "settings": "Settings",
     "menu": "Menu"
+  },
+  "guide": {
+    "title": "Game Guides",
+    "selectGame": "Select game",
+    "gyms": "Gyms",
+    "eliteFour": "Elite Four",
+    "champion": "Champion",
+    "weakTo": "Weak to:",
+    "ace": "Ace",
+    "mixed": "mixed",
+    "level": "Lv. {{level}}",
+    "starterVariants": "Remaining team — depends on starter"
   },
   "ball": {
     "label": "Design",
