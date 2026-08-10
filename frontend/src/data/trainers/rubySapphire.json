@@ -1,0 +1,182 @@
+{
+  "game": "ruby-sapphire",
+  "region": "hoenn",
+  "label": { "de": "Rubin/Saphir", "en": "Ruby/Sapphire" },
+  "trainers": [
+    {
+      "key": "roxanne",
+      "category": "gym",
+      "type": "rock",
+      "name": { "de": "Felizia", "en": "Roxanne" },
+      "city": { "de": "Metarost City", "en": "Rustboro City" },
+      "badge": { "de": "Steinorden", "en": "Stone Badge" },
+      "team": [
+        { "id": 74, "level": 14 },
+        { "id": 299, "level": 15, "ace": true }
+      ]
+    },
+    {
+      "key": "brawly",
+      "category": "gym",
+      "type": "fighting",
+      "name": { "de": "Kamillo", "en": "Brawly" },
+      "city": { "de": "Faustauhaven", "en": "Dewford Town" },
+      "badge": { "de": "Knöchelorden", "en": "Knuckle Badge" },
+      "team": [
+        { "id": 66, "level": 17 },
+        { "id": 296, "level": 18, "ace": true }
+      ]
+    },
+    {
+      "key": "wattson",
+      "category": "gym",
+      "type": "electric",
+      "name": { "de": "Walter", "en": "Wattson" },
+      "city": { "de": "Malvenfroh City", "en": "Mauville City" },
+      "badge": { "de": "Dynamoorden", "en": "Dynamo Badge" },
+      "team": [
+        { "id": 81, "level": 22 },
+        { "id": 100, "level": 20 },
+        { "id": 82, "level": 23, "ace": true }
+      ]
+    },
+    {
+      "key": "flannery",
+      "category": "gym",
+      "type": "fire",
+      "name": { "de": "Flavia", "en": "Flannery" },
+      "city": { "de": "Bad Lavastadt", "en": "Lavaridge Town" },
+      "badge": { "de": "Hitzeorden", "en": "Heat Badge" },
+      "team": [
+        { "id": 218, "level": 26 },
+        { "id": 218, "level": 26 },
+        { "id": 324, "level": 28, "ace": true }
+      ]
+    },
+    {
+      "key": "norman",
+      "category": "gym",
+      "type": "normal",
+      "name": { "de": "Norman", "en": "Norman" },
+      "city": { "de": "Blütenburg City", "en": "Petalburg City" },
+      "badge": { "de": "Balanceorden", "en": "Balance Badge" },
+      "team": [
+        { "id": 289, "level": 28 },
+        { "id": 288, "level": 30 },
+        { "id": 289, "level": 31, "ace": true }
+      ]
+    },
+    {
+      "key": "winona",
+      "category": "gym",
+      "type": "flying",
+      "name": { "de": "Wibke", "en": "Winona" },
+      "city": { "de": "Baumhausen City", "en": "Fortree City" },
+      "badge": { "de": "Federorden", "en": "Feather Badge" },
+      "team": [
+        { "id": 277, "level": 31 },
+        { "id": 279, "level": 30 },
+        { "id": 227, "level": 32 },
+        { "id": 334, "level": 33, "ace": true }
+      ]
+    },
+    {
+      "key": "tate-liza",
+      "category": "gym",
+      "type": "psychic",
+      "name": { "de": "Ben & Svenja", "en": "Tate & Liza" },
+      "city": { "de": "Moosbach City", "en": "Mossdeep City" },
+      "badge": { "de": "Gedankenorden", "en": "Mind Badge" },
+      "team": [
+        { "id": 337, "level": 42, "ace": true },
+        { "id": 338, "level": 42 }
+      ]
+    },
+    {
+      "key": "wallace",
+      "category": "gym",
+      "type": "water",
+      "name": { "de": "Wassili", "en": "Wallace" },
+      "city": { "de": "Xeneroville", "en": "Sootopolis City" },
+      "badge": { "de": "Regenorden", "en": "Rain Badge" },
+      "team": [
+        { "id": 370, "level": 40 },
+        { "id": 340, "level": 42 },
+        { "id": 364, "level": 40 },
+        { "id": 119, "level": 42 },
+        { "id": 350, "level": 43, "ace": true }
+      ]
+    },
+    {
+      "key": "sidney",
+      "category": "eliteFour",
+      "type": "dark",
+      "name": { "de": "Ulrich", "en": "Sidney" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 262, "level": 46 },
+        { "id": 275, "level": 48 },
+        { "id": 332, "level": 46 },
+        { "id": 319, "level": 48 },
+        { "id": 359, "level": 49, "ace": true }
+      ]
+    },
+    {
+      "key": "phoebe",
+      "category": "eliteFour",
+      "type": "ghost",
+      "name": { "de": "Antonia", "en": "Phoebe" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 356, "level": 48 },
+        { "id": 354, "level": 49 },
+        { "id": 302, "level": 50 },
+        { "id": 354, "level": 49 },
+        { "id": 356, "level": 51, "ace": true }
+      ]
+    },
+    {
+      "key": "glacia",
+      "category": "eliteFour",
+      "type": "ice",
+      "name": { "de": "Frosina", "en": "Glacia" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 362, "level": 50 },
+        { "id": 364, "level": 50 },
+        { "id": 364, "level": 52 },
+        { "id": 362, "level": 52 },
+        { "id": 365, "level": 53, "ace": true }
+      ]
+    },
+    {
+      "key": "drake",
+      "category": "eliteFour",
+      "type": "dragon",
+      "name": { "de": "Dragan", "en": "Drake" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 372, "level": 52 },
+        { "id": 334, "level": 54 },
+        { "id": 330, "level": 53 },
+        { "id": 330, "level": 53 },
+        { "id": 373, "level": 55, "ace": true }
+      ]
+    },
+    {
+      "key": "steven",
+      "category": "champion",
+      "type": "steel",
+      "name": { "de": "Troy", "en": "Steven" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 227, "level": 57 },
+        { "id": 344, "level": 55 },
+        { "id": 306, "level": 56 },
+        { "id": 346, "level": 56 },
+        { "id": 348, "level": 56 },
+        { "id": 376, "level": 58, "ace": true }
+      ]
+    }
+  ]
+}
