@@ -1,0 +1,195 @@
+{
+  "game": "black-white",
+  "region": "unova",
+  "label": { "de": "Schwarz/Weiß", "en": "Black/White" },
+  "trainers": [
+    {
+      "key": "striaton-trio",
+      "category": "gym",
+      "type": null,
+      "name": { "de": "Striaton-Trio", "en": "Striaton Trio" },
+      "city": { "de": "Orion City", "en": "Striaton City" },
+      "badge": { "de": "Triorden", "en": "Trio Badge" },
+      "team": [
+        { "id": 506, "level": 12 }
+      ],
+      "variants": [
+        {
+          "label": { "de": "Benny (Pflanze) – wenn du Ottaro gewählt hast", "en": "Cilan (Grass) – if you chose Oshawott" },
+          "team": [
+            { "id": 511, "level": 14, "ace": true }
+          ]
+        },
+        {
+          "label": { "de": "Maik (Feuer) – wenn du Serpifeu gewählt hast", "en": "Chili (Fire) – if you chose Snivy" },
+          "team": [
+            { "id": 513, "level": 14, "ace": true }
+          ]
+        },
+        {
+          "label": { "de": "Colin (Wasser) – wenn du Floink gewählt hast", "en": "Cress (Water) – if you chose Tepig" },
+          "team": [
+            { "id": 515, "level": 14, "ace": true }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "lenora",
+      "category": "gym",
+      "type": "normal",
+      "name": { "de": "Aloe", "en": "Lenora" },
+      "city": { "de": "Septerna City", "en": "Nacrene City" },
+      "badge": { "de": "Grundorden", "en": "Basic Badge" },
+      "team": [
+        { "id": 507, "level": 18 },
+        { "id": 505, "level": 20, "ace": true }
+      ]
+    },
+    {
+      "key": "burgh",
+      "category": "gym",
+      "type": "bug",
+      "name": { "de": "Artie", "en": "Burgh" },
+      "city": { "de": "Stratos City", "en": "Castelia City" },
+      "badge": { "de": "Käferorden", "en": "Insect Badge" },
+      "team": [
+        { "id": 544, "level": 21 },
+        { "id": 557, "level": 21 },
+        { "id": 542, "level": 23, "ace": true }
+      ]
+    },
+    {
+      "key": "elesa",
+      "category": "gym",
+      "type": "electric",
+      "name": { "de": "Kamilla", "en": "Elesa" },
+      "city": { "de": "Rayono City", "en": "Nimbasa City" },
+      "badge": { "de": "Voltorden", "en": "Bolt Badge" },
+      "team": [
+        { "id": 587, "level": 25 },
+        { "id": 587, "level": 25 },
+        { "id": 523, "level": 27, "ace": true }
+      ]
+    },
+    {
+      "key": "clay",
+      "category": "gym",
+      "type": "ground",
+      "name": { "de": "Turner", "en": "Clay" },
+      "city": { "de": "Marea City", "en": "Driftveil City" },
+      "badge": { "de": "Seismo-Orden", "en": "Quake Badge" },
+      "team": [
+        { "id": 552, "level": 29 },
+        { "id": 536, "level": 29 },
+        { "id": 530, "level": 31, "ace": true }
+      ]
+    },
+    {
+      "key": "skyla",
+      "category": "gym",
+      "type": "flying",
+      "name": { "de": "Géraldine", "en": "Skyla" },
+      "city": { "de": "Panaero City", "en": "Mistralton City" },
+      "badge": { "de": "Jetorden", "en": "Jet Badge" },
+      "team": [
+        { "id": 528, "level": 33 },
+        { "id": 521, "level": 33 },
+        { "id": 581, "level": 35, "ace": true }
+      ]
+    },
+    {
+      "key": "brycen",
+      "category": "gym",
+      "type": "ice",
+      "name": { "de": "Sandro", "en": "Brycen" },
+      "city": { "de": "Nevaio City", "en": "Icirrus City" },
+      "badge": { "de": "Eiszapforden", "en": "Freeze Badge" },
+      "team": [
+        { "id": 583, "level": 37 },
+        { "id": 615, "level": 37 },
+        { "id": 614, "level": 39, "ace": true }
+      ]
+    },
+    {
+      "key": "drayden-iris",
+      "category": "gym",
+      "type": "dragon",
+      "name": { "de": "Lysander / Lilia", "en": "Drayden / Iris" },
+      "city": { "de": "Twindrake City", "en": "Opelucid City" },
+      "badge": { "de": "Legendenorden", "en": "Legend Badge" },
+      "team": [
+        { "id": 611, "level": 41 },
+        { "id": 621, "level": 41 },
+        { "id": 612, "level": 43, "ace": true }
+      ]
+    },
+    {
+      "key": "shauntal",
+      "category": "eliteFour",
+      "type": "ghost",
+      "name": { "de": "Anissa", "en": "Shauntal" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 563, "level": 48 },
+        { "id": 593, "level": 48 },
+        { "id": 623, "level": 48 },
+        { "id": 609, "level": 50, "ace": true }
+      ]
+    },
+    {
+      "key": "grimsley",
+      "category": "eliteFour",
+      "type": "dark",
+      "name": { "de": "Astor", "en": "Grimsley" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 560, "level": 48 },
+        { "id": 510, "level": 48 },
+        { "id": 553, "level": 48 },
+        { "id": 625, "level": 50, "ace": true }
+      ]
+    },
+    {
+      "key": "caitlin",
+      "category": "eliteFour",
+      "type": "psychic",
+      "name": { "de": "Kattlea", "en": "Caitlin" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 579, "level": 48 },
+        { "id": 518, "level": 48 },
+        { "id": 561, "level": 48 },
+        { "id": 576, "level": 50, "ace": true }
+      ]
+    },
+    {
+      "key": "marshal",
+      "category": "eliteFour",
+      "type": "fighting",
+      "name": { "de": "Eugen", "en": "Marshal" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 538, "level": 48 },
+        { "id": 539, "level": 48 },
+        { "id": 534, "level": 48 },
+        { "id": 620, "level": 50, "ace": true }
+      ]
+    },
+    {
+      "key": "alder",
+      "category": "champion",
+      "type": null,
+      "name": { "de": "Lauro", "en": "Alder" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 617, "level": 75 },
+        { "id": 626, "level": 75 },
+        { "id": 621, "level": 75 },
+        { "id": 584, "level": 75 },
+        { "id": 589, "level": 75 },
+        { "id": 637, "level": 77, "ace": true }
+      ]
+    }
+  ]
+}
