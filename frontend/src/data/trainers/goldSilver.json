@@ -5,7 +5,7 @@
   "trainers": [
     {
       "key": "falkner",
-      "category": "gym",
+      "category": "gymJohto",
       "type": "flying",
       "name": { "de": "Falk", "en": "Falkner" },
       "city": { "de": "Rosalia City", "en": "Violet City" },
@@ -17,7 +17,7 @@
     },
     {
       "key": "bugsy",
-      "category": "gym",
+      "category": "gymJohto",
       "type": "bug",
       "name": { "de": "Kai", "en": "Bugsy" },
       "city": { "de": "Azalea City", "en": "Azalea Town" },
@@ -30,7 +30,7 @@
     },
     {
       "key": "whitney",
-      "category": "gym",
+      "category": "gymJohto",
       "type": "normal",
       "name": { "de": "Bianka", "en": "Whitney" },
       "city": { "de": "Dukatia City", "en": "Goldenrod City" },
@@ -42,7 +42,7 @@
     },
     {
       "key": "morty",
-      "category": "gym",
+      "category": "gymJohto",
       "type": "ghost",
       "name": { "de": "Jens", "en": "Morty" },
       "city": { "de": "Teak City", "en": "Ecruteak City" },
@@ -56,7 +56,7 @@
     },
     {
       "key": "chuck",
-      "category": "gym",
+      "category": "gymJohto",
       "type": "fighting",
       "name": { "de": "Hartwig", "en": "Chuck" },
       "city": { "de": "Remoraville", "en": "Cianwood City" },
@@ -68,7 +68,7 @@
     },
     {
       "key": "jasmine",
-      "category": "gym",
+      "category": "gymJohto",
       "type": "steel",
       "name": { "de": "Jasmin", "en": "Jasmine" },
       "city": { "de": "Oliviana City", "en": "Olivine City" },
@@ -81,7 +81,7 @@
     },
     {
       "key": "pryce",
-      "category": "gym",
+      "category": "gymJohto",
       "type": "ice",
       "name": { "de": "Norbert", "en": "Pryce" },
       "city": { "de": "Mahagonia City", "en": "Mahogany Town" },
@@ -94,7 +94,7 @@
     },
     {
       "key": "clair",
-      "category": "gym",
+      "category": "gymJohto",
       "type": "dragon",
       "name": { "de": "Sandra", "en": "Clair" },
       "city": { "de": "Ebenholz City", "en": "Blackthorn City" },
@@ -175,6 +175,136 @@
         { "id": 142, "level": 46 },
         { "id": 6, "level": 46 },
         { "id": 149, "level": 50, "ace": true }
+      ]
+    },
+    {
+      "key": "surge-kanto",
+      "category": "gymKanto",
+      "type": "electric",
+      "name": { "de": "Major Bob", "en": "Lt. Surge" },
+      "city": { "de": "Orania City", "en": "Vermilion City" },
+      "badge": { "de": "Donnerorden", "en": "Thunder Badge" },
+      "team": [
+        { "id": 26, "level": 44 },
+        { "id": 101, "level": 40 },
+        { "id": 82, "level": 40 },
+        { "id": 101, "level": 40 },
+        { "id": 125, "level": 46, "ace": true }
+      ]
+    },
+    {
+      "key": "sabrina-kanto",
+      "category": "gymKanto",
+      "type": "psychic",
+      "name": { "de": "Sabrina", "en": "Sabrina" },
+      "city": { "de": "Saffronia City", "en": "Saffron City" },
+      "badge": { "de": "Sumpforden", "en": "Marsh Badge" },
+      "team": [
+        { "id": 196, "level": 46 },
+        { "id": 122, "level": 46 },
+        { "id": 65, "level": 48, "ace": true }
+      ]
+    },
+    {
+      "key": "misty-kanto",
+      "category": "gymKanto",
+      "type": "water",
+      "name": { "de": "Misty", "en": "Misty" },
+      "city": { "de": "Azuria City", "en": "Cerulean City" },
+      "badge": { "de": "Kaskadenorden", "en": "Cascade Badge" },
+      "team": [
+        { "id": 55, "level": 42 },
+        { "id": 195, "level": 42 },
+        { "id": 131, "level": 44 },
+        { "id": 121, "level": 47, "ace": true }
+      ]
+    },
+    {
+      "key": "erika-kanto",
+      "category": "gymKanto",
+      "type": "grass",
+      "name": { "de": "Erika", "en": "Erika" },
+      "city": { "de": "Prismania City", "en": "Celadon City" },
+      "badge": { "de": "Farborden", "en": "Rainbow Badge" },
+      "team": [
+        { "id": 114, "level": 42 },
+        { "id": 189, "level": 41 },
+        { "id": 71, "level": 46 },
+        { "id": 182, "level": 46, "ace": true }
+      ]
+    },
+    {
+      "key": "janine-kanto",
+      "category": "gymKanto",
+      "type": "poison",
+      "name": { "de": "Janina", "en": "Janine" },
+      "city": { "de": "Fuchsania City", "en": "Fuchsia City" },
+      "badge": { "de": "Seelenorden", "en": "Soul Badge" },
+      "team": [
+        { "id": 169, "level": 36 },
+        { "id": 110, "level": 36 },
+        { "id": 110, "level": 36 },
+        { "id": 168, "level": 33 },
+        { "id": 49, "level": 39, "ace": true }
+      ]
+    },
+    {
+      "key": "brock-kanto",
+      "category": "gymKanto",
+      "type": "rock",
+      "name": { "de": "Rocko", "en": "Brock" },
+      "city": { "de": "Marmoria City", "en": "Pewter City" },
+      "badge": { "de": "Felsorden", "en": "Boulder Badge" },
+      "team": [
+        { "id": 75, "level": 41 },
+        { "id": 111, "level": 41 },
+        { "id": 139, "level": 42 },
+        { "id": 95, "level": 44, "ace": true },
+        { "id": 141, "level": 42 }
+      ]
+    },
+    {
+      "key": "blaine-kanto",
+      "category": "gymKanto",
+      "type": "fire",
+      "name": { "de": "Pyro", "en": "Blaine" },
+      "city": { "de": "Schauminseln", "en": "Seafoam Islands" },
+      "badge": { "de": "Vulkanorden", "en": "Volcano Badge" },
+      "team": [
+        { "id": 219, "level": 45 },
+        { "id": 126, "level": 45 },
+        { "id": 78, "level": 50, "ace": true }
+      ]
+    },
+    {
+      "key": "blue-kanto",
+      "category": "gymKanto",
+      "type": null,
+      "name": { "de": "Blau", "en": "Blue" },
+      "city": { "de": "Vertania City", "en": "Viridian City" },
+      "badge": { "de": "Erdorden", "en": "Earth Badge" },
+      "team": [
+        { "id": 18, "level": 56 },
+        { "id": 65, "level": 54 },
+        { "id": 112, "level": 56 },
+        { "id": 130, "level": 58 },
+        { "id": 103, "level": 58 },
+        { "id": 59, "level": 58, "ace": true }
+      ]
+    },
+    {
+      "key": "red",
+      "category": "superBoss",
+      "type": null,
+      "name": { "de": "Rot", "en": "Red" },
+      "city": { "de": "Silberberg", "en": "Mt. Silver" },
+      "team": [
+        { "id": 25, "level": 81, "ace": true },
+        { "id": 196, "level": 73 },
+        { "id": 143, "level": 75 },
+        { "id": 3, "level": 77 },
+        { "id": 6, "level": 77 },
+        { "id": 9, "level": 77 }
       ]
     }
   ]

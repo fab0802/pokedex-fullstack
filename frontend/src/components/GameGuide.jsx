@@ -11,11 +11,21 @@ import styles from "./GameGuide.module.css";
 // später nur ergänzt werden müssen: Datendatei importieren und hier eintragen.
 const GUIDES = [redBlue, yellow, goldSilver];
 
-const CATEGORY_ORDER = ["gym", "eliteFour", "champion"];
+const CATEGORY_ORDER = [
+  "gym",
+  "gymJohto",
+  "eliteFour",
+  "champion",
+  "gymKanto",
+  "superBoss",
+];
 const CATEGORY_KEY = {
   gym: "guide.gyms",
+  gymJohto: "guide.gymsJohto",
   eliteFour: "guide.eliteFour",
   champion: "guide.champion",
+  gymKanto: "guide.gymsKanto",
+  superBoss: "guide.superBoss",
 };
 
 export default function GameGuide() {
