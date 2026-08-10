@@ -1,0 +1,181 @@
+{
+  "game": "gold-silver",
+  "region": "johto",
+  "label": { "de": "Gold/Silber", "en": "Gold/Silver" },
+  "trainers": [
+    {
+      "key": "falkner",
+      "category": "gym",
+      "type": "flying",
+      "name": { "de": "Falk", "en": "Falkner" },
+      "city": { "de": "Rosalia City", "en": "Violet City" },
+      "badge": { "de": "Flügelorden", "en": "Zephyr Badge" },
+      "team": [
+        { "id": 16, "level": 7 },
+        { "id": 17, "level": 9, "ace": true }
+      ]
+    },
+    {
+      "key": "bugsy",
+      "category": "gym",
+      "type": "bug",
+      "name": { "de": "Kai", "en": "Bugsy" },
+      "city": { "de": "Azalea City", "en": "Azalea Town" },
+      "badge": { "de": "Käferorden", "en": "Hive Badge" },
+      "team": [
+        { "id": 11, "level": 14 },
+        { "id": 14, "level": 14 },
+        { "id": 123, "level": 16, "ace": true }
+      ]
+    },
+    {
+      "key": "whitney",
+      "category": "gym",
+      "type": "normal",
+      "name": { "de": "Bianka", "en": "Whitney" },
+      "city": { "de": "Dukatia City", "en": "Goldenrod City" },
+      "badge": { "de": "Flachlandorden", "en": "Plain Badge" },
+      "team": [
+        { "id": 35, "level": 18 },
+        { "id": 241, "level": 20, "ace": true }
+      ]
+    },
+    {
+      "key": "morty",
+      "category": "gym",
+      "type": "ghost",
+      "name": { "de": "Jens", "en": "Morty" },
+      "city": { "de": "Teak City", "en": "Ecruteak City" },
+      "badge": { "de": "Nebelorden", "en": "Fog Badge" },
+      "team": [
+        { "id": 92, "level": 21 },
+        { "id": 93, "level": 21 },
+        { "id": 93, "level": 23 },
+        { "id": 94, "level": 25, "ace": true }
+      ]
+    },
+    {
+      "key": "chuck",
+      "category": "gym",
+      "type": "fighting",
+      "name": { "de": "Hartwig", "en": "Chuck" },
+      "city": { "de": "Remoraville", "en": "Cianwood City" },
+      "badge": { "de": "Sturmorden", "en": "Storm Badge" },
+      "team": [
+        { "id": 57, "level": 27 },
+        { "id": 62, "level": 30, "ace": true }
+      ]
+    },
+    {
+      "key": "jasmine",
+      "category": "gym",
+      "type": "steel",
+      "name": { "de": "Jasmin", "en": "Jasmine" },
+      "city": { "de": "Oliviana City", "en": "Olivine City" },
+      "badge": { "de": "Mineralorden", "en": "Mineral Badge" },
+      "team": [
+        { "id": 81, "level": 30 },
+        { "id": 81, "level": 30 },
+        { "id": 208, "level": 35, "ace": true }
+      ]
+    },
+    {
+      "key": "pryce",
+      "category": "gym",
+      "type": "ice",
+      "name": { "de": "Norbert", "en": "Pryce" },
+      "city": { "de": "Mahagonia City", "en": "Mahogany Town" },
+      "badge": { "de": "Gletscherorden", "en": "Glacier Badge" },
+      "team": [
+        { "id": 86, "level": 27 },
+        { "id": 87, "level": 29 },
+        { "id": 221, "level": 31, "ace": true }
+      ]
+    },
+    {
+      "key": "clair",
+      "category": "gym",
+      "type": "dragon",
+      "name": { "de": "Sandra", "en": "Clair" },
+      "city": { "de": "Ebenholz City", "en": "Blackthorn City" },
+      "badge": { "de": "Drachenorden", "en": "Rising Badge" },
+      "team": [
+        { "id": 148, "level": 37 },
+        { "id": 148, "level": 37 },
+        { "id": 148, "level": 37 },
+        { "id": 230, "level": 40, "ace": true }
+      ]
+    },
+    {
+      "key": "will",
+      "category": "eliteFour",
+      "type": "psychic",
+      "name": { "de": "Willi", "en": "Will" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 178, "level": 40 },
+        { "id": 124, "level": 41 },
+        { "id": 103, "level": 41 },
+        { "id": 80, "level": 41 },
+        { "id": 178, "level": 42, "ace": true }
+      ]
+    },
+    {
+      "key": "koga",
+      "category": "eliteFour",
+      "type": "poison",
+      "name": { "de": "Koga", "en": "Koga" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 168, "level": 40 },
+        { "id": 49, "level": 41 },
+        { "id": 205, "level": 43 },
+        { "id": 89, "level": 42 },
+        { "id": 169, "level": 44, "ace": true }
+      ]
+    },
+    {
+      "key": "bruno",
+      "category": "eliteFour",
+      "type": "fighting",
+      "name": { "de": "Bruno", "en": "Bruno" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 237, "level": 42 },
+        { "id": 106, "level": 42 },
+        { "id": 107, "level": 42 },
+        { "id": 95, "level": 43 },
+        { "id": 68, "level": 46, "ace": true }
+      ]
+    },
+    {
+      "key": "karen",
+      "category": "eliteFour",
+      "type": "dark",
+      "name": { "de": "Melanie", "en": "Karen" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 197, "level": 42 },
+        { "id": 45, "level": 42 },
+        { "id": 94, "level": 45 },
+        { "id": 198, "level": 44 },
+        { "id": 229, "level": 47, "ace": true }
+      ]
+    },
+    {
+      "key": "lance",
+      "category": "champion",
+      "type": "dragon",
+      "name": { "de": "Siegfried", "en": "Lance" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 130, "level": 44 },
+        { "id": 149, "level": 47 },
+        { "id": 149, "level": 47 },
+        { "id": 142, "level": 46 },
+        { "id": 6, "level": 46 },
+        { "id": 149, "level": 50, "ace": true }
+      ]
+    }
+  ]
+}
