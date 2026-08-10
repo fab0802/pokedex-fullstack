@@ -8,16 +8,18 @@ import rubySapphire from "../data/trainers/rubySapphire.json";
 import diamondPearl from "../data/trainers/diamondPearl.json";
 import blackWhite from "../data/trainers/blackWhite.json";
 import xy from "../data/trainers/xy.json";
+import sunMoon from "../data/trainers/sunMoon.json";
 import TrainerCard from "./TrainerCard";
 import styles from "./GameGuide.module.css";
 
 // Aktuell nur ein Guide - bewusst als Liste angelegt, damit weitere Spiele
 // später nur ergänzt werden müssen: Datendatei importieren und hier eintragen.
-const GUIDES = [redBlue, yellow, goldSilver, rubySapphire, diamondPearl, blackWhite, xy];
+const GUIDES = [redBlue, yellow, goldSilver, rubySapphire, diamondPearl, blackWhite, xy, sunMoon];
 
 const CATEGORY_ORDER = [
   "gym",
   "gymJohto",
+  "kahuna",
   "eliteFour",
   "champion",
   "gymKanto",
@@ -26,6 +28,7 @@ const CATEGORY_ORDER = [
 const CATEGORY_KEY = {
   gym: "guide.gyms",
   gymJohto: "guide.gymsJohto",
+  kahuna: "guide.kahuna",
   eliteFour: "guide.eliteFour",
   champion: "guide.champion",
   gymKanto: "guide.gymsKanto",

@@ -1,0 +1,146 @@
+{
+  "game": "sun-moon",
+  "region": "alola",
+  "label": { "de": "Sonne/Mond", "en": "Sun/Moon" },
+  "trainers": [
+    {
+      "key": "hala-kahuna",
+      "category": "kahuna",
+      "type": "fighting",
+      "name": { "de": "Hala", "en": "Hala" },
+      "city": { "de": "Mele-Mele", "en": "Melemele Island" },
+      "team": [
+        { "id": 56, "level": 14 },
+        { "id": 296, "level": 14 },
+        { "id": 739, "level": 15, "ace": true }
+      ]
+    },
+    {
+      "key": "olivia-kahuna",
+      "category": "kahuna",
+      "type": "rock",
+      "name": { "de": "Mayla", "en": "Olivia" },
+      "city": { "de": "Akala", "en": "Akala Island" },
+      "team": [
+        { "id": 299, "level": 26 },
+        { "id": 525, "level": 26 },
+        { "id": 745, "level": 27, "ace": true }
+      ]
+    },
+    {
+      "key": "nanu-kahuna",
+      "category": "kahuna",
+      "type": "dark",
+      "name": { "de": "Nanu", "en": "Nanu" },
+      "city": { "de": "Ula-Ula", "en": "Ula'ula Island" },
+      "team": [
+        { "id": 302, "level": 38 },
+        { "id": 552, "level": 38 },
+        { "id": 10108, "level": 39, "ace": true, "name": { "de": "Alola-Snobilikat", "en": "Alolan Persian" } }
+      ]
+    },
+    {
+      "key": "hapu-kahuna",
+      "category": "kahuna",
+      "type": "ground",
+      "name": { "de": "Hapu'u", "en": "Hapu" },
+      "city": { "de": "Poni", "en": "Poni Island" },
+      "team": [
+        { "id": 10106, "level": 47, "name": { "de": "Alola-Digdri", "en": "Alolan Dugtrio" } },
+        { "id": 423, "level": 47 },
+        { "id": 330, "level": 47 },
+        { "id": 750, "level": 48, "ace": true }
+      ]
+    },
+    {
+      "key": "hala-e4",
+      "category": "eliteFour",
+      "type": "fighting",
+      "name": { "de": "Hala", "en": "Hala" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 297, "level": 54 },
+        { "id": 57, "level": 54 },
+        { "id": 760, "level": 54 },
+        { "id": 62, "level": 54 },
+        { "id": 740, "level": 55, "ace": true }
+      ]
+    },
+    {
+      "key": "olivia-e4",
+      "category": "eliteFour",
+      "type": "rock",
+      "name": { "de": "Mayla", "en": "Olivia" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 369, "level": 54 },
+        { "id": 703, "level": 54 },
+        { "id": 10111, "level": 54, "name": { "de": "Alola-Geowaz", "en": "Alolan Golem" } },
+        { "id": 476, "level": 54 },
+        { "id": 745, "level": 55, "ace": true }
+      ]
+    },
+    {
+      "key": "acerola-e4",
+      "category": "eliteFour",
+      "type": "ghost",
+      "name": { "de": "Lola", "en": "Acerola" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 302, "level": 54 },
+        { "id": 426, "level": 54 },
+        { "id": 781, "level": 54 },
+        { "id": 478, "level": 54 },
+        { "id": 770, "level": 55, "ace": true }
+      ]
+    },
+    {
+      "key": "kahili-e4",
+      "category": "eliteFour",
+      "type": "flying",
+      "name": { "de": "Kahili", "en": "Kahili" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 227, "level": 54 },
+        { "id": 169, "level": 54 },
+        { "id": 741, "level": 54 },
+        { "id": 630, "level": 54 },
+        { "id": 733, "level": 55, "ace": true }
+      ]
+    },
+    {
+      "key": "kukui",
+      "category": "champion",
+      "type": null,
+      "name": { "de": "Professor Kukui", "en": "Professor Kukui" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 745, "level": 57, "ace": true },
+        { "id": 10104, "level": 56, "name": { "de": "Alola-Vulnona", "en": "Alolan Ninetales" } },
+        { "id": 628, "level": 56 },
+        { "id": 462, "level": 56 },
+        { "id": 143, "level": 56 }
+      ],
+      "variants": [
+        {
+          "label": { "de": "Wenn du Bauz gewählt hast", "en": "If you chose Rowlet" },
+          "team": [
+            { "id": 727, "level": 58 }
+          ]
+        },
+        {
+          "label": { "de": "Wenn du Flamiau gewählt hast", "en": "If you chose Litten" },
+          "team": [
+            { "id": 730, "level": 58 }
+          ]
+        },
+        {
+          "label": { "de": "Wenn du Robball gewählt hast", "en": "If you chose Popplio" },
+          "team": [
+            { "id": 724, "level": 58 }
+          ]
+        }
+      ]
+    }
+  ]
+}

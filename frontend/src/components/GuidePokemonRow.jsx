@@ -21,7 +21,7 @@ function superEffective(groups) {
   return out.sort((a, b) => b.factor - a.factor);
 }
 
-export default function GuidePokemonRow({ id, level, ace = false }) {
+export default function GuidePokemonRow({ id, level, ace = false, nameOverride = null }) {
   const { t, i18n } = useTranslation();
   const [pokemon, setPokemon] = useState(null);
   const [weak, setWeak] = useState([]);
@@ -45,7 +45,10 @@ export default function GuidePokemonRow({ id, level, ace = false }) {
     };
   }, [id]);
 
-  const name = pokemon ? pokemonName(pokemon, i18n.language) : "…";
+  const overrideName = nameOverride
+    ? (i18n.language.startsWith("de") ? nameOverride.de : nameOverride.en)
+    : null;
+  const name = overrideName ?? (pokemon ? pokemonName(pokemon, i18n.language) : "…");
 
   return (
     <Link

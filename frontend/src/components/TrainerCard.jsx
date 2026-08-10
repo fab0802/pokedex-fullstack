@@ -35,6 +35,7 @@ export default function TrainerCard({ trainer }) {
             id={mon.id}
             level={mon.level}
             ace={mon.ace}
+            nameOverride={mon.name}
           />
         ))}
       </div>
@@ -52,6 +53,7 @@ export default function TrainerCard({ trainer }) {
                     id={mon.id}
                     level={mon.level}
                     ace={mon.ace}
+                    nameOverride={mon.name}
                   />
                 ))}
               </div>
