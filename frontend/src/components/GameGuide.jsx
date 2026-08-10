@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BookOpen } from "lucide-react";
 import redBlue from "../data/trainers/redBlue.json";
+import yellow from "../data/trainers/yellow.json";
+import goldSilver from "../data/trainers/goldSilver.json";
 import TrainerCard from "./TrainerCard";
 import styles from "./GameGuide.module.css";
 
 // Aktuell nur ein Guide - bewusst als Liste angelegt, damit weitere Spiele
 // später nur ergänzt werden müssen: Datendatei importieren und hier eintragen.
-const GUIDES = [redBlue];
+const GUIDES = [redBlue, yellow, goldSilver];
 
 const CATEGORY_ORDER = ["gym", "eliteFour", "champion"];
 const CATEGORY_KEY = {

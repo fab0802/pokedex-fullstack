@@ -1,0 +1,204 @@
+{
+  "game": "yellow",
+  "region": "kanto",
+  "label": { "de": "Gelb", "en": "Yellow" },
+  "trainers": [
+    {
+      "key": "brock",
+      "category": "gym",
+      "type": "rock",
+      "name": { "de": "Rocko", "en": "Brock" },
+      "city": { "de": "Marmoria City", "en": "Pewter City" },
+      "badge": { "de": "Felsorden", "en": "Boulder Badge" },
+      "team": [
+        { "id": 74, "level": 10 },
+        { "id": 95, "level": 12, "ace": true }
+      ]
+    },
+    {
+      "key": "misty",
+      "category": "gym",
+      "type": "water",
+      "name": { "de": "Misty", "en": "Misty" },
+      "city": { "de": "Azuria City", "en": "Cerulean City" },
+      "badge": { "de": "Kaskadenorden", "en": "Cascade Badge" },
+      "team": [
+        { "id": 120, "level": 18 },
+        { "id": 121, "level": 21, "ace": true }
+      ]
+    },
+    {
+      "key": "surge",
+      "category": "gym",
+      "type": "electric",
+      "name": { "de": "Major Bob", "en": "Lt. Surge" },
+      "city": { "de": "Orania City", "en": "Vermilion City" },
+      "badge": { "de": "Donnerorden", "en": "Thunder Badge" },
+      "team": [
+        { "id": 26, "level": 28, "ace": true }
+      ]
+    },
+    {
+      "key": "erika",
+      "category": "gym",
+      "type": "grass",
+      "name": { "de": "Erika", "en": "Erika" },
+      "city": { "de": "Prismania City", "en": "Celadon City" },
+      "badge": { "de": "Farborden", "en": "Rainbow Badge" },
+      "team": [
+        { "id": 114, "level": 30 },
+        { "id": 70, "level": 32 },
+        { "id": 44, "level": 32, "ace": true }
+      ]
+    },
+    {
+      "key": "koga",
+      "category": "gym",
+      "type": "poison",
+      "name": { "de": "Koga", "en": "Koga" },
+      "city": { "de": "Fuchsania City", "en": "Fuchsia City" },
+      "badge": { "de": "Seelenorden", "en": "Soul Badge" },
+      "team": [
+        { "id": 48, "level": 44 },
+        { "id": 48, "level": 46 },
+        { "id": 48, "level": 48 },
+        { "id": 49, "level": 50, "ace": true }
+      ]
+    },
+    {
+      "key": "sabrina",
+      "category": "gym",
+      "type": "psychic",
+      "name": { "de": "Sabrina", "en": "Sabrina" },
+      "city": { "de": "Saffronia City", "en": "Saffron City" },
+      "badge": { "de": "Sumpforden", "en": "Marsh Badge" },
+      "team": [
+        { "id": 63, "level": 50 },
+        { "id": 64, "level": 50 },
+        { "id": 65, "level": 50, "ace": true }
+      ]
+    },
+    {
+      "key": "blaine",
+      "category": "gym",
+      "type": "fire",
+      "name": { "de": "Pyro", "en": "Blaine" },
+      "city": { "de": "Zinnoberinsel", "en": "Cinnabar Island" },
+      "badge": { "de": "Vulkanorden", "en": "Volcano Badge" },
+      "team": [
+        { "id": 38, "level": 48 },
+        { "id": 78, "level": 50 },
+        { "id": 59, "level": 54, "ace": true }
+      ]
+    },
+    {
+      "key": "giovanni",
+      "category": "gym",
+      "type": "ground",
+      "name": { "de": "Giovanni", "en": "Giovanni" },
+      "city": { "de": "Vertania City", "en": "Viridian City" },
+      "badge": { "de": "Erdorden", "en": "Earth Badge" },
+      "team": [
+        { "id": 51, "level": 50 },
+        { "id": 53, "level": 53 },
+        { "id": 31, "level": 53 },
+        { "id": 34, "level": 55 },
+        { "id": 112, "level": 55, "ace": true }
+      ]
+    },
+    {
+      "key": "lorelei",
+      "category": "eliteFour",
+      "type": "ice",
+      "name": { "de": "Lorelei", "en": "Lorelei" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 87, "level": 54 },
+        { "id": 91, "level": 53 },
+        { "id": 80, "level": 54 },
+        { "id": 124, "level": 56 },
+        { "id": 131, "level": 56, "ace": true }
+      ]
+    },
+    {
+      "key": "bruno",
+      "category": "eliteFour",
+      "type": "fighting",
+      "name": { "de": "Bruno", "en": "Bruno" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 95, "level": 53 },
+        { "id": 107, "level": 55 },
+        { "id": 106, "level": 55 },
+        { "id": 95, "level": 56 },
+        { "id": 68, "level": 58, "ace": true }
+      ]
+    },
+    {
+      "key": "agatha",
+      "category": "eliteFour",
+      "type": "ghost",
+      "name": { "de": "Agathe", "en": "Agatha" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 94, "level": 56 },
+        { "id": 42, "level": 56 },
+        { "id": 93, "level": 55 },
+        { "id": 24, "level": 58 },
+        { "id": 94, "level": 60, "ace": true }
+      ]
+    },
+    {
+      "key": "lance",
+      "category": "eliteFour",
+      "type": "dragon",
+      "name": { "de": "Siegfried", "en": "Lance" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 130, "level": 58 },
+        { "id": 148, "level": 56 },
+        { "id": 148, "level": 56 },
+        { "id": 142, "level": 60 },
+        { "id": 149, "level": 62, "ace": true }
+      ]
+    },
+    {
+      "key": "rival",
+      "category": "champion",
+      "type": null,
+      "name": { "de": "Rivale", "en": "Rival" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 28, "level": 61 },
+        { "id": 65, "level": 59 },
+        { "id": 103, "level": 61 }
+      ],
+      "variants": [
+        {
+          "label": { "de": "Blitza – beide Rivalen-Kämpfe gewonnen", "en": "Jolteon — won both rival battles" },
+          "team": [
+            { "id": 91, "level": 61 },
+            { "id": 38, "level": 63 },
+            { "id": 135, "level": 65, "ace": true }
+          ]
+        },
+        {
+          "label": { "de": "Flamara – einen gewonnen, einen verloren", "en": "Flareon — won one, lost one" },
+          "team": [
+            { "id": 82, "level": 61 },
+            { "id": 91, "level": 63 },
+            { "id": 136, "level": 65, "ace": true }
+          ]
+        },
+        {
+          "label": { "de": "Aquana – beide Rivalen-Kämpfe verloren", "en": "Vaporeon — lost both rival battles" },
+          "team": [
+            { "id": 38, "level": 61 },
+            { "id": 82, "level": 63 },
+            { "id": 134, "level": 65, "ace": true }
+          ]
+        }
+      ]
+    }
+  ]
+}
