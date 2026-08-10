@@ -1,0 +1,184 @@
+{
+  "game": "diamond-pearl",
+  "region": "sinnoh",
+  "label": { "de": "Diamant/Perl", "en": "Diamond/Pearl" },
+  "trainers": [
+    {
+      "key": "roark",
+      "category": "gym",
+      "type": "rock",
+      "name": { "de": "Veit", "en": "Roark" },
+      "city": { "de": "Erzelingen", "en": "Oreburgh City" },
+      "badge": { "de": "Kohleorden", "en": "Coal Badge" },
+      "team": [
+        { "id": 74, "level": 12 },
+        { "id": 95, "level": 12 },
+        { "id": 408, "level": 14, "ace": true }
+      ]
+    },
+    {
+      "key": "gardenia",
+      "category": "gym",
+      "type": "grass",
+      "name": { "de": "Silvana", "en": "Gardenia" },
+      "city": { "de": "Ewigenau", "en": "Eterna City" },
+      "badge": { "de": "Waldorden", "en": "Forest Badge" },
+      "team": [
+        { "id": 420, "level": 19 },
+        { "id": 387, "level": 19 },
+        { "id": 407, "level": 22, "ace": true }
+      ]
+    },
+    {
+      "key": "maylene",
+      "category": "gym",
+      "type": "fighting",
+      "name": { "de": "Hilda", "en": "Maylene" },
+      "city": { "de": "Schleiede", "en": "Veilstone City" },
+      "badge": { "de": "Bergorden", "en": "Cobble Badge" },
+      "team": [
+        { "id": 307, "level": 27 },
+        { "id": 67, "level": 27 },
+        { "id": 448, "level": 30, "ace": true }
+      ]
+    },
+    {
+      "key": "crasher-wake",
+      "category": "gym",
+      "type": "water",
+      "name": { "de": "Marinus", "en": "Crasher Wake" },
+      "city": { "de": "Weideburg", "en": "Pastoria City" },
+      "badge": { "de": "Fennorden", "en": "Fen Badge" },
+      "team": [
+        { "id": 130, "level": 27 },
+        { "id": 195, "level": 27 },
+        { "id": 419, "level": 30, "ace": true }
+      ]
+    },
+    {
+      "key": "fantina",
+      "category": "gym",
+      "type": "ghost",
+      "name": { "de": "Lamina", "en": "Fantina" },
+      "city": { "de": "Herzhofen", "en": "Hearthome City" },
+      "badge": { "de": "Reliktorden", "en": "Relic Badge" },
+      "team": [
+        { "id": 426, "level": 32 },
+        { "id": 94, "level": 34 },
+        { "id": 429, "level": 36, "ace": true }
+      ]
+    },
+    {
+      "key": "byron",
+      "category": "gym",
+      "type": "steel",
+      "name": { "de": "Adam", "en": "Byron" },
+      "city": { "de": "Fleetburg", "en": "Canalave City" },
+      "badge": { "de": "Minenorden", "en": "Mine Badge" },
+      "team": [
+        { "id": 436, "level": 36 },
+        { "id": 208, "level": 36 },
+        { "id": 411, "level": 39, "ace": true }
+      ]
+    },
+    {
+      "key": "candice",
+      "category": "gym",
+      "type": "ice",
+      "name": { "de": "Frida", "en": "Candice" },
+      "city": { "de": "Blizzach", "en": "Snowpoint City" },
+      "badge": { "de": "Firnorden", "en": "Icicle Badge" },
+      "team": [
+        { "id": 459, "level": 38 },
+        { "id": 215, "level": 38 },
+        { "id": 308, "level": 40 },
+        { "id": 460, "level": 42, "ace": true }
+      ]
+    },
+    {
+      "key": "volkner",
+      "category": "gym",
+      "type": "electric",
+      "name": { "de": "Volkner", "en": "Volkner" },
+      "city": { "de": "Sonnewik", "en": "Sunyshore City" },
+      "badge": { "de": "Lichtorden", "en": "Beacon Badge" },
+      "team": [
+        { "id": 26, "level": 46 },
+        { "id": 424, "level": 47 },
+        { "id": 224, "level": 47 },
+        { "id": 405, "level": 49, "ace": true }
+      ]
+    },
+    {
+      "key": "aaron",
+      "category": "eliteFour",
+      "type": "bug",
+      "name": { "de": "Herbaro", "en": "Aaron" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 269, "level": 53 },
+        { "id": 267, "level": 53 },
+        { "id": 416, "level": 54 },
+        { "id": 214, "level": 54 },
+        { "id": 452, "level": 57, "ace": true }
+      ]
+    },
+    {
+      "key": "bertha",
+      "category": "eliteFour",
+      "type": "ground",
+      "name": { "de": "Teresa", "en": "Bertha" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 195, "level": 55 },
+        { "id": 185, "level": 56 },
+        { "id": 76, "level": 56 },
+        { "id": 340, "level": 55 },
+        { "id": 450, "level": 59, "ace": true }
+      ]
+    },
+    {
+      "key": "flint",
+      "category": "eliteFour",
+      "type": "fire",
+      "name": { "de": "Ignaz", "en": "Flint" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 78, "level": 58 },
+        { "id": 208, "level": 57 },
+        { "id": 426, "level": 58 },
+        { "id": 428, "level": 57 },
+        { "id": 392, "level": 61, "ace": true }
+      ]
+    },
+    {
+      "key": "lucian",
+      "category": "eliteFour",
+      "type": "psychic",
+      "name": { "de": "Lucian", "en": "Lucian" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 122, "level": 59 },
+        { "id": 203, "level": 59 },
+        { "id": 308, "level": 60 },
+        { "id": 65, "level": 60 },
+        { "id": 437, "level": 63, "ace": true }
+      ]
+    },
+    {
+      "key": "cynthia",
+      "category": "champion",
+      "type": null,
+      "name": { "de": "Cynthia", "en": "Cynthia" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 442, "level": 61 },
+        { "id": 407, "level": 60 },
+        { "id": 423, "level": 60 },
+        { "id": 448, "level": 63 },
+        { "id": 350, "level": 63 },
+        { "id": 445, "level": 66, "ace": true }
+      ]
+    }
+  ]
+}
