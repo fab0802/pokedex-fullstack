@@ -1,0 +1,181 @@
+{
+  "game": "sword-shield",
+  "region": "galar",
+  "label": { "de": "Schwert/Schild", "en": "Sword/Shield" },
+  "trainers": [
+    {
+      "key": "milo",
+      "category": "gym",
+      "type": "grass",
+      "name": { "de": "Yarro", "en": "Milo" },
+      "city": { "de": "Turffield", "en": "Turffield" },
+      "badge": { "de": "Pflanzen-Orden", "en": "Grass Badge" },
+      "team": [
+        { "id": 829, "level": 19 },
+        { "id": 830, "level": 20, "ace": true }
+      ]
+    },
+    {
+      "key": "nessa",
+      "category": "gym",
+      "type": "water",
+      "name": { "de": "Kate", "en": "Nessa" },
+      "city": { "de": "Keelton", "en": "Hulbury" },
+      "badge": { "de": "Wasser-Orden", "en": "Water Badge" },
+      "team": [
+        { "id": 118, "level": 22 },
+        { "id": 846, "level": 23 },
+        { "id": 834, "level": 24, "ace": true }
+      ]
+    },
+    {
+      "key": "kabu",
+      "category": "gym",
+      "type": "fire",
+      "name": { "de": "Kabu", "en": "Kabu" },
+      "city": { "de": "Engine City", "en": "Motostoke" },
+      "badge": { "de": "Feuer-Orden", "en": "Fire Badge" },
+      "team": [
+        { "id": 38, "level": 25 },
+        { "id": 59, "level": 25 },
+        { "id": 851, "level": 27, "ace": true }
+      ]
+    },
+    {
+      "key": "bea",
+      "category": "gym",
+      "type": "fighting",
+      "name": { "de": "Saida (Schwert)", "en": "Bea (Sword)" },
+      "city": { "de": "Passbeck", "en": "Stow-on-Side" },
+      "badge": { "de": "Kampf-Orden", "en": "Fighting Badge" },
+      "team": [
+        { "id": 237, "level": 34 },
+        { "id": 675, "level": 34 },
+        { "id": 865, "level": 35 },
+        { "id": 68, "level": 36, "ace": true }
+      ]
+    },
+    {
+      "key": "allister",
+      "category": "gym",
+      "type": "ghost",
+      "name": { "de": "Nio (Schild)", "en": "Allister (Shield)" },
+      "city": { "de": "Passbeck", "en": "Stow-on-Side" },
+      "badge": { "de": "Geister-Orden", "en": "Ghost Badge" },
+      "team": [
+        { "id": 10176, "level": 34, "name": { "de": "Galar-Makabaja", "en": "Galarian Yamask" } },
+        { "id": 778, "level": 34 },
+        { "id": 864, "level": 35 },
+        { "id": 94, "level": 36, "ace": true }
+      ]
+    },
+    {
+      "key": "opal",
+      "category": "gym",
+      "type": "fairy",
+      "name": { "de": "Papella", "en": "Opal" },
+      "city": { "de": "Fairballey", "en": "Ballonlea" },
+      "badge": { "de": "Feen-Orden", "en": "Fairy Badge" },
+      "team": [
+        { "id": 10164, "level": 36, "name": { "de": "Galar-Smogmog", "en": "Galarian Weezing" } },
+        { "id": 303, "level": 36 },
+        { "id": 468, "level": 37 },
+        { "id": 869, "level": 38, "ace": true }
+      ]
+    },
+    {
+      "key": "gordie",
+      "category": "gym",
+      "type": "rock",
+      "name": { "de": "Mac (Schwert)", "en": "Gordie (Sword)" },
+      "city": { "de": "Circhester", "en": "Circhester" },
+      "badge": { "de": "Gesteins-Orden", "en": "Rock Badge" },
+      "team": [
+        { "id": 689, "level": 40 },
+        { "id": 213, "level": 40 },
+        { "id": 874, "level": 41 },
+        { "id": 839, "level": 42, "ace": true }
+      ]
+    },
+    {
+      "key": "melony",
+      "category": "gym",
+      "type": "ice",
+      "name": { "de": "Mel (Schild)", "en": "Melony (Shield)" },
+      "city": { "de": "Circhester", "en": "Circhester" },
+      "badge": { "de": "Eis-Orden", "en": "Ice Badge" },
+      "team": [
+        { "id": 873, "level": 40 },
+        { "id": 10174, "level": 40, "name": { "de": "Galar-Flampivian", "en": "Galarian Darmanitan" } },
+        { "id": 875, "level": 41 },
+        { "id": 131, "level": 42, "ace": true }
+      ]
+    },
+    {
+      "key": "piers",
+      "category": "gym",
+      "type": "dark",
+      "name": { "de": "Nezz", "en": "Piers" },
+      "city": { "de": "Spikeford", "en": "Spikemuth" },
+      "badge": { "de": "Unlicht-Orden", "en": "Dark Badge" },
+      "team": [
+        { "id": 560, "level": 44 },
+        { "id": 687, "level": 45 },
+        { "id": 435, "level": 45 },
+        { "id": 862, "level": 46, "ace": true }
+      ]
+    },
+    {
+      "key": "raihan",
+      "category": "gym",
+      "type": "dragon",
+      "name": { "de": "Roy", "en": "Raihan" },
+      "city": { "de": "Claw City", "en": "Hammerlocke" },
+      "badge": { "de": "Drachen-Orden", "en": "Dragon Badge" },
+      "team": [
+        { "id": 526, "level": 46 },
+        { "id": 330, "level": 47 },
+        { "id": 844, "level": 46 },
+        { "id": 884, "level": 48, "ace": true }
+      ]
+    },
+    {
+      "key": "leon",
+      "category": "champion",
+      "type": null,
+      "name": { "de": "Delion", "en": "Leon" },
+      "city": { "de": "Score City", "en": "Wyndon" },
+      "team": [
+        { "id": 681, "level": 62 },
+        { "id": 887, "level": 62 },
+        { "id": 612, "level": 63 }
+      ],
+      "variants": [
+        {
+          "label": { "de": "Wenn du Chimpep gewählt hast", "en": "If you chose Grookey" },
+          "team": [
+            { "id": 537, "level": 64 },
+            { "id": 815, "level": 64 },
+            { "id": 6, "level": 65, "ace": true }
+          ]
+        },
+        {
+          "label": { "de": "Wenn du Hopplo gewählt hast", "en": "If you chose Scorbunny" },
+          "team": [
+            { "id": 866, "level": 64 },
+            { "id": 818, "level": 64 },
+            { "id": 6, "level": 65, "ace": true }
+          ]
+        },
+        {
+          "label": { "de": "Wenn du Memmeon gewählt hast", "en": "If you chose Sobble" },
+          "team": [
+            { "id": 464, "level": 64 },
+            { "id": 812, "level": 64 },
+            { "id": 6, "level": 65, "ace": true }
+          ]
+        }
+      ]
+    }
+  ]
+}
