@@ -1,0 +1,176 @@
+{
+  "game": "x-y",
+  "region": "kalos",
+  "label": { "de": "X/Y", "en": "X/Y" },
+  "trainers": [
+    {
+      "key": "viola",
+      "category": "gym",
+      "type": "bug",
+      "name": { "de": "Viola", "en": "Viola" },
+      "city": { "de": "Nouvaria City", "en": "Santalune City" },
+      "badge": { "de": "Krabbelorden", "en": "Bug Badge" },
+      "team": [
+        { "id": 283, "level": 10 },
+        { "id": 666, "level": 12, "ace": true }
+      ]
+    },
+    {
+      "key": "grant",
+      "category": "gym",
+      "type": "rock",
+      "name": { "de": "Lino", "en": "Grant" },
+      "city": { "de": "Relievera City", "en": "Cyllage City" },
+      "badge": { "de": "Wallorden", "en": "Cliff Badge" },
+      "team": [
+        { "id": 698, "level": 25 },
+        { "id": 696, "level": 25, "ace": true }
+      ]
+    },
+    {
+      "key": "korrina",
+      "category": "gym",
+      "type": "fighting",
+      "name": { "de": "Connie", "en": "Korrina" },
+      "city": { "de": "Yantara City", "en": "Shalour City" },
+      "badge": { "de": "Rauforden", "en": "Rumble Badge" },
+      "team": [
+        { "id": 619, "level": 29 },
+        { "id": 67, "level": 28 },
+        { "id": 701, "level": 32, "ace": true }
+      ]
+    },
+    {
+      "key": "ramos",
+      "category": "gym",
+      "type": "grass",
+      "name": { "de": "Amaro", "en": "Ramos" },
+      "city": { "de": "Tempera City", "en": "Coumarine City" },
+      "badge": { "de": "Blattorden", "en": "Plant Badge" },
+      "team": [
+        { "id": 189, "level": 30 },
+        { "id": 70, "level": 31 },
+        { "id": 673, "level": 34, "ace": true }
+      ]
+    },
+    {
+      "key": "clemont",
+      "category": "gym",
+      "type": "electric",
+      "name": { "de": "Citro", "en": "Clemont" },
+      "city": { "de": "Illumina City", "en": "Lumiose City" },
+      "badge": { "de": "Ampere-Orden", "en": "Voltage Badge" },
+      "team": [
+        { "id": 587, "level": 35 },
+        { "id": 82, "level": 35 },
+        { "id": 695, "level": 37, "ace": true }
+      ]
+    },
+    {
+      "key": "valerie",
+      "category": "gym",
+      "type": "fairy",
+      "name": { "de": "Valerie", "en": "Valerie" },
+      "city": { "de": "Romantia City", "en": "Laverre City" },
+      "badge": { "de": "Feenorden", "en": "Fairy Badge" },
+      "team": [
+        { "id": 303, "level": 38 },
+        { "id": 122, "level": 39 },
+        { "id": 700, "level": 42, "ace": true }
+      ]
+    },
+    {
+      "key": "olympia",
+      "category": "gym",
+      "type": "psychic",
+      "name": { "de": "Astrid", "en": "Olympia" },
+      "city": { "de": "Fluxia City", "en": "Anistar City" },
+      "badge": { "de": "Psi-Orden", "en": "Psychic Badge" },
+      "team": [
+        { "id": 561, "level": 44 },
+        { "id": 199, "level": 45 },
+        { "id": 678, "level": 48, "ace": true }
+      ]
+    },
+    {
+      "key": "wulfric",
+      "category": "gym",
+      "type": "ice",
+      "name": { "de": "Galantho", "en": "Wulfric" },
+      "city": { "de": "Fractalia City", "en": "Snowbelle City" },
+      "badge": { "de": "Eisbergorden", "en": "Iceberg Badge" },
+      "team": [
+        { "id": 460, "level": 56 },
+        { "id": 615, "level": 55 },
+        { "id": 713, "level": 59, "ace": true }
+      ]
+    },
+    {
+      "key": "malva",
+      "category": "eliteFour",
+      "type": "fire",
+      "name": { "de": "Pachira", "en": "Malva" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 668, "level": 63 },
+        { "id": 324, "level": 63 },
+        { "id": 609, "level": 63 },
+        { "id": 663, "level": 65, "ace": true }
+      ]
+    },
+    {
+      "key": "siebold",
+      "category": "eliteFour",
+      "type": "water",
+      "name": { "de": "Narcisse", "en": "Siebold" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 693, "level": 63 },
+        { "id": 121, "level": 63 },
+        { "id": 130, "level": 63 },
+        { "id": 689, "level": 65, "ace": true }
+      ]
+    },
+    {
+      "key": "wikstrom",
+      "category": "eliteFour",
+      "type": "steel",
+      "name": { "de": "Thymelot", "en": "Wikstrom" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 707, "level": 63 },
+        { "id": 476, "level": 63 },
+        { "id": 212, "level": 63 },
+        { "id": 681, "level": 65, "ace": true }
+      ]
+    },
+    {
+      "key": "drasna",
+      "category": "eliteFour",
+      "type": "dragon",
+      "name": { "de": "Dracena", "en": "Drasna" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 691, "level": 63 },
+        { "id": 334, "level": 63 },
+        { "id": 621, "level": 63 },
+        { "id": 715, "level": 65, "ace": true }
+      ]
+    },
+    {
+      "key": "diantha",
+      "category": "champion",
+      "type": null,
+      "name": { "de": "Diantha", "en": "Diantha" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 701, "level": 64 },
+        { "id": 697, "level": 65 },
+        { "id": 699, "level": 65 },
+        { "id": 711, "level": 65 },
+        { "id": 706, "level": 66 },
+        { "id": 282, "level": 68, "ace": true }
+      ]
+    }
+  ]
+}
