@@ -25,12 +25,23 @@ export async function fetchPokemonById(id) {
   if (!pRes.ok) throw new Error("Failed to load Pokémon");
   const p = await pRes.json();
 
+  // Bei Formen (Alola-/Galar-Formen etc.) ist die ID eine Form-ID, unter der
+  // es keine Spezies gibt (/pokemon-species/<formId> -> 404). Die echte
+  // Spezies-URL steht aber in der Pokémon-Antwort -> darueber Name und
+  // Entwicklung nachladen. Fuer normale IDs bleibt der schnelle Parallel-Pfad.
+  let s = null;
+  if (sRes.ok) {
+    s = await sRes.json();
+  } else if (p.species?.url) {
+    const speciesRes = await fetch(p.species.url);
+    if (speciesRes.ok) s = await speciesRes.json();
+  }
+
   let nameDe = p.name;
   let evolutionChainUrl = null;
   let isLegendary = false;
   let isMythical = false;
-  if (sRes.ok) {
-    const s = await sRes.json();
+  if (s) {
     const deEntry = s.names.find((n) => n.language.name === "de");
     if (deEntry) nameDe = deEntry.name;
     evolutionChainUrl = s.evolution_chain?.url ?? null;
@@ -43,8 +54,9 @@ export async function fetchPokemonById(id) {
     name: p.name,
     nameDe,
     image:
-      p.sprites.other["official-artwork"].front_default ??
-      p.sprites.front_default,
+      p.sprites?.other?.["official-artwork"]?.front_default ??
+      p.sprites?.front_default ??
+      null,
     types: p.types.map((t) => t.type.name),
     evolutionChainUrl,
     isLegendary,
