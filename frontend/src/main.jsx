@@ -19,9 +19,9 @@ import App from "./App.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <ThemeProvider>
-        <BallThemeProvider>
-          <AuthProvider>
+      <AuthProvider>
+        <ThemeProvider>
+          <BallThemeProvider>
             <CollectionProvider>
               <TeamsProvider>
                 <ComparisonProvider>
@@ -39,9 +39,9 @@ createRoot(document.getElementById("root")).render(
                 </ComparisonProvider>
               </TeamsProvider>
             </CollectionProvider>
-          </AuthProvider>
-        </BallThemeProvider>
-      </ThemeProvider>
+          </BallThemeProvider>
+        </ThemeProvider>
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
 );

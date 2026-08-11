@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
 import { ThemeContext } from "./themeContextObject";
+import { useAuth } from "./useAuth";
+import { getSettings, updateSettings } from "../services/settingsApi";
 
 export function ThemeProvider({ children }) {
-  // "system" | "light" | "dark"
+  const { isAuthenticated } = useAuth();
+
+  // "system" | "light" | "dark". Start aus localStorage: dient als Gast-Fallback
+  // und verhindert ein kurzes Aufblitzen des falschen Themes beim Reload.
   const [theme, setThemeState] = useState(
     () => localStorage.getItem("theme") || "system",
   );
@@ -25,9 +30,30 @@ export function ThemeProvider({ children }) {
     }
   }, [theme]);
 
+  // Beim Login die serverseitig gespeicherte Einstellung laden (Backend gewinnt).
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    let active = true;
+    getSettings()
+      .then((s) => {
+        if (active && s?.theme) {
+          localStorage.setItem("theme", s.theme);
+          setThemeState(s.theme);
+        }
+      })
+      .catch((err) => console.error(err));
+    return () => {
+      active = false;
+    };
+  }, [isAuthenticated]);
+
   function setTheme(newTheme) {
-    localStorage.setItem("theme", newTheme);
+    localStorage.setItem("theme", newTheme); // Gast-Fallback + Anti-Flash
     setThemeState(newTheme);
+    // Eingeloggt zusaetzlich serverseitig speichern (fire-and-forget).
+    if (isAuthenticated) {
+      updateSettings({ theme: newTheme }).catch((err) => console.error(err));
+    }
   }
 
   return (

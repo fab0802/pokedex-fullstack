@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../services/authApi";
+import { readLocalSettings } from "../services/settingsApi";
 import { useAuth } from "../context/useAuth";
 import { useTranslation } from "react-i18next";
 import styles from "./Auth.module.css";
@@ -19,7 +20,9 @@ export default function Register() {
     setError(null);
     setLoading(true);
     try {
-      const { token } = await register(email, password);
+      // Als Gast getroffene Einstellungen (Theme/Ball/Stat) mit uebergeben,
+      // damit sie beim neuen Account erhalten bleiben.
+      const { token } = await register(email, password, readLocalSettings());
       authLogin(token);
       navigate("/");
     } catch (err) {

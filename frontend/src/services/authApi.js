@@ -1,10 +1,10 @@
 import { BASE_URL } from "./config";
 
-export async function register(email, password) {
+export async function register(email, password, settings) {
   const res = await fetch(`${BASE_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email, password, settings }),
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || "Registration failed");

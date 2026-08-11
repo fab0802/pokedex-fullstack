@@ -6,10 +6,28 @@ const authMiddleware = require("../middleware/auth");
 
 const router = express.Router();
 
+// Diese Einstellungs-Keys darf ein neuer User beim Registrieren mitgeben
+// (die als Gast getroffenen Praeferenzen). Alles andere wird ignoriert.
+const ALLOWED_SETTINGS = ["theme", "ball", "displayStat"];
+
 router.post("/register", async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.create({ email, password });
+    const { email, password, settings } = req.body;
+
+    // Nur erlaubte Keys uebernehmen; fehlende Felder bekommen ihre Defaults.
+    // Ungueltige Werte fallen ueber die enum-Validierung des Schemas raus.
+    const seededSettings = {};
+    if (settings && typeof settings === "object") {
+      for (const key of ALLOWED_SETTINGS) {
+        if (settings[key] !== undefined) seededSettings[key] = settings[key];
+      }
+    }
+
+    const user = await User.create({
+      email,
+      password,
+      settings: seededSettings,
+    });
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
