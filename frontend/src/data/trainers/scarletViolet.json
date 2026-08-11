@@ -1,0 +1,186 @@
+{
+  "game": "scarlet-violet",
+  "region": "paldea",
+  "label": { "de": "Karmesin/Purpur", "en": "Scarlet/Violet" },
+  "trainers": [
+    {
+      "key": "katy",
+      "category": "gym",
+      "type": "bug",
+      "name": { "de": "Ronah", "en": "Katy" },
+      "city": { "de": "Moldrid", "en": "Cortondo" },
+      "badge": { "de": "Käfer-Orden", "en": "Bug Badge" },
+      "team": [
+        { "id": 919, "level": 14 },
+        { "id": 917, "level": 14 },
+        { "id": 216, "level": 15, "ace": true }
+      ]
+    },
+    {
+      "key": "brassius",
+      "category": "gym",
+      "type": "grass",
+      "name": { "de": "Colzo", "en": "Brassius" },
+      "city": { "de": "Bolardin", "en": "Artazon" },
+      "badge": { "de": "Pflanzen-Orden", "en": "Grass Badge" },
+      "team": [
+        { "id": 548, "level": 16 },
+        { "id": 928, "level": 16 },
+        { "id": 185, "level": 17, "ace": true }
+      ]
+    },
+    {
+      "key": "iono",
+      "category": "gym",
+      "type": "electric",
+      "name": { "de": "Enigmara", "en": "Iono" },
+      "city": { "de": "Fermanca City", "en": "Levincia" },
+      "badge": { "de": "Elektro-Orden", "en": "Electric Badge" },
+      "team": [
+        { "id": 940, "level": 23 },
+        { "id": 939, "level": 23 },
+        { "id": 404, "level": 23 },
+        { "id": 429, "level": 24, "ace": true }
+      ]
+    },
+    {
+      "key": "kofu",
+      "category": "gym",
+      "type": "water",
+      "name": { "de": "Kombu", "en": "Kofu" },
+      "city": { "de": "Garrafosa City", "en": "Cascarrafa" },
+      "badge": { "de": "Wasser-Orden", "en": "Water Badge" },
+      "team": [
+        { "id": 977, "level": 29 },
+        { "id": 961, "level": 29 },
+        { "id": 740, "level": 30, "ace": true }
+      ]
+    },
+    {
+      "key": "larry-gym",
+      "category": "gym",
+      "type": "normal",
+      "name": { "de": "Aoki", "en": "Larry" },
+      "city": { "de": "Mesclarra", "en": "Medali" },
+      "badge": { "de": "Normal-Orden", "en": "Normal Badge" },
+      "team": [
+        { "id": 775, "level": 35 },
+        { "id": 982, "level": 35 },
+        { "id": 398, "level": 36, "ace": true }
+      ]
+    },
+    {
+      "key": "ryme",
+      "category": "gym",
+      "type": "ghost",
+      "name": { "de": "Etta", "en": "Ryme" },
+      "city": { "de": "Frigomonta", "en": "Montenevera" },
+      "badge": { "de": "Geister-Orden", "en": "Ghost Badge" },
+      "team": [
+        { "id": 354, "level": 41 },
+        { "id": 778, "level": 41 },
+        { "id": 972, "level": 41 },
+        { "id": 849, "level": 42, "ace": true }
+      ]
+    },
+    {
+      "key": "tulip",
+      "category": "gym",
+      "type": "psychic",
+      "name": { "de": "Tulia", "en": "Tulip" },
+      "city": { "de": "Asarilla", "en": "Alfornada" },
+      "badge": { "de": "Psycho-Orden", "en": "Psychic Badge" },
+      "team": [
+        { "id": 981, "level": 44 },
+        { "id": 282, "level": 44 },
+        { "id": 956, "level": 44 },
+        { "id": 671, "level": 45, "ace": true }
+      ]
+    },
+    {
+      "key": "grusha",
+      "category": "gym",
+      "type": "ice",
+      "name": { "de": "Grusha", "en": "Grusha" },
+      "city": { "de": "Montanata", "en": "Glaseado" },
+      "badge": { "de": "Eis-Orden", "en": "Ice Badge" },
+      "team": [
+        { "id": 873, "level": 47 },
+        { "id": 614, "level": 47 },
+        { "id": 975, "level": 47 },
+        { "id": 334, "level": 48, "ace": true }
+      ]
+    },
+    {
+      "key": "rika",
+      "category": "eliteFour",
+      "type": "ground",
+      "name": { "de": "Cay", "en": "Rika" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 340, "level": 57 },
+        { "id": 323, "level": 57 },
+        { "id": 232, "level": 57 },
+        { "id": 51, "level": 57 },
+        { "id": 980, "level": 58, "ace": true }
+      ]
+    },
+    {
+      "key": "poppy",
+      "category": "eliteFour",
+      "type": "steel",
+      "name": { "de": "Poppy", "en": "Poppy" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 879, "level": 58 },
+        { "id": 462, "level": 58 },
+        { "id": 437, "level": 58 },
+        { "id": 823, "level": 58 },
+        { "id": 959, "level": 59, "ace": true }
+      ]
+    },
+    {
+      "key": "larry-e4",
+      "category": "eliteFour",
+      "type": "flying",
+      "name": { "de": "Aoki", "en": "Larry" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 357, "level": 59 },
+        { "id": 10143, "level": 59, "name": { "de": "Choreogel", "en": "Oricorio (Pom-pom)" } },
+        { "id": 334, "level": 59 },
+        { "id": 398, "level": 59 },
+        { "id": 973, "level": 60, "ace": true }
+      ]
+    },
+    {
+      "key": "hassel",
+      "category": "eliteFour",
+      "type": "dragon",
+      "name": { "de": "Sinius", "en": "Hassel" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 715, "level": 60 },
+        { "id": 612, "level": 60 },
+        { "id": 691, "level": 60 },
+        { "id": 841, "level": 60 },
+        { "id": 998, "level": 61, "ace": true }
+      ]
+    },
+    {
+      "key": "geeta",
+      "category": "champion",
+      "type": null,
+      "name": { "de": "Sagaria", "en": "Geeta" },
+      "city": { "de": "Pokémon-Liga", "en": "Pokémon League" },
+      "team": [
+        { "id": 956, "level": 61 },
+        { "id": 673, "level": 61 },
+        { "id": 977, "level": 61 },
+        { "id": 713, "level": 61 },
+        { "id": 983, "level": 61 },
+        { "id": 970, "level": 62, "ace": true }
+      ]
+    }
+  ]
+}

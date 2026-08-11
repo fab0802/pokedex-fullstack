@@ -10,12 +10,13 @@ import blackWhite from "../data/trainers/blackWhite.json";
 import xy from "../data/trainers/xy.json";
 import sunMoon from "../data/trainers/sunMoon.json";
 import swordShield from "../data/trainers/swordShield.json";
+import scarletViolet from "../data/trainers/scarletViolet.json";
 import TrainerCard from "./TrainerCard";
 import styles from "./GameGuide.module.css";
 
 // Aktuell nur ein Guide - bewusst als Liste angelegt, damit weitere Spiele
 // später nur ergänzt werden müssen: Datendatei importieren und hier eintragen.
-const GUIDES = [redBlue, yellow, goldSilver, rubySapphire, diamondPearl, blackWhite, xy, sunMoon, swordShield];
+const GUIDES = [redBlue, yellow, goldSilver, rubySapphire, diamondPearl, blackWhite, xy, sunMoon, swordShield, scarletViolet];
 
 const CATEGORY_ORDER = [
   "gym",
