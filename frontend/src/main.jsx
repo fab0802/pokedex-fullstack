@@ -22,10 +22,10 @@ createRoot(document.getElementById("root")).render(
       <AuthProvider>
         <ThemeProvider>
           <BallThemeProvider>
-            <CollectionProvider>
-              <TeamsProvider>
-                <ComparisonProvider>
-                  <GameProvider>
+            <GameProvider>
+              <CollectionProvider>
+                <TeamsProvider>
+                  <ComparisonProvider>
                     <PokemonListProvider>
                       <FilterProvider>
                         <DisplayProvider>
@@ -35,10 +35,10 @@ createRoot(document.getElementById("root")).render(
                         </DisplayProvider>
                       </FilterProvider>
                     </PokemonListProvider>
-                  </GameProvider>
-                </ComparisonProvider>
-              </TeamsProvider>
-            </CollectionProvider>
+                  </ComparisonProvider>
+                </TeamsProvider>
+              </CollectionProvider>
+            </GameProvider>
           </BallThemeProvider>
         </ThemeProvider>
       </AuthProvider>
