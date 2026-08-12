@@ -1,0 +1,113 @@
+.root {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Desktop-Trigger: gleiche Optik wie die uebrigen NavBar-Links (weiss auf
+   farbigem Header), nur als Popover-Button statt Link. */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.trigger:hover {
+  text-decoration: underline;
+}
+
+/* Mobile-Trigger: icon-only, wie das Filter-/Zahnrad-Icon in der oberen Leiste. */
+.triggerMobile {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+/* Aktives Spiel gewaehlt -> Label leicht betonen. */
+.active .label {
+  font-weight: 500;
+}
+
+.label {
+  white-space: nowrap;
+}
+
+/* Aktiv-Punkt am Mobile-Icon (Klartext-Label fehlt dort). Weiss fuer Kontrast
+   auf dem farbigen Header. */
+.dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+/* Popover, uebernommen vom bestehenden Settings-Menue-Muster. */
+.menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 200px;
+  padding: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card-hover);
+}
+
+.menuStart {
+  left: 0;
+}
+
+.menuEnd {
+  right: 0;
+}
+
+.menuTitle {
+  margin: 0;
+  padding: 4px 10px 6px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 14px;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--color-surface-alt);
+}
+
+.itemActive {
+  background: var(--color-surface-alt);
+  color: var(--color-primary);
+  font-weight: 500;
+}

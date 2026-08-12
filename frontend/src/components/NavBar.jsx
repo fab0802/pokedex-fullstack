@@ -19,7 +19,7 @@ import BallToggle from "./BallToggle";
 import LanguageToggle from "./LanguageToggle";
 import GlobalSearch from "./GlobalSearch";
 import FilterDrawer from "./FilterDrawer";
-import GameFilter from "./GameFilter";
+import GameMode from "./GameMode";
 import SortControl from "./SortControl";
 import TypeFilter from "./TypeFilter";
 import GenerationFilter from "./GenerationFilter";
@@ -118,6 +118,7 @@ export default function NavBar() {
             <SlidersHorizontal size={17} aria-hidden="true" />
             <span className={styles.label}>{t("filter.title")}</span>
           </button>
+          <GameMode />
           <Link to="/guide" className={styles.link}>
             <BookOpen size={17} aria-hidden="true" />
             <span className={styles.label}>{t("nav.guide")}</span>
@@ -156,6 +157,7 @@ export default function NavBar() {
 
         {/* Mobile: Zahnrad mit Sprache + Theme */}
         <div className={styles.settings} ref={settingsRef}>
+          <GameMode variant="mobile" />
           <button
             className={styles.gear}
             onClick={() => setFilterOpen(true)}
@@ -227,7 +229,6 @@ export default function NavBar() {
       {searchOpen && <GlobalSearch onClose={() => setSearchOpen(false)} />}
 
       <FilterDrawer open={filterOpen} onClose={() => setFilterOpen(false)}>
-        <GameFilter />
         <SortControl />
         <DisplayControl />
         <TypeFilter />

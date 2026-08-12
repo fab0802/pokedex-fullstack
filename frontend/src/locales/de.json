@@ -9,7 +9,8 @@
     "home": "Pokédex",
     "guide": "Spielhilfen",
     "settings": "Einstellungen",
-    "menu": "Menü"
+    "menu": "Menü",
+    "gameMode": "Spielmodus"
   },
   "guide": {
     "title": "Spielhilfen",
