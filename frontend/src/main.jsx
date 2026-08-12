@@ -22,23 +22,23 @@ createRoot(document.getElementById("root")).render(
       <AuthProvider>
         <ThemeProvider>
           <BallThemeProvider>
-            <GameProvider>
-              <CollectionProvider>
-                <TeamsProvider>
-                  <ComparisonProvider>
-                    <PokemonListProvider>
-                      <FilterProvider>
-                        <DisplayProvider>
-                          <ToastProvider>
+            <ToastProvider>
+              <GameProvider>
+                <CollectionProvider>
+                  <TeamsProvider>
+                    <ComparisonProvider>
+                      <PokemonListProvider>
+                        <FilterProvider>
+                          <DisplayProvider>
                             <App />
-                          </ToastProvider>
-                        </DisplayProvider>
-                      </FilterProvider>
-                    </PokemonListProvider>
-                  </ComparisonProvider>
-                </TeamsProvider>
-              </CollectionProvider>
-            </GameProvider>
+                          </DisplayProvider>
+                        </FilterProvider>
+                      </PokemonListProvider>
+                    </ComparisonProvider>
+                  </TeamsProvider>
+                </CollectionProvider>
+              </GameProvider>
+            </ToastProvider>
           </BallThemeProvider>
         </ThemeProvider>
       </AuthProvider>

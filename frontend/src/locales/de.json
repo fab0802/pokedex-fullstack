@@ -38,7 +38,9 @@
     "close": "Schliessen",
     "scrollToTop": "Nach oben scrollen",
     "inTeam": "Im Team",
-    "noGameHint": "Kein Spiel gewählt – Fangstatus wird allgemein gespeichert."
+    "noGameHint": "Kein Spiel gewählt – Fangstatus wird allgemein gespeichert.",
+    "caughtToast": "{{name}} in {{game}} gefangen",
+    "caughtToastNoGame": "{{name}} gefangen"
   },
   "search": {
     "title": "Suche",

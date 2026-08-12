@@ -135,10 +135,10 @@ export default function PokemonList() {
     return () => observer.disconnect();
   }, [isActive, hasMore, loading, loadMore]);
 
-  function handleToggle(e, id) {
+  function handleToggle(e, p) {
     e.preventDefault();
     e.stopPropagation();
-    toggleCaught(id);
+    toggleCaught(p.id, pokemonName(p, i18n.language));
   }
 
   const teamsByPokemon = useMemo(() => {
@@ -240,7 +240,7 @@ export default function PokemonList() {
                         type="button"
                         className={styles.catchToggle}
                         data-caught={isCaught(p.id)}
-                        onClick={(e) => handleToggle(e, p.id)}
+                        onClick={(e) => handleToggle(e, p)}
                         aria-pressed={isCaught(p.id)}
                         aria-label={
                           isCaught(p.id)

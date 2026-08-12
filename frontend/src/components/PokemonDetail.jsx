@@ -324,7 +324,12 @@ export default function PokemonDetail() {
                   type="button"
                   className={styles.catchButton}
                   data-caught={isCaught(pokemon.id)}
-                  onClick={() => toggleCaught(pokemon.id)}
+                  onClick={() =>
+                    toggleCaught(
+                      pokemon.id,
+                      pokemonName(pokemon, i18n.language),
+                    )
+                  }
                   aria-pressed={isCaught(pokemon.id)}
                 >
                   <img
