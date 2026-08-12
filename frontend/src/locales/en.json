@@ -1,6 +1,7 @@
 {
   "nav": {
     "teams": "My Teams",
+    "teamsShort": "Teams",
     "compare": "Compare",
     "logout": "Logout",
     "login": "Login",

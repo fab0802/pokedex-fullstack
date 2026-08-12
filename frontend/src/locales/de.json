@@ -1,6 +1,7 @@
 {
   "nav": {
     "teams": "Meine Teams",
+    "teamsShort": "Teams",
     "compare": "Vergleich",
     "logout": "Abmelden",
     "login": "Anmelden",

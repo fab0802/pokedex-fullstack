@@ -199,7 +199,7 @@ export default function NavBar() {
           <>
             <NavLink to="/teams" className={tabClass}>
               <Users size={20} aria-hidden="true" />
-              <span>{t("nav.teams")}</span>
+              <span>{t("nav.teamsShort")}</span>
             </NavLink>
             <NavLink to="/compare" className={tabClass}>
               <Scale size={20} aria-hidden="true" />
