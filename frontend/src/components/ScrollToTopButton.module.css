@@ -38,7 +38,8 @@
 @media (max-width: 600px) {
   .button {
     right: 1rem;
-    bottom: calc(64px + env(safe-area-inset-bottom));
+    /* Über der Tab-Bar: Leistenhöhe + 0.75rem Abstand + Safe-Area. */
+    bottom: calc(var(--bottom-nav-height) + 0.75rem + env(safe-area-inset-bottom));
     width: 44px;
     height: 44px;
   }

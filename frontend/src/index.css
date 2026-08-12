@@ -24,6 +24,9 @@ body * {
   --color-text-muted: #7a6f66;
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+  /* Höhe der fixierten unteren Tab-Bar (mobil). Einzige Quelle der Wahrheit
+     für Body-Freiraum und Scroll-to-Top-Button. */
+  --bottom-nav-height: 64px;
 }
 
 [data-theme="dark"] {
@@ -64,6 +67,6 @@ body {
 /* Platz für die fixierte untere Tab-Bar (mobil) */
 @media (max-width: 600px) {
   body {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+    padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
   }
 }
