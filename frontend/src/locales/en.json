@@ -36,7 +36,8 @@
   "common": {
     "close": "Close",
     "scrollToTop": "Scroll to top",
-    "inTeam": "In team"
+    "inTeam": "In team",
+    "noGameHint": "No game selected – catch status is saved generally."
   },
   "search": {
     "title": "Search",

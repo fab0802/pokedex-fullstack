@@ -37,7 +37,8 @@
   "common": {
     "close": "Schliessen",
     "scrollToTop": "Nach oben scrollen",
-    "inTeam": "Im Team"
+    "inTeam": "Im Team",
+    "noGameHint": "Kein Spiel gewählt – Fangstatus wird allgemein gespeichert."
   },
   "search": {
     "title": "Suche",

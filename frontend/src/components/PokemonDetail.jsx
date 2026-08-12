@@ -6,6 +6,7 @@ import { useTeams } from "../context/useTeams";
 import { fetchPokemonById } from "../services/pokeApi";
 import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
+import { useGame } from "../context/useGame";
 import { useOrderedIds } from "../context/useOrderedIds";
 import { typeColors } from "./typeColors";
 import { typeBackgrounds } from "./typeBackgrounds";
@@ -37,6 +38,7 @@ export default function PokemonDetail() {
   const [activeTab, setActiveTab] = useState("stats");
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
+  const { selectedGame } = useGame();
   const touchStartX = useRef(null);
   const touchStartY = useRef(null);
   const location = useLocation();
@@ -317,23 +319,28 @@ export default function PokemonDetail() {
               </span>
             )}
             {isAuthenticated && (
-              <button
-                type="button"
-                className={styles.catchButton}
-                data-caught={isCaught(pokemon.id)}
-                onClick={() => toggleCaught(pokemon.id)}
-                aria-pressed={isCaught(pokemon.id)}
-              >
-                <img
-                  src="/fallback-pokeball.svg"
-                  alt=""
-                  aria-hidden="true"
-                  className={styles.catchIcon}
-                />
-                {isCaught(pokemon.id)
-                  ? t("detail.caught")
-                  : t("detail.notCaught")}
-              </button>
+              <>
+                <button
+                  type="button"
+                  className={styles.catchButton}
+                  data-caught={isCaught(pokemon.id)}
+                  onClick={() => toggleCaught(pokemon.id)}
+                  aria-pressed={isCaught(pokemon.id)}
+                >
+                  <img
+                    src="/fallback-pokeball.svg"
+                    alt=""
+                    aria-hidden="true"
+                    className={styles.catchIcon}
+                  />
+                  {isCaught(pokemon.id)
+                    ? t("detail.caught")
+                    : t("detail.notCaught")}
+                </button>
+                {selectedGame.id === "all" && (
+                  <p className={styles.gameHint}>{t("common.noGameHint")}</p>
+                )}
+              </>
             )}
             {isAuthenticated && (
               <AddToTeamMenu

@@ -372,3 +372,10 @@
     align-self: center;
   }
 }
+
+/* Hinweis, wenn ohne Spielwahl ("Alle Spiele") gefangen wird. */
+.gameHint {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}

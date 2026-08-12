@@ -155,6 +155,9 @@ export default function PokemonList() {
 
   return (
     <div>
+      {isAuthenticated && selectedGame.id === "all" && (
+        <p className={styles.gameHint}>{t("common.noGameHint")}</p>
+      )}
       {isActive && loadingAll && (
         <p className={styles.loading}>
           {t("sort.loadingDex", {
