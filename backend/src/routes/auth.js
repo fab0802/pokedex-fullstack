@@ -8,7 +8,7 @@ const router = express.Router();
 
 // Diese Einstellungs-Keys darf ein neuer User beim Registrieren mitgeben
 // (die als Gast getroffenen Praeferenzen). Alles andere wird ignoriert.
-const ALLOWED_SETTINGS = ["theme", "ball", "displayStat"];
+const ALLOWED_SETTINGS = ["theme", "ball", "displayStat", "game"];
 
 router.post("/register", async (req, res) => {
   try {

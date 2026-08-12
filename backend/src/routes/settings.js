@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Nur diese Schluessel darf der Client setzen (verhindert Mass-Assignment,
 // z. B. dass jemand ueber settings.* fremde Felder ueberschreibt).
-const ALLOWED_KEYS = ["theme", "ball", "displayStat"];
+const ALLOWED_KEYS = ["theme", "ball", "displayStat", "game"];
 
 // Aktuelle Einstellungen des eingeloggten Users lesen.
 router.get("/", authMiddleware, async (req, res) => {
