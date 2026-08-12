@@ -47,7 +47,19 @@ export default function PokemonMoves({ pokemonId }) {
   if (current?.error) return <p className={styles.empty}>{t("moves.error")}</p>;
   if (!current) return <p className={styles.empty}>{t("detail.loading")}</p>;
 
+  // Ohne gewähltes Spiel: Hinweis statt Attacken.
+  if (selectedGame.id === "all") {
+    return <p className={styles.empty}>{t("moves.selectGame")}</p>;
+  }
+
   const moveset = buildMoveset(current.moves, selectedGame);
+  // Nur zeigen, wenn die gefundene Version-Group wirklich zum gewählten Spiel
+  // gehört – sonst existiert das Pokémon in diesem Spiel nicht.
+  const inGame =
+    moveset && selectedGame.versionGroups.includes(moveset.versionGroup);
+  if (!inGame) {
+    return <p className={styles.empty}>{t("moves.noneInGame")}</p>;
+  }
 
   return (
     <div>

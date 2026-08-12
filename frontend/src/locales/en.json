@@ -181,7 +181,9 @@
     "tutor": "Tutor",
     "lv": "Lv. {{level}}",
     "none": "No moves found.",
-    "error": "Could not load moves."
+    "error": "Could not load moves.",
+    "selectGame": "Select a game to see moves.",
+    "noneInGame": "No moves in this game."
   },
   "filter": {
     "title": "Filter",
@@ -234,7 +236,7 @@
     "noneAnywhere": "No location data available.",
     "noData": "PokéAPI has no location data for this game.",
     "error": "Could not load locations.",
-    "gameSwitcher": "Select game"
+    "selectGame": "Select a game to see locations."
   },
   "versions": {
     "red": "Red",

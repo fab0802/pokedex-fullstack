@@ -34,7 +34,6 @@
     "ultra": "Hyperball",
     "master": "Meisterball"
   },
-
   "common": {
     "close": "Schliessen",
     "scrollToTop": "Nach oben scrollen",
@@ -182,7 +181,9 @@
     "tutor": "Lehrer",
     "lv": "Lv. {{level}}",
     "none": "Keine Attacken gefunden.",
-    "error": "Attacken konnten nicht geladen werden."
+    "error": "Attacken konnten nicht geladen werden.",
+    "selectGame": "Wähle ein Spiel, um Attacken zu sehen.",
+    "noneInGame": "In diesem Spiel keine Attacken."
   },
   "filter": {
     "title": "Filter",
@@ -235,7 +236,7 @@
     "noneAnywhere": "Keine Fundort-Daten verfügbar.",
     "noData": "Für dieses Spiel liegen bei der PokéAPI keine Fundort-Daten vor.",
     "error": "Fundorte konnten nicht geladen werden.",
-    "gameSwitcher": "Spiel wählen"
+    "selectGame": "Wähle ein Spiel, um Fundorte zu sehen."
   },
   "versions": {
     "red": "Rot",
