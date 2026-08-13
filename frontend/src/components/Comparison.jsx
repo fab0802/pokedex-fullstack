@@ -274,7 +274,7 @@ export default function Comparison() {
                                           <span
                                             className={styles.moveChipLevel}
                                           >
-                                            {t("moves.lv", { level: mv.level })}
+                                            {t("common.level", { level: mv.level })}
                                           </span>
                                         )}
                                     </li>

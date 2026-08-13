@@ -72,7 +72,7 @@ export default function GlobalSearch({ onClose }) {
           <button
             className={styles.close}
             onClick={onClose}
-            aria-label={t("search.close")}
+            aria-label={t("common.close")}
           >
             <X size={18} />
           </button>

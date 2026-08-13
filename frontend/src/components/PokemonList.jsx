@@ -244,13 +244,13 @@ export default function PokemonList() {
                         aria-pressed={isCaught(p.id)}
                         aria-label={
                           isCaught(p.id)
-                            ? t("list.caught")
-                            : t("list.notCaught")
+                            ? t("common.caught")
+                            : t("common.notCaught")
                         }
                         title={
                           isCaught(p.id)
-                            ? t("list.caught")
-                            : t("list.notCaught")
+                            ? t("common.caught")
+                            : t("common.notCaught")
                         }
                       >
                         <img
@@ -282,7 +282,7 @@ export default function PokemonList() {
       {error && <p>{error}</p>}
       <div ref={sentinelRef} />
       {!isActive && loading && (
-        <p className={styles.loading}>{t("list.loading")}</p>
+        <p className={styles.loading}>{t("common.loading")}</p>
       )}
     </div>
   );

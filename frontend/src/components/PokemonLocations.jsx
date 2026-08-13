@@ -107,7 +107,7 @@ export default function PokemonLocations({ pokemonId }) {
   if (current?.error) {
     return <p className={styles.empty}>{t("locations.error")}</p>;
   }
-  if (!current) return <p className={styles.empty}>{t("detail.loading")}</p>;
+  if (!current) return <p className={styles.empty}>{t("common.loading")}</p>;
 
   // Ohne gewähltes Spiel: Hinweis statt Fundorte.
   if (selectedGame.id === "all") {
@@ -137,7 +137,7 @@ export default function PokemonLocations({ pokemonId }) {
             </span>
             <span className={styles.level}>
               {loc.min === loc.max
-                ? t("locations.lv", { level: loc.min })
+                ? t("common.level", { level: loc.min })
                 : t("locations.lvRange", { min: loc.min, max: loc.max })}
             </span>
           </li>

@@ -147,7 +147,7 @@ export default function PokemonDetail() {
   }
 
   if (error) return <p className={styles.message}>{error}</p>;
-  if (!pokemon) return <p className={styles.message}>{t("detail.loading")}</p>;
+  if (!pokemon) return <p className={styles.message}>{t("common.loading")}</p>;
 
   const pokemonTeams = teams
     .filter((tm) => tm.pokemonIds.includes(pokemon.id))
@@ -339,8 +339,8 @@ export default function PokemonDetail() {
                     className={styles.catchIcon}
                   />
                   {isCaught(pokemon.id)
-                    ? t("detail.caught")
-                    : t("detail.notCaught")}
+                    ? t("common.caught")
+                    : t("common.notCaught")}
                 </button>
                 {selectedGame.id === "all" && (
                   <p className={styles.gameHint}>{t("common.noGameHint")}</p>

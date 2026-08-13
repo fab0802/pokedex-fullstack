@@ -25,7 +25,6 @@
     "weakTo": "Schwächen:",
     "ace": "Ass",
     "mixed": "gemischt",
-    "level": "Lv. {{level}}",
     "starterVariants": "Restliches Team – je nach Starter"
   },
   "ball": {
@@ -41,13 +40,18 @@
     "inTeam": "Im Team",
     "noGameHint": "Kein Spiel gewählt – Fangstatus wird allgemein gespeichert.",
     "caughtToast": "{{name}} in {{game}} gefangen",
-    "caughtToastNoGame": "{{name}} gefangen"
+    "caughtToastNoGame": "{{name}} gefangen",
+    "caught": "Gefangen ✓",
+    "notCaught": "Nicht gefangen",
+    "loading": "Lädt…",
+    "level": "Lv. {{level}}",
+    "cancel": "Abbrechen",
+    "confirmDelete": "Löschen"
   },
   "search": {
     "title": "Suche",
     "placeholder": "Pokémon suchen…",
-    "noResults": "Keine Treffer im gewählten Spiel.",
-    "close": "Schliessen"
+    "noResults": "Keine Treffer im gewählten Spiel."
   },
   "auth": {
     "loginTitle": "Anmelden",
@@ -60,18 +64,11 @@
     "registerButton": "Registrieren",
     "sessionExpired": "Sitzung abgelaufen, bitte neu anmelden."
   },
-  "list": {
-    "loading": "Lädt…",
-    "caught": "Gefangen ✓",
-    "notCaught": "Nicht gefangen"
-  },
+  "list": {},
   "detail": {
-    "loading": "Lädt…",
     "height": "Grösse",
     "weight": "Gewicht",
     "baseStats": "Basiswerte",
-    "caught": "Gefangen ✓",
-    "notCaught": "Nicht gefangen",
     "back": "Zurück zur Liste",
     "backToTeams": "Zurück zu den Teams",
     "prev": "Vorheriges",
@@ -104,8 +101,6 @@
     "addPlaceholder": "Pokémon hinzufügen…",
     "deleteConfirmTitle": "Team löschen?",
     "deleteConfirmMessage": "„{{name}}“ wird dauerhaft entfernt.",
-    "cancel": "Abbrechen",
-    "confirmDelete": "Löschen",
     "teamDeleted": "{{team}} gelöscht",
     "pokemonRemoved": "{{name}} aus {{team}} entfernt",
     "removeConfirmTitle": "Pokémon entfernen?",
@@ -165,7 +160,6 @@
   "evolution": {
     "title": "Entwicklung",
     "none": "Dieses Pokémon entwickelt sich nicht.",
-    "level": "Lv. {{level}}",
     "happiness": "Freundschaft",
     "trade": "Tausch",
     "time": {
@@ -180,7 +174,6 @@
     "machine": "TM/VM",
     "egg": "Ei",
     "tutor": "Lehrer",
-    "lv": "Lv. {{level}}",
     "none": "Keine Attacken gefunden.",
     "error": "Attacken konnten nicht geladen werden.",
     "selectGame": "Wähle ein Spiel, um Attacken zu sehen.",
@@ -231,7 +224,6 @@
     "sv": "Karmesin/Purpur"
   },
   "locations": {
-    "lv": "Lv. {{level}}",
     "lvRange": "Lv. {{min}}–{{max}}",
     "none": "In diesem Spiel nicht als Wild-Fundort erfasst.",
     "noneAnywhere": "Keine Fundort-Daten verfügbar.",

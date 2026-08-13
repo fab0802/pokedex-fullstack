@@ -45,7 +45,7 @@ export default function PokemonMoves({ pokemonId }) {
   // Nur verwenden, wenn das Ergebnis zum aktuellen Pokémon gehört
   const current = result && result.pokemonId === pokemonId ? result : null;
   if (current?.error) return <p className={styles.empty}>{t("moves.error")}</p>;
-  if (!current) return <p className={styles.empty}>{t("detail.loading")}</p>;
+  if (!current) return <p className={styles.empty}>{t("common.loading")}</p>;
 
   // Ohne gewähltes Spiel: Hinweis statt Attacken.
   if (selectedGame.id === "all") {
@@ -111,7 +111,7 @@ export default function PokemonMoves({ pokemonId }) {
                         </span>
                         {method === "level-up" && mv.level > 0 && (
                           <span className={styles.level}>
-                            {t("moves.lv", { level: mv.level })}
+                            {t("common.level", { level: mv.level })}
                           </span>
                         )}
                       </li>

@@ -25,7 +25,6 @@
     "weakTo": "Weak to:",
     "ace": "Ace",
     "mixed": "mixed",
-    "level": "Lv. {{level}}",
     "starterVariants": "Remaining team — depends on starter"
   },
   "ball": {
@@ -41,13 +40,18 @@
     "inTeam": "In team",
     "noGameHint": "No game selected – catch status is saved generally.",
     "caughtToast": "Caught {{name}} in {{game}}",
-    "caughtToastNoGame": "Caught {{name}}"
+    "caughtToastNoGame": "Caught {{name}}",
+    "caught": "Caught ✓",
+    "notCaught": "Not caught",
+    "loading": "Loading…",
+    "level": "Lv. {{level}}",
+    "cancel": "Cancel",
+    "confirmDelete": "Delete"
   },
   "search": {
     "title": "Search",
     "placeholder": "Search Pokémon…",
-    "noResults": "No matches in the selected game.",
-    "close": "Close"
+    "noResults": "No matches in the selected game."
   },
   "auth": {
     "loginTitle": "Login",
@@ -60,18 +64,11 @@
     "registerButton": "Register",
     "sessionExpired": "Session expired, please log in again."
   },
-  "list": {
-    "loading": "Loading…",
-    "caught": "Caught ✓",
-    "notCaught": "Not caught"
-  },
+  "list": {},
   "detail": {
-    "loading": "Loading...",
     "height": "Height",
     "weight": "Weight",
     "baseStats": "Base stats",
-    "caught": "Caught ✓",
-    "notCaught": "Not caught",
     "back": "Back to list",
     "backToTeams": "Back to teams",
     "prev": "Previous",
@@ -104,8 +101,6 @@
     "addPlaceholder": "Add Pokémon…",
     "deleteConfirmTitle": "Delete team?",
     "deleteConfirmMessage": "\"{{name}}\" will be permanently removed.",
-    "cancel": "Cancel",
-    "confirmDelete": "Delete",
     "teamDeleted": "{{team}} deleted",
     "pokemonRemoved": "{{name}} removed from {{team}}",
     "removeConfirmTitle": "Remove Pokémon?",
@@ -165,7 +160,6 @@
   "evolution": {
     "title": "Evolution",
     "none": "This Pokémon does not evolve.",
-    "level": "Lv. {{level}}",
     "happiness": "Friendship",
     "trade": "Trade",
     "time": {
@@ -180,7 +174,6 @@
     "machine": "TM/HM",
     "egg": "Egg",
     "tutor": "Tutor",
-    "lv": "Lv. {{level}}",
     "none": "No moves found.",
     "error": "Could not load moves.",
     "selectGame": "Select a game to see moves.",
@@ -231,7 +224,6 @@
     "sv": "Scarlet/Violet"
   },
   "locations": {
-    "lv": "Lv. {{level}}",
     "lvRange": "Lv. {{min}}–{{max}}",
     "none": "Not recorded as a wild encounter in this game.",
     "noneAnywhere": "No location data available.",

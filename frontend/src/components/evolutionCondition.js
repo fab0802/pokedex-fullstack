@@ -20,7 +20,7 @@ export function formatEvolutionCondition(details, t, names, lang) {
   if (!d) return "";
 
   const parts = [];
-  if (d.min_level) parts.push(t("evolution.level", { level: d.min_level }));
+  if (d.min_level) parts.push(t("common.level", { level: d.min_level }));
   if (d.item?.name) parts.push(localized("item", d.item.name, names, lang));
   if (d.held_item?.name)
     parts.push(localized("item", d.held_item.name, names, lang));

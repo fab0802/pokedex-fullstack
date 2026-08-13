@@ -64,7 +64,7 @@ export default function GuidePokemonRow({ id, level, ace = false, nameOverride =
       <span className={styles.body}>
         <span className={styles.head}>
           <span className={styles.name}>{name}</span>
-          <span className={styles.level}>{t("guide.level", { level })}</span>
+          <span className={styles.level}>{t("common.level", { level })}</span>
           {ace && (
             <Star size={13} className={styles.star} aria-label={t("guide.ace")} />
           )}

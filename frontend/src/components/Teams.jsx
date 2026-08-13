@@ -440,8 +440,8 @@ export default function Teams() {
         message={t("teams.deleteConfirmMessage", {
           name: confirmingTeam?.name,
         })}
-        confirmLabel={t("teams.confirmDelete")}
-        cancelLabel={t("teams.cancel")}
+        confirmLabel={t("common.confirmDelete")}
+        cancelLabel={t("common.cancel")}
         destructive
         onConfirm={confirmDelete}
         onCancel={() => setConfirmTeamId(null)}
@@ -454,7 +454,7 @@ export default function Teams() {
           team: removingTeam?.name,
         })}
         confirmLabel={t("teams.confirmRemove")}
-        cancelLabel={t("teams.cancel")}
+        cancelLabel={t("common.cancel")}
         destructive
         onConfirm={confirmRemovePokemon}
         onCancel={() => setConfirmRemove(null)}

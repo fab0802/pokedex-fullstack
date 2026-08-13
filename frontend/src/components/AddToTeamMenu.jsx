@@ -176,7 +176,7 @@ export default function AddToTeamMenu({ pokemonId, pokemonName }) {
           team: confirmingTeam?.name,
         })}
         confirmLabel={t("teams.confirmRemove")}
-        cancelLabel={t("teams.cancel")}
+        cancelLabel={t("common.cancel")}
         destructive
         onConfirm={confirmRemove}
         onCancel={() => setConfirmTeamId(null)}
