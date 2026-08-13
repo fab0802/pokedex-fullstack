@@ -12,11 +12,23 @@ import sunMoon from "../data/trainers/sunMoon.json";
 import swordShield from "../data/trainers/swordShield.json";
 import scarletViolet from "../data/trainers/scarletViolet.json";
 import TrainerCard from "./TrainerCard";
+import { useGame } from "../context/useGame";
 import styles from "./GameGuide.module.css";
 
 // Aktuell nur ein Guide - bewusst als Liste angelegt, damit weitere Spiele
 // später nur ergänzt werden müssen: Datendatei importieren und hier eintragen.
-const GUIDES = [redBlue, yellow, goldSilver, rubySapphire, diamondPearl, blackWhite, xy, sunMoon, swordShield, scarletViolet];
+const GUIDES = [
+  redBlue,
+  yellow,
+  goldSilver,
+  rubySapphire,
+  diamondPearl,
+  blackWhite,
+  xy,
+  sunMoon,
+  swordShield,
+  scarletViolet,
+];
 
 const CATEGORY_ORDER = [
   "gym",
@@ -37,10 +49,27 @@ const CATEGORY_KEY = {
   superBoss: "guide.superBoss",
 };
 
+// Brücke zwischen globalem Filter (games.js: IDs mit versionGroups) und den
+// Guides (nach Version-Group-Slug geschlüsselt). Erster Guide, dessen Slug in
+// den versionGroups des globalen Spiels liegt; sonst Fallback auf ersten Guide
+// (z. B. bei "all", das keine versionGroups hat).
+function guideIdForGame(selectedGame) {
+  const vgs = selectedGame?.versionGroups ?? [];
+  const match = GUIDES.find((g) => vgs.includes(g.game));
+  return (match ?? GUIDES[0]).game;
+}
+
 export default function GameGuide() {
   const { t, i18n } = useTranslation();
-  const [gameId, setGameId] = useState(GUIDES[0].game);
+  const { selectedGame } = useGame();
   const lang = i18n.language.startsWith("de") ? "de" : "en";
+
+  // Hybrid: ohne Override folgt die Seite live dem globalen Spiel (abgeleitet,
+  // kein Effect nötig - fängt auch das async-Nachladen nach dem Login ab).
+  // Ein manueller Selektor-Klick überschreibt nur lokal, ohne den globalen
+  // Wert zu verändern.
+  const [override, setOverride] = useState(null);
+  const gameId = override ?? guideIdForGame(selectedGame);
 
   const guide = GUIDES.find((g) => g.game === gameId) ?? GUIDES[0];
 
@@ -54,7 +83,7 @@ export default function GameGuide() {
         <select
           className={styles.gameSelect}
           value={gameId}
-          onChange={(e) => setGameId(e.target.value)}
+          onChange={(e) => setOverride(e.target.value)}
           aria-label={t("guide.selectGame")}
         >
           {GUIDES.map((g) => (
