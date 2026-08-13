@@ -16,6 +16,14 @@ import "./index.css";
 import "./i18n";
 import App from "./App.jsx";
 
+// Wir stellen die Scroll-Position selbst wieder her (siehe PokemonList).
+// Die native Wiederherstellung des Browsers läuft asynchron und würde die
+// Position beim Zurücknavigieren sonst überschreiben – v. a. beim Browser-
+// Zurück-Pfeil auf dem Desktop.
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>

@@ -34,6 +34,7 @@ export default function PokemonList() {
     loadingAll,
     allProgress,
     loadAll,
+    listWindowRef,
   } = usePokemonList();
   const { sort, types, generations, categories, stat, caughtStatus, isActive } =
     useFilter();
@@ -42,7 +43,6 @@ export default function PokemonList() {
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
   const sentinelRef = useRef(null);
-  const [visibleCount, setVisibleCount] = useState(WINDOW_STEP);
   const { teams } = useTeams();
 
   // Scroll-Position beim Zurückkommen wiederherstellen
@@ -64,6 +64,15 @@ export default function PokemonList() {
     ? `${selectedGame.id}|${sort.field}|${sort.dir}|${types.join(",")}|${generations.join(",")}|${categories.join(",")}|${stat.field ?? ""}|${stat.min}|${stat.max}|${caughtStatus}`
     : `${selectedGame.id}|default`;
 
+  // Fenstergrösse: beim (Re-)Mount aus dem Context-Ref übernehmen, sofern er
+  // zur aktuellen Ansicht gehört. So bleibt die Liste nach dem Zurücknavigieren
+  // gleich hoch und die Scroll-Position lässt sich wiederherstellen.
+  const [visibleCount, setVisibleCount] = useState(() =>
+    listWindowRef.current?.viewKey === viewKey
+      ? listWindowRef.current.visibleCount
+      : WINDOW_STEP,
+  );
+
   // Wechselt die Ansicht, das Fenster zurücksetzen – im Render statt im
   // Effect, das vermeidet die von React gewarnten Kaskaden-Renders.
   const [prevViewKey, setPrevViewKey] = useState(viewKey);
@@ -71,6 +80,13 @@ export default function PokemonList() {
     setPrevViewKey(viewKey);
     setVisibleCount(WINDOW_STEP);
   }
+
+  // Fenstergrösse laufend im Context-Ref sichern, damit sie den nächsten
+  // Remount übersteht (an den viewKey gebunden, sonst würde eine fremde
+  // Ansicht die falsche Grösse erben).
+  useEffect(() => {
+    listWindowRef.current = { viewKey, visibleCount };
+  }, [viewKey, visibleCount, listWindowRef]);
 
   // Nach einem Ansichtswechsel nach oben scrollen (echter Seiteneffekt). Der
   // Ref-Vergleich überspringt den ersten Lauf, damit die gespeicherte

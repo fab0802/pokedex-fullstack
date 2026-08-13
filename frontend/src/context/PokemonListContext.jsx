@@ -17,6 +17,10 @@ export function PokemonListProvider({ children }) {
   const [error, setError] = useState(null);
   const isFetchingRef = useRef(false);
   const scrollYRef = useRef(0);
+  // Fenstergrösse der aktiven (gefilterten/sortierten) Ansicht. Liegt hier im
+  // Context, damit sie – wie scrollYRef – das Remounten der Liste beim
+  // Zurücknavigieren überlebt. Hält { viewKey, visibleCount }.
+  const listWindowRef = useRef(null);
 
   // Voll-Load: alle Details des aktuellen Dex, für Filter/Sortierung.
   const [allPokemons, setAllPokemons] = useState([]);
@@ -125,6 +129,7 @@ export function PokemonListProvider({ children }) {
     hasMore: loadedCount < ids.length,
     loadMore,
     scrollYRef,
+    listWindowRef,
     allPokemons,
     loadingAll,
     allProgress,
