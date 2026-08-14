@@ -192,10 +192,12 @@
   gap: 12px;
 }
 
-.statLabel {
-  width: 112px;
-  white-space: nowrap;
-  font-size: 13px;
+.statIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  flex-shrink: 0;
   color: var(--color-text-secondary);
 }
 
@@ -229,7 +231,7 @@
   border-top: 1px solid var(--color-surface-alt);
 }
 
-.statTotalRow .statLabel,
+.statTotalRow .statIcon,
 .statTotalRow .statValue {
   color: var(--color-text);
   font-weight: 600;

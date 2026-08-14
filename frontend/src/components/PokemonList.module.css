@@ -170,14 +170,14 @@
 .statHead {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   margin-bottom: 4px;
 }
 
-.statLabel {
-  font-size: 11px;
+.statIcon {
+  display: inline-flex;
+  align-items: center;
   color: var(--color-text-muted);
-  letter-spacing: 0.5px;
 }
 
 .statValue {

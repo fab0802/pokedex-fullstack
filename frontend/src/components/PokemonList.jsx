@@ -15,6 +15,7 @@ import { derivePokemonView } from "./pokemonView";
 import { useDisplay } from "../context/useDisplay";
 import { statValue, statPercent } from "./sortPokemons";
 import { Users } from "lucide-react";
+import StatIcon from "./StatIcon";
 import { useTeams } from "../context/useTeams";
 
 // Wie viele Karten die aktive (sortierte) Ansicht pro Schritt zeigt. Die Daten
@@ -236,9 +237,11 @@ export default function PokemonList() {
                     {statField !== "off" && (
                       <div className={styles.stat}>
                         <div className={styles.statHead}>
-                          <span className={styles.statLabel}>
-                            {t(`stats.${statField}`)}
-                          </span>
+                          <StatIcon
+                            stat={statField}
+                            size={16}
+                            className={styles.statIcon}
+                          />
                           <span className={styles.statValue}>
                             {statValue(p, statField)}
                           </span>

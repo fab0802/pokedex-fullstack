@@ -19,6 +19,7 @@ import { pokemonName } from "./pokemonName";
 import TypeMatchups from "./TypeMatchups";
 import PokemonMoves from "./PokemonMoves";
 import PokemonLocations from "./PokemonLocations";
+import StatIcon from "./StatIcon";
 import styles from "./PokemonDetail.module.css";
 
 const MAX_STAT = 200;
@@ -168,7 +169,7 @@ export default function PokemonDetail() {
         <div className={styles.stats}>
           {pokemon.stats.map((s) => (
             <div key={s.name} className={styles.statRow}>
-              <span className={styles.statLabel}>{t(`stats.${s.name}`)}</span>
+              <StatIcon stat={s.name} className={styles.statIcon} />
               <div className={styles.statTrack}>
                 <div
                   key={`${pokemon.id}-${s.name}`}
@@ -185,7 +186,7 @@ export default function PokemonDetail() {
             </div>
           ))}
           <div className={`${styles.statRow} ${styles.statTotalRow}`}>
-            <span className={styles.statLabel}>{t("stats.total")}</span>
+            <StatIcon stat="total" className={styles.statIcon} />
             <span className={styles.statSpacer} />
             <span className={styles.statValue}>
               {pokemon.stats.reduce((sum, s) => sum + s.value, 0)}
