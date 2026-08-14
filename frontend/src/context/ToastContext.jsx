@@ -6,15 +6,14 @@ const DEFAULT_DURATION = 3000; // ms bis Auto-Dismiss
 
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
-  const timers = useRef(new Map()); // id -> timeoutId
+  // id -> { timeoutId, remaining, startedAt }
+  const timers = useRef(new Map());
 
   const removeToast = useCallback((id) => {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
-    const timeoutId = timers.current.get(id);
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      timers.current.delete(id);
-    }
+    const entry = timers.current.get(id);
+    if (entry?.timeoutId) clearTimeout(entry.timeoutId);
+    timers.current.delete(id);
   }, []);
 
   const showToast = useCallback(
@@ -22,7 +21,33 @@ export function ToastProvider({ children }) {
       const id = crypto.randomUUID();
       setToasts((prev) => [...prev, { id, message, type }]);
       const timeoutId = setTimeout(() => removeToast(id), duration);
-      timers.current.set(id, timeoutId);
+      timers.current.set(id, {
+        timeoutId,
+        remaining: duration,
+        startedAt: Date.now(),
+      });
+    },
+    [removeToast],
+  );
+
+  // Timer anhalten, solange der Toast berührt wird / die Maus darüberliegt.
+  // Restzeit wird gemerkt, damit resume dort weitermacht, wo pause aufgehört hat.
+  const pauseToast = useCallback((id) => {
+    const entry = timers.current.get(id);
+    if (!entry || entry.timeoutId == null) return; // schon pausiert oder weg
+    clearTimeout(entry.timeoutId);
+    const elapsed = Date.now() - entry.startedAt;
+    entry.remaining = Math.max(0, entry.remaining - elapsed);
+    entry.timeoutId = null;
+  }, []);
+
+  // Timer mit der verbleibenden Restzeit fortsetzen.
+  const resumeToast = useCallback(
+    (id) => {
+      const entry = timers.current.get(id);
+      if (!entry || entry.timeoutId != null) return; // läuft bereits
+      entry.startedAt = Date.now();
+      entry.timeoutId = setTimeout(() => removeToast(id), entry.remaining);
     },
     [removeToast],
   );
@@ -31,7 +56,7 @@ export function ToastProvider({ children }) {
   useEffect(() => {
     const map = timers.current;
     return () => {
-      map.forEach((timeoutId) => clearTimeout(timeoutId));
+      map.forEach((entry) => entry.timeoutId && clearTimeout(entry.timeoutId));
       map.clear();
     };
   }, []);
@@ -39,7 +64,12 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <Toast toasts={toasts} onDismiss={removeToast} />
+      <Toast
+        toasts={toasts}
+        onDismiss={removeToast}
+        onPause={pauseToast}
+        onResume={resumeToast}
+      />
     </ToastContext.Provider>
   );
 }
