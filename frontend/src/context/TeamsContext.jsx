@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { TeamsContext } from "./teamsContextObject";
 import { useAuth } from "./useAuth";
+import { useGame } from "./useGame";
 import {
   getTeams,
   createTeam,
@@ -11,10 +12,30 @@ import {
 
 const MAX_TEAM_SIZE = 6;
 
+// Spiel-Zuordnung eines Teams; fehlt sie (Alt-Teams), gilt "all".
+function teamGame(team) {
+  return team.game ?? "all";
+}
+
 export function TeamsProvider({ children }) {
   const { isAuthenticated } = useAuth();
-  const [teams, setTeams] = useState([]);
+  const { selectedGame } = useGame();
+  const gameId = selectedGame?.id ?? "all";
+
+  // Interner Voll-Bestand aller Teams. Nach aussen wird davon nur die fuer das
+  // gewaehlte Spiel sichtbare Teilmenge (visibleTeams) als `teams` geliefert.
+  const [allTeams, setAllTeams] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Modell B: Bei "Alle" alle Teams; bei einem Spiel dessen Teams PLUS die
+  // allgemeinen ("all")-Teams, die ueberall mitreisen.
+  const visibleTeams = useMemo(() => {
+    if (gameId === "all") return allTeams;
+    return allTeams.filter((t) => {
+      const g = teamGame(t);
+      return g === gameId || g === "all";
+    });
+  }, [allTeams, gameId]);
 
   // Undo-Verlauf pro Team: { [teamId]: number[][] } – ein Stapel von
   // pokemonIds-Snapshots. Jeder Snapshot ist der Stand VOR einer Änderung.
@@ -40,11 +61,11 @@ export function TeamsProvider({ children }) {
     const stack = history[teamId];
     if (!stack || stack.length === 0) return;
     const previousIds = stack[stack.length - 1];
-    const team = teams.find((t) => t._id === teamId);
+    const team = allTeams.find((t) => t._id === teamId);
     if (!team) return;
     setHistory((prev) => ({ ...prev, [teamId]: prev[teamId].slice(0, -1) }));
     const updated = await updateTeam(teamId, team.name, previousIds);
-    setTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
+    setAllTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
   }
 
   // Verlauf eines Teams leeren (beim Verlassen des Bearbeiten-Modus).
@@ -59,26 +80,26 @@ export function TeamsProvider({ children }) {
 
   // Vor-Drag-Stand merken (onDragStart), damit Umsortieren undo-bar wird.
   function beginPokemonDrag(teamId) {
-    const team = teams.find((t) => t._id === teamId);
+    const team = allTeams.find((t) => t._id === teamId);
     if (team) dragSnapshot.current = { teamId, ids: [...team.pokemonIds] };
   }
 
   useEffect(() => {
     if (!isAuthenticated) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setTeams([]);
+      setAllTeams([]);
       setLoading(false);
       return;
     }
     setLoading(true);
     getTeams()
-      .then(setTeams)
+      .then(setAllTeams)
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
   }, [isAuthenticated]);
 
   async function addPokemonToTeam(teamId, pokemonId) {
-    const team = teams.find((t) => t._id === teamId);
+    const team = allTeams.find((t) => t._id === teamId);
     if (!team) return;
     const id = Number(pokemonId);
     if (team.pokemonIds.includes(id)) return; // keine Duplikate
@@ -88,33 +109,34 @@ export function TeamsProvider({ children }) {
       ...team.pokemonIds,
       id,
     ]);
-    setTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
+    setAllTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
   }
 
   async function removePokemonFromTeam(teamId, pokemonId) {
-    const team = teams.find((t) => t._id === teamId);
+    const team = allTeams.find((t) => t._id === teamId);
     if (!team) return;
     const id = Number(pokemonId);
     const newIds = team.pokemonIds.filter((pid) => pid !== id);
     pushHistory(teamId, team.pokemonIds); // Undo-Snapshot vor der Änderung
     const updated = await updateTeam(teamId, team.name, newIds);
-    setTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
+    setAllTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
   }
 
   async function createTeamWithPokemon(name, pokemonId) {
     const ids = pokemonId ? [Number(pokemonId)] : [];
-    const newTeam = await createTeam(name, ids);
-    setTeams((prev) => [...prev, newTeam]);
+    // Neues Team dem aktuell gewaehlten Spiel zuordnen ("all" bei "Alle").
+    const newTeam = await createTeam(name, ids, gameId);
+    setAllTeams((prev) => [...prev, newTeam]);
     return newTeam;
   }
 
   async function removeTeam(teamId) {
     await deleteTeam(teamId);
-    setTeams((prev) => prev.filter((t) => t._id !== teamId));
+    setAllTeams((prev) => prev.filter((t) => t._id !== teamId));
   }
 
   async function movePokemon(teamId, pokemonId, direction) {
-    const team = teams.find((t) => t._id === teamId);
+    const team = allTeams.find((t) => t._id === teamId);
     if (!team) return;
     const ids = [...team.pokemonIds];
     const index = ids.indexOf(Number(pokemonId));
@@ -123,12 +145,12 @@ export function TeamsProvider({ children }) {
     pushHistory(teamId, team.pokemonIds); // Undo-Snapshot vor der Änderung
     [ids[index], ids[target]] = [ids[target], ids[index]]; // tauschen
     const updated = await updateTeam(teamId, team.name, ids);
-    setTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
+    setAllTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
   }
 
   // Live-Update während des Ziehens – nur lokal, kein API-Call.
   function reorderPokemon(teamId, newIds) {
-    setTeams((prev) =>
+    setAllTeams((prev) =>
       prev.map((t) => (t._id === teamId ? { ...t, pokemonIds: newIds } : t)),
     );
   }
@@ -145,55 +167,75 @@ export function TeamsProvider({ children }) {
     }
     try {
       const updated = await updateTeam(teamId, teamName, ids);
-      setTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
+      setAllTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
     } catch (err) {
       // Bei Fehler den sauberen Server-Stand wiederherstellen.
       const fresh = await getTeams();
-      setTeams(fresh);
+      setAllTeams(fresh);
       throw err;
     }
   }
 
-  // Team per Pfeil verschieben: benachbarte Teams tauschen + speichern.
+  // Sichtbare Teilmenge in die volle Reihenfolge zurueckmischen: ausgeblendete
+  // Teams behalten ihren Platz, sichtbare werden an ihren Slots neu verteilt.
+  function mergeVisibleOrder(orderedVisibleIds) {
+    const visibleIdSet = new Set(orderedVisibleIds);
+    let k = 0;
+    return allTeams.map((t) =>
+      visibleIdSet.has(t._id) ? orderedVisibleIds[k++] : t._id,
+    );
+  }
+
+  // Team per Pfeil verschieben: benachbarte SICHTBARE Teams tauschen + speichern.
   async function moveTeam(teamId, direction) {
-    const index = teams.findIndex((t) => t._id === teamId);
-    const target = index + direction; // -1 = hoch, +1 = runter
-    if (index < 0 || target < 0 || target >= teams.length) return; // Rand
-    const reordered = [...teams];
-    [reordered[index], reordered[target]] = [
-      reordered[target],
-      reordered[index],
-    ];
-    setTeams(reordered); // optimistisch
+    const vIndex = visibleTeams.findIndex((t) => t._id === teamId);
+    const vTarget = vIndex + direction; // -1 = hoch, +1 = runter
+    if (vIndex < 0 || vTarget < 0 || vTarget >= visibleTeams.length) return;
+    const otherId = visibleTeams[vTarget]._id;
+    const full = [...allTeams];
+    const i = full.findIndex((t) => t._id === teamId);
+    const j = full.findIndex((t) => t._id === otherId);
+    if (i < 0 || j < 0) return;
+    [full[i], full[j]] = [full[j], full[i]]; // im Voll-Bestand tauschen
+    const before = allTeams;
+    setAllTeams(full); // optimistisch
     try {
-      const server = await reorderTeams(reordered.map((t) => t._id));
-      setTeams(server);
+      const server = await reorderTeams(full.map((t) => t._id));
+      setAllTeams(server);
     } catch (err) {
-      setTeams(teams); // zurückrollen auf den Stand vor dem Tausch
+      setAllTeams(before); // zurückrollen auf den Stand vor dem Tausch
       throw err;
     }
   }
 
   // Live-Update während des Team-Ziehens – nur lokal, kein API-Call.
-  function reorderTeamsLive(newTeams) {
-    setTeams(newTeams);
+  // newVisible = neu sortierte Teilmenge der aktuell sichtbaren Teams.
+  function reorderTeamsLive(newVisible) {
+    const visibleIdSet = new Set(newVisible.map((t) => t._id));
+    let k = 0;
+    const merged = allTeams.map((t) =>
+      visibleIdSet.has(t._id) ? newVisible[k++] : t,
+    );
+    setAllTeams(merged);
   }
 
   // Neue Team-Reihenfolge speichern (am Ende des Ziehens).
+  // orderedIds = sichtbare Teams in neuer Reihenfolge.
   async function persistTeamsOrder(orderedIds) {
+    const fullOrder = mergeVisibleOrder(orderedIds);
     try {
-      const server = await reorderTeams(orderedIds);
-      setTeams(server);
+      const server = await reorderTeams(fullOrder);
+      setAllTeams(server);
     } catch (err) {
       // Bei Fehler den sauberen Server-Stand wiederherstellen.
       const fresh = await getTeams();
-      setTeams(fresh);
+      setAllTeams(fresh);
       throw err;
     }
   }
 
   const value = {
-    teams,
+    teams: visibleTeams,
     loading,
     addPokemonToTeam,
     removePokemonFromTeam,

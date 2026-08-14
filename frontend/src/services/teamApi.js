@@ -1,13 +1,13 @@
 import { apiFetch } from "./apiFetch";
 
 export async function getTeams() {
-  return apiFetch("/teams"); // Array von { _id, name, pokemonIds, ... }
+  return apiFetch("/teams"); // Array von { _id, name, game, pokemonIds, ... }
 }
 
-export async function createTeam(name, pokemonIds) {
+export async function createTeam(name, pokemonIds, game) {
   return apiFetch("/teams", {
     method: "POST",
-    body: JSON.stringify({ name, pokemonIds }),
+    body: JSON.stringify({ name, pokemonIds, game }),
   }); // das erstellte Team
 }
 

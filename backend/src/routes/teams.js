@@ -18,13 +18,14 @@ router.get("/", authMiddleware, async (req, res) => {
 
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { name, pokemonIds } = req.body;
+    const { name, pokemonIds, game } = req.body;
     // Neues Team ans Ende einsortieren: order = Anzahl bestehender Teams.
     const order = await Team.countDocuments({ user: req.userId });
     const team = await Team.create({
       user: req.userId,
       name,
       pokemonIds,
+      game: game || "all", // fehlt game => allgemeines Team
       order,
     });
     res.status(201).json(team);
