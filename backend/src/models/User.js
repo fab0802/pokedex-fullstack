@@ -45,6 +45,12 @@ const settingsSchema = new mongoose.Schema(
       ],
       default: "total",
     },
+    // Ansicht der Pokemon-Liste: klassische Zeilen-Liste oder Karten-Raster.
+    layout: {
+      type: String,
+      enum: ["list", "grid"],
+      default: "list",
+    },
     // Zuletzt gewaehlter Spielfilter. "all" = keine Einschraenkung.
     game: {
       type: String,

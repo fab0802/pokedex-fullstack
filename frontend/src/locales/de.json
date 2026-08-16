@@ -208,6 +208,9 @@
     "loadingDex": "Dex wird geladen … {{loaded}} / {{total}}"
   },
   "display": {
+    "view": "Ansicht",
+    "list": "Liste",
+    "grid": "Raster",
     "label": "Stat in Liste",
     "off": "Aus"
   },

@@ -5,6 +5,8 @@ import { getSettings, updateSettings } from "../services/settingsApi";
 
 // Standard-Stat in der Listenansicht. Unabhaengig von der Sortierung.
 const DEFAULT_STAT = "total";
+// Standard-Ansicht: klassische Zeilen-Liste (Variante A).
+const DEFAULT_LAYOUT = "list";
 
 export function DisplayProvider({ children }) {
   const { isAuthenticated } = useAuth();
@@ -13,15 +15,24 @@ export function DisplayProvider({ children }) {
     () => localStorage.getItem("displayStat") || DEFAULT_STAT,
   );
 
-  // Beim Login die serverseitig gespeicherte Einstellung laden (Backend gewinnt).
+  const [layout, setLayoutState] = useState(
+    () => localStorage.getItem("layout") || DEFAULT_LAYOUT,
+  );
+
+  // Beim Login die serverseitig gespeicherten Einstellungen laden (Backend gewinnt).
   useEffect(() => {
     if (!isAuthenticated) return;
     let active = true;
     getSettings()
       .then((s) => {
-        if (active && s?.displayStat) {
+        if (!active || !s) return;
+        if (s.displayStat) {
           localStorage.setItem("displayStat", s.displayStat);
           setStatFieldState(s.displayStat);
+        }
+        if (s.layout) {
+          localStorage.setItem("layout", s.layout);
+          setLayoutState(s.layout);
         }
       })
       .catch((err) => console.error(err));
@@ -44,9 +55,20 @@ export function DisplayProvider({ children }) {
     [isAuthenticated],
   );
 
+  const setLayout = useCallback(
+    (next) => {
+      localStorage.setItem("layout", next); // Gast-Fallback
+      setLayoutState(next);
+      if (isAuthenticated) {
+        updateSettings({ layout: next }).catch((err) => console.error(err));
+      }
+    },
+    [isAuthenticated],
+  );
+
   const value = useMemo(
-    () => ({ statField, setStatField }),
-    [statField, setStatField],
+    () => ({ statField, setStatField, layout, setLayout }),
+    [statField, setStatField, layout, setLayout],
   );
 
   return (

@@ -12,14 +12,14 @@ export function getSettings() {
       inflight = null;
     });
   }
-  return inflight; // { theme, ball, displayStat, game }
+  return inflight; // { theme, ball, displayStat, layout, game }
 }
 
 // Liest die aktuell im localStorage gesetzten Gast-Einstellungen aus.
 // Nur vorhandene Keys werden aufgenommen -> ein frischer Gast liefert {}.
 // Wird bei der Registrierung mitgeschickt, damit die Gast-Wahl erhalten bleibt.
 export function readLocalSettings() {
-  const keys = ["theme", "ball", "displayStat", "game"];
+  const keys = ["theme", "ball", "displayStat", "layout", "game"];
   const out = {};
   for (const key of keys) {
     const value = localStorage.getItem(key);
