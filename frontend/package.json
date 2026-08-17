@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate:names": "node scripts/generate-pokemon-names.mjs"
+    "generate:names": "node scripts/generate-pokemon-names.mjs",
+    "generate:swsh-encounters": "node scripts/generate-swsh-encounters.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",
@@ -25,6 +26,7 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
+    "cheerio": "^1.2.0",
     "eslint": "^10.6.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",

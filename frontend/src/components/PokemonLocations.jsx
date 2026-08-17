@@ -4,6 +4,10 @@ import {
   fetchPokemonEncounters,
   fetchLocalizedNames,
 } from "../services/pokeApi";
+import {
+  hasLocalEncounters,
+  fetchLocalEncounters,
+} from "../services/localEncounters";
 import { useGame } from "../context/useGame";
 import styles from "./PokemonLocations.module.css";
 
@@ -59,17 +63,43 @@ export default function PokemonLocations({ pokemonId }) {
   const [result, setResult] = useState(null);
   const [names, setNames] = useState({});
 
+  const gameId = selectedGame.id;
+  const local = hasLocalEncounters(gameId);
+
+  // Quelle je nach Spiel: PokéAPI (Gen 1–7) oder lokale JSON (Gen 8/9).
+  // Bei lokalen Spielen kommen die Ortsnamen direkt mit, daher setzen wir
+  // names hier gleich mit und sparen uns die PokéAPI-Lokalisierung unten.
   useEffect(() => {
     let cancelled = false;
-    fetchPokemonEncounters(pokemonId)
-      .then((res) => !cancelled && setResult({ pokemonId, encounters: res }))
-      .catch(() => !cancelled && setResult({ pokemonId, error: true }));
+    if (local) {
+      fetchLocalEncounters(gameId, pokemonId)
+        .then(({ encounters, names: localNames }) => {
+          if (cancelled) return;
+          setResult({ pokemonId, gameId, encounters });
+          setNames(localNames);
+        })
+        .catch(
+          () => !cancelled && setResult({ pokemonId, gameId, error: true }),
+        );
+    } else {
+      fetchPokemonEncounters(pokemonId)
+        .then(
+          (res) =>
+            !cancelled && setResult({ pokemonId, gameId, encounters: res }),
+        )
+        .catch(
+          () => !cancelled && setResult({ pokemonId, gameId, error: true }),
+        );
+    }
     return () => {
       cancelled = true;
     };
-  }, [pokemonId]);
+  }, [pokemonId, gameId, local]);
 
-  const current = result && result.pokemonId === pokemonId ? result : null;
+  const current =
+    result && result.pokemonId === pokemonId && result.gameId === gameId
+      ? result
+      : null;
 
   // Fundorte immer für das global gewählte Spiel. Ohne Spielwahl ("all")
   // gibt es keinen spielspezifischen Inhalt.
@@ -82,7 +112,8 @@ export default function PokemonLocations({ pokemonId }) {
   );
 
   useEffect(() => {
-    if (!data || data.locations.length === 0) return;
+    // Lokale Spiele bringen ihre Namen selbst mit – keine PokéAPI-Abfrage.
+    if (local || !data || data.locations.length === 0) return;
     let cancelled = false;
     Promise.all(
       data.locations.map(async (loc) => [
@@ -102,7 +133,7 @@ export default function PokemonLocations({ pokemonId }) {
     return () => {
       cancelled = true;
     };
-  }, [data]);
+  }, [data, local]);
 
   if (current?.error) {
     return <p className={styles.empty}>{t("locations.error")}</p>;
