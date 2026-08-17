@@ -5,6 +5,7 @@ import redBlue from "../data/trainers/redBlue.json";
 import yellow from "../data/trainers/yellow.json";
 import goldSilver from "../data/trainers/goldSilver.json";
 import rubySapphire from "../data/trainers/rubySapphire.json";
+import fireredLeafgreen from "../data/trainers/fireredLeafgreen.json";
 import diamondPearl from "../data/trainers/diamondPearl.json";
 import blackWhite from "../data/trainers/blackWhite.json";
 import xy from "../data/trainers/xy.json";
@@ -22,6 +23,7 @@ const GUIDES = [
   yellow,
   goldSilver,
   rubySapphire,
+  fireredLeafgreen,
   diamondPearl,
   blackWhite,
   xy,
@@ -53,7 +55,6 @@ const CATEGORY_KEY = {
 // bestehenden Spiel. Bis eigene Remake-Guides existieren, zeigen wir den
 // regionspassenden Guide statt des generischen Fallbacks auf den ersten Eintrag.
 const REMAKE_GUIDE_FALLBACK = {
-  frlg: "red-blue",
   hgss: "gold-silver",
   oras: "ruby-sapphire",
 };
