@@ -8,6 +8,7 @@ import rubySapphire from "../data/trainers/rubySapphire.json";
 import fireredLeafgreen from "../data/trainers/fireredLeafgreen.json";
 import diamondPearl from "../data/trainers/diamondPearl.json";
 import blackWhite from "../data/trainers/blackWhite.json";
+import omegaRubyAlphaSapphire from "../data/trainers/omegaRubyAlphaSapphire.json";
 import xy from "../data/trainers/xy.json";
 import sunMoon from "../data/trainers/sunMoon.json";
 import swordShield from "../data/trainers/swordShield.json";
@@ -26,6 +27,7 @@ const GUIDES = [
   fireredLeafgreen,
   diamondPearl,
   blackWhite,
+  omegaRubyAlphaSapphire,
   xy,
   sunMoon,
   swordShield,
@@ -56,7 +58,6 @@ const CATEGORY_KEY = {
 // regionspassenden Guide statt des generischen Fallbacks auf den ersten Eintrag.
 const REMAKE_GUIDE_FALLBACK = {
   hgss: "gold-silver",
-  oras: "ruby-sapphire",
 };
 
 function guideIdForGame(selectedGame) {
