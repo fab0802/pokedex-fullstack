@@ -49,14 +49,21 @@ const CATEGORY_KEY = {
   superBoss: "guide.superBoss",
 };
 
-// Brücke zwischen globalem Filter (games.js: IDs mit versionGroups) und den
-// Guides (nach Version-Group-Slug geschlüsselt). Erster Guide, dessen Slug in
-// den versionGroups des globalen Spiels liegt; sonst Fallback auf ersten Guide
-// (z. B. bei "all", das keine versionGroups hat).
+// Remakes haben (noch) keinen eigenen Guide, teilen aber die Region mit einem
+// bestehenden Spiel. Bis eigene Remake-Guides existieren, zeigen wir den
+// regionspassenden Guide statt des generischen Fallbacks auf den ersten Eintrag.
+const REMAKE_GUIDE_FALLBACK = {
+  frlg: "red-blue",
+  hgss: "gold-silver",
+  oras: "ruby-sapphire",
+};
+
 function guideIdForGame(selectedGame) {
   const vgs = selectedGame?.versionGroups ?? [];
   const match = GUIDES.find((g) => vgs.includes(g.game));
-  return (match ?? GUIDES[0]).game;
+  if (match) return match.game;
+  const remake = REMAKE_GUIDE_FALLBACK[selectedGame?.id];
+  return remake ?? GUIDES[0].game;
 }
 
 export default function GameGuide() {

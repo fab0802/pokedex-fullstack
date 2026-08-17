@@ -219,9 +219,12 @@
     "rby": "Red/Blue/Yellow",
     "gsc": "Gold/Silver/Crystal",
     "rse": "Ruby/Sapphire/Emerald",
+    "frlg": "FireRed/LeafGreen",
     "dpp": "Diamond/Pearl/Platinum",
+    "hgss": "Herzgold/Seelensilber",
     "bw": "Black/White",
     "xy": "X/Y",
+    "oras": "Omega Rubin/Alpha Saphir",
     "sm": "Sun/Moon",
     "swsh": "Sword/Shield",
     "sv": "Scarlet/Violet"

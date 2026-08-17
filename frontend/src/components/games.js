@@ -19,10 +19,22 @@ export const games = [
     versions: ["ruby", "sapphire", "emerald"],
   },
   {
+    id: "frlg",
+    dexes: ["kanto"],
+    versionGroups: ["firered-leafgreen"],
+    versions: ["firered", "leafgreen"],
+  },
+  {
     id: "dpp",
     dexes: ["extended-sinnoh"],
     versionGroups: ["diamond-pearl", "platinum"],
     versions: ["diamond", "pearl", "platinum"],
+  },
+  {
+    id: "hgss",
+    dexes: ["updated-johto"],
+    versionGroups: ["heartgold-soulsilver"],
+    versions: ["heartgold", "soulsilver"],
   },
   {
     id: "bw",
@@ -35,6 +47,12 @@ export const games = [
     dexes: ["kalos-central", "kalos-coastal", "kalos-mountain"],
     versionGroups: ["x-y"],
     versions: ["x", "y"],
+  },
+  {
+    id: "oras",
+    dexes: ["updated-hoenn"],
+    versionGroups: ["omega-ruby-alpha-sapphire"],
+    versions: ["omega-ruby", "alpha-sapphire"],
   },
   {
     id: "sm",
