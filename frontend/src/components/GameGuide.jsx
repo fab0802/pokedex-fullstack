@@ -4,6 +4,7 @@ import { BookOpen } from "lucide-react";
 import redBlue from "../data/trainers/redBlue.json";
 import yellow from "../data/trainers/yellow.json";
 import goldSilver from "../data/trainers/goldSilver.json";
+import heartgoldSoulsilver from "../data/trainers/heartgoldSoulsilver.json";
 import rubySapphire from "../data/trainers/rubySapphire.json";
 import fireredLeafgreen from "../data/trainers/fireredLeafgreen.json";
 import diamondPearl from "../data/trainers/diamondPearl.json";
@@ -17,12 +18,14 @@ import TrainerCard from "./TrainerCard";
 import { useGame } from "../context/useGame";
 import styles from "./GameGuide.module.css";
 
-// Aktuell nur ein Guide - bewusst als Liste angelegt, damit weitere Spiele
-// später nur ergänzt werden müssen: Datendatei importieren und hier eintragen.
+// Alle Guides als Liste - weitere Spiele nur ergänzen: Datendatei importieren
+// und hier eintragen. Zuordnung Spiel -> Guide läuft über die version-group-Slugs
+// (siehe guideIdForGame), daher matchen auch Remakes direkt über ihren Slug.
 const GUIDES = [
   redBlue,
   yellow,
   goldSilver,
+  heartgoldSoulsilver,
   rubySapphire,
   fireredLeafgreen,
   diamondPearl,
@@ -53,19 +56,10 @@ const CATEGORY_KEY = {
   superBoss: "guide.superBoss",
 };
 
-// Remakes haben (noch) keinen eigenen Guide, teilen aber die Region mit einem
-// bestehenden Spiel. Bis eigene Remake-Guides existieren, zeigen wir den
-// regionspassenden Guide statt des generischen Fallbacks auf den ersten Eintrag.
-const REMAKE_GUIDE_FALLBACK = {
-  hgss: "gold-silver",
-};
-
 function guideIdForGame(selectedGame) {
   const vgs = selectedGame?.versionGroups ?? [];
   const match = GUIDES.find((g) => vgs.includes(g.game));
-  if (match) return match.game;
-  const remake = REMAKE_GUIDE_FALLBACK[selectedGame?.id];
-  return remake ?? GUIDES[0].game;
+  return match?.game ?? GUIDES[0].game;
 }
 
 export default function GameGuide() {

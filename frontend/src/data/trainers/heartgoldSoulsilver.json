@@ -1,0 +1,311 @@
+{
+  "game": "heartgold-soulsilver",
+  "region": "johto",
+  "label": { "de": "HeartGold/SoulSilver", "en": "HeartGold/SoulSilver" },
+  "trainers": [
+    {
+      "key": "falkner",
+      "category": "gymJohto",
+      "type": "flying",
+      "name": { "de": "Falk", "en": "Falkner" },
+      "city": { "de": "Rosalia City", "en": "Violet City" },
+      "badge": { "de": "Flügelorden", "en": "Zephyr Badge" },
+      "team": [
+        { "id": 16, "level": 9 },
+        { "id": 17, "level": 13, "ace": true }
+      ]
+    },
+    {
+      "key": "bugsy",
+      "category": "gymJohto",
+      "type": "bug",
+      "name": { "de": "Kai", "en": "Bugsy" },
+      "city": { "de": "Azalea City", "en": "Azalea Town" },
+      "badge": { "de": "Käferorden", "en": "Hive Badge" },
+      "team": [
+        { "id": 14, "level": 15 },
+        { "id": 11, "level": 15 },
+        { "id": 123, "level": 17, "ace": true }
+      ]
+    },
+    {
+      "key": "whitney",
+      "category": "gymJohto",
+      "type": "normal",
+      "name": { "de": "Bianka", "en": "Whitney" },
+      "city": { "de": "Dukatia City", "en": "Goldenrod City" },
+      "badge": { "de": "Flachlandorden", "en": "Plain Badge" },
+      "team": [
+        { "id": 35, "level": 17 },
+        { "id": 241, "level": 19, "ace": true }
+      ]
+    },
+    {
+      "key": "morty",
+      "category": "gymJohto",
+      "type": "ghost",
+      "name": { "de": "Jens", "en": "Morty" },
+      "city": { "de": "Teak City", "en": "Ecruteak City" },
+      "badge": { "de": "Nebelorden", "en": "Fog Badge" },
+      "team": [
+        { "id": 92, "level": 21 },
+        { "id": 93, "level": 21 },
+        { "id": 93, "level": 23 },
+        { "id": 94, "level": 25, "ace": true }
+      ]
+    },
+    {
+      "key": "chuck",
+      "category": "gymJohto",
+      "type": "fighting",
+      "name": { "de": "Hartwig", "en": "Chuck" },
+      "city": { "de": "Remoraville", "en": "Cianwood City" },
+      "badge": { "de": "Sturmorden", "en": "Storm Badge" },
+      "team": [
+        { "id": 57, "level": 29 },
+        { "id": 62, "level": 31, "ace": true }
+      ]
+    },
+    {
+      "key": "jasmine",
+      "category": "gymJohto",
+      "type": "steel",
+      "name": { "de": "Jasmin", "en": "Jasmine" },
+      "city": { "de": "Oliviana City", "en": "Olivine City" },
+      "badge": { "de": "Mineralorden", "en": "Mineral Badge" },
+      "team": [
+        { "id": 81, "level": 30 },
+        { "id": 81, "level": 30 },
+        { "id": 208, "level": 35, "ace": true }
+      ]
+    },
+    {
+      "key": "pryce",
+      "category": "gymJohto",
+      "type": "ice",
+      "name": { "de": "Norbert", "en": "Pryce" },
+      "city": { "de": "Mahagonia City", "en": "Mahogany Town" },
+      "badge": { "de": "Gletscherorden", "en": "Glacier Badge" },
+      "team": [
+        { "id": 86, "level": 30 },
+        { "id": 87, "level": 32 },
+        { "id": 221, "level": 34, "ace": true }
+      ]
+    },
+    {
+      "key": "clair",
+      "category": "gymJohto",
+      "type": "dragon",
+      "name": { "de": "Sandra", "en": "Clair" },
+      "city": { "de": "Ebenholz City", "en": "Blackthorn City" },
+      "badge": { "de": "Drachenorden", "en": "Rising Badge" },
+      "team": [
+        { "id": 130, "level": 38 },
+        { "id": 148, "level": 38 },
+        { "id": 148, "level": 38 },
+        { "id": 230, "level": 41, "ace": true }
+      ]
+    },
+    {
+      "key": "will",
+      "category": "eliteFour",
+      "type": "psychic",
+      "name": { "de": "Willi", "en": "Will" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 178, "level": 40 },
+        { "id": 124, "level": 41 },
+        { "id": 103, "level": 41 },
+        { "id": 80, "level": 41 },
+        { "id": 178, "level": 42, "ace": true }
+      ]
+    },
+    {
+      "key": "koga",
+      "category": "eliteFour",
+      "type": "poison",
+      "name": { "de": "Koga", "en": "Koga" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 168, "level": 40 },
+        { "id": 49, "level": 41 },
+        { "id": 205, "level": 43 },
+        { "id": 89, "level": 42 },
+        { "id": 169, "level": 44, "ace": true }
+      ]
+    },
+    {
+      "key": "bruno",
+      "category": "eliteFour",
+      "type": "fighting",
+      "name": { "de": "Bruno", "en": "Bruno" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 237, "level": 42 },
+        { "id": 106, "level": 42 },
+        { "id": 107, "level": 42 },
+        { "id": 95, "level": 43 },
+        { "id": 68, "level": 46, "ace": true }
+      ]
+    },
+    {
+      "key": "karen",
+      "category": "eliteFour",
+      "type": "dark",
+      "name": { "de": "Melanie", "en": "Karen" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 197, "level": 42 },
+        { "id": 45, "level": 42 },
+        { "id": 94, "level": 45 },
+        { "id": 198, "level": 44 },
+        { "id": 229, "level": 47, "ace": true }
+      ]
+    },
+    {
+      "key": "lance",
+      "category": "champion",
+      "type": "dragon",
+      "name": { "de": "Siegfried", "en": "Lance" },
+      "city": { "de": "Indigo-Plateau", "en": "Indigo Plateau" },
+      "team": [
+        { "id": 130, "level": 46 },
+        { "id": 149, "level": 49 },
+        { "id": 149, "level": 49 },
+        { "id": 142, "level": 48 },
+        { "id": 6, "level": 48 },
+        { "id": 149, "level": 50, "ace": true }
+      ]
+    },
+    {
+      "key": "surge-kanto",
+      "category": "gymKanto",
+      "type": "electric",
+      "name": { "de": "Major Bob", "en": "Lt. Surge" },
+      "city": { "de": "Orania City", "en": "Vermilion City" },
+      "badge": { "de": "Donnerorden", "en": "Thunder Badge" },
+      "team": [
+        { "id": 26, "level": 51 },
+        { "id": 101, "level": 47 },
+        { "id": 82, "level": 47 },
+        { "id": 101, "level": 47 },
+        { "id": 125, "level": 53, "ace": true }
+      ]
+    },
+    {
+      "key": "sabrina-kanto",
+      "category": "gymKanto",
+      "type": "psychic",
+      "name": { "de": "Sabrina", "en": "Sabrina" },
+      "city": { "de": "Saffronia City", "en": "Saffron City" },
+      "badge": { "de": "Sumpforden", "en": "Marsh Badge" },
+      "team": [
+        { "id": 196, "level": 53 },
+        { "id": 122, "level": 53 },
+        { "id": 65, "level": 55, "ace": true }
+      ]
+    },
+    {
+      "key": "misty-kanto",
+      "category": "gymKanto",
+      "type": "water",
+      "name": { "de": "Misty", "en": "Misty" },
+      "city": { "de": "Azuria City", "en": "Cerulean City" },
+      "badge": { "de": "Kaskadenorden", "en": "Cascade Badge" },
+      "team": [
+        { "id": 55, "level": 49 },
+        { "id": 195, "level": 49 },
+        { "id": 131, "level": 52 },
+        { "id": 121, "level": 54, "ace": true }
+      ]
+    },
+    {
+      "key": "erika-kanto",
+      "category": "gymKanto",
+      "type": "grass",
+      "name": { "de": "Erika", "en": "Erika" },
+      "city": { "de": "Prismania City", "en": "Celadon City" },
+      "badge": { "de": "Farborden", "en": "Rainbow Badge" },
+      "team": [
+        { "id": 189, "level": 51 },
+        { "id": 114, "level": 52 },
+        { "id": 71, "level": 56 },
+        { "id": 182, "level": 56, "ace": true }
+      ]
+    },
+    {
+      "key": "janine-kanto",
+      "category": "gymKanto",
+      "type": "poison",
+      "name": { "de": "Janina", "en": "Janine" },
+      "city": { "de": "Fuchsania City", "en": "Fuchsia City" },
+      "badge": { "de": "Seelenorden", "en": "Soul Badge" },
+      "team": [
+        { "id": 169, "level": 47 },
+        { "id": 110, "level": 44 },
+        { "id": 168, "level": 47 },
+        { "id": 168, "level": 47 },
+        { "id": 49, "level": 50, "ace": true }
+      ]
+    },
+    {
+      "key": "brock-kanto",
+      "category": "gymKanto",
+      "type": "rock",
+      "name": { "de": "Rocko", "en": "Brock" },
+      "city": { "de": "Marmoria City", "en": "Pewter City" },
+      "badge": { "de": "Felsorden", "en": "Boulder Badge" },
+      "team": [
+        { "id": 75, "level": 51 },
+        { "id": 111, "level": 51 },
+        { "id": 139, "level": 53 },
+        { "id": 95, "level": 54, "ace": true },
+        { "id": 141, "level": 52 }
+      ]
+    },
+    {
+      "key": "blaine-kanto",
+      "category": "gymKanto",
+      "type": "fire",
+      "name": { "de": "Pyro", "en": "Blaine" },
+      "city": { "de": "Schauminseln", "en": "Seafoam Islands" },
+      "badge": { "de": "Vulkanorden", "en": "Volcano Badge" },
+      "team": [
+        { "id": 219, "level": 54 },
+        { "id": 126, "level": 54 },
+        { "id": 78, "level": 59, "ace": true }
+      ]
+    },
+    {
+      "key": "blue-kanto",
+      "category": "gymKanto",
+      "type": null,
+      "name": { "de": "Blau", "en": "Blue" },
+      "city": { "de": "Vertania City", "en": "Viridian City" },
+      "badge": { "de": "Erdorden", "en": "Earth Badge" },
+      "team": [
+        { "id": 103, "level": 55 },
+        { "id": 59, "level": 58 },
+        { "id": 112, "level": 58 },
+        { "id": 130, "level": 52 },
+        { "id": 68, "level": 56 },
+        { "id": 18, "level": 60, "ace": true }
+      ]
+    },
+    {
+      "key": "red",
+      "category": "superBoss",
+      "type": null,
+      "name": { "de": "Rot", "en": "Red" },
+      "city": { "de": "Silberberg", "en": "Mt. Silver" },
+      "team": [
+        { "id": 25, "level": 88, "ace": true },
+        { "id": 131, "level": 80 },
+        { "id": 143, "level": 82 },
+        { "id": 3, "level": 84 },
+        { "id": 6, "level": 84 },
+        { "id": 9, "level": 84 }
+      ]
+    }
+  ]
+}
