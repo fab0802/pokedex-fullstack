@@ -1,8 +1,20 @@
 const BASE_URL = "https://pokeapi.co/api/v2";
-const CACHE_KEY = "pokemon-cache-v5";
+const CACHE_KEY = "pokemon-cache-v6";
 const EVO_CACHE_KEY = "pokemon-evolution-v1";
 const NAME_CACHE_KEY = "pokeapi-names-v1";
 const NATIONAL_MAX = 1025;
+
+// GitHub-Raw (raw.githubusercontent.com) rate-limitet Sprite-Requests (HTTP 429),
+// wenn eine Seite viele Bilder gleichzeitig laedt. Wir spiegeln dieselben Dateien
+// ueber den jsDelivr-CDN-Mirror des Repos - gleiche Pfade, kein Rate-Limit.
+function spriteUrl(url) {
+  return (
+    url?.replace(
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/",
+      "https://cdn.jsdelivr.net/gh/PokeAPI/sprites@master/",
+    ) ?? null
+  );
+}
 
 function getCache() {
   return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
@@ -53,10 +65,11 @@ export async function fetchPokemonById(id) {
     id: p.id,
     name: p.name,
     nameDe,
-    image:
+    image: spriteUrl(
       p.sprites?.other?.["official-artwork"]?.front_default ??
-      p.sprites?.front_default ??
-      null,
+        p.sprites?.front_default ??
+        null,
+    ),
     types: p.types.map((t) => t.type.name),
     evolutionChainUrl,
     isLegendary,
