@@ -5,7 +5,7 @@
 
 const LOADERS = {
   swsh: () => import("../data/encounters/swsh.json"),
-  // sv: () => import("../data/encounters/sv.json"),  // folgt spaeter (Gen 9)
+  sv: () => import("../data/encounters/sv.json"),
 };
 
 const cache = {};

@@ -81,10 +81,9 @@ export const VERSION_GROUP_ORDER = [
   "red-blue",
 ];
 
-// PokéAPI hat (Stand 2026) keine Fundort-Daten für Gen 8/9.
-// swsh wird lokal aus src/data/encounters/swsh.json bedient
-// (siehe services/localEncounters.js); sv folgt noch.
-export const GAMES_WITHOUT_ENCOUNTERS = new Set(["sv"]);
+// Hinweis: PokéAPI hat (Stand 2026) keine Fundort-Daten für Gen 8/9.
+// swsh und sv werden lokal aus src/data/encounters/*.json bedient
+// (siehe services/localEncounters.js, Weiche über hasLocalEncounters()).
 
 // Version-Group-Slug -> interne Spiel-ID (fürs Label wiederverwendbar via games.<id>)
 export const VG_TO_GAME_ID = Object.fromEntries(

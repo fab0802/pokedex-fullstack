@@ -44,15 +44,20 @@ function buildEncounters(encounters, game) {
   for (const e of encounters) {
     const rel = e.versions.filter((v) => versions.has(v.version));
     if (rel.length === 0) continue;
+    // Level können fehlen (z. B. Gen 9: nur ungefähre Gebietsdaten) -> null.
+    const mins = rel.map((v) => v.min).filter((n) => typeof n === "number");
+    const maxs = rel.map((v) => v.max).filter((n) => typeof n === "number");
     locations.push({
       location: e.location,
-      min: Math.min(...rel.map((v) => v.min)),
-      max: Math.max(...rel.map((v) => v.max)),
+      min: mins.length ? Math.min(...mins) : null,
+      max: maxs.length ? Math.max(...maxs) : null,
       versions: rel.map((v) => v.version),
     });
   }
   locations.sort(
-    (a, b) => a.min - b.min || a.location.localeCompare(b.location),
+    (a, b) =>
+      (a.min ?? Infinity) - (b.min ?? Infinity) ||
+      a.location.localeCompare(b.location),
   );
   return { gameVersions, locations };
 }
@@ -166,11 +171,13 @@ export default function PokemonLocations({ pokemonId }) {
                 </span>
               )}
             </span>
-            <span className={styles.level}>
-              {loc.min === loc.max
-                ? t("common.level", { level: loc.min })
-                : t("locations.lvRange", { min: loc.min, max: loc.max })}
-            </span>
+            {loc.min != null && (
+              <span className={styles.level}>
+                {loc.min === loc.max
+                  ? t("common.level", { level: loc.min })
+                  : t("locations.lvRange", { min: loc.min, max: loc.max })}
+              </span>
+            )}
           </li>
         );
       })}
