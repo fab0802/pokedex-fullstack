@@ -12,6 +12,23 @@ const teamSchema = new mongoose.Schema(
       type: [Number],
       validate: [(arr) => arr.length <= 6, "Maximal 6 Pokémon pro Team"],
     },
+    // Movesets je Team-Mitglied: Pokémon-ID (als String-Key) -> geordnete
+    // Liste von Move-Slugs (Reihenfolge = Slot 1-4). Max. 4 pro Pokémon.
+    // Fehlt das Feld (alte Teams), wird es im Frontend als leer behandelt.
+    movesets: {
+      type: Map,
+      of: [String],
+      validate: {
+        validator(map) {
+          if (!map) return true;
+          for (const moves of map.values()) {
+            if (!Array.isArray(moves) || moves.length > 4) return false;
+          }
+          return true;
+        },
+        message: "Maximal 4 Attacken pro Pokémon",
+      },
+    },
     order: { type: Number, default: 0 },
   },
   { timestamps: true },
