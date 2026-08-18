@@ -242,3 +242,27 @@
   font-size: 13px;
   color: var(--color-text-secondary);
 }
+
+/* Gespeicherte Attacken als kleine Chips unter dem Pokémon (Ansichtsmodus). */
+.moveBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.moveBadge {
+  font-size: 10px;
+  line-height: 1.4;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--color-surface-alt);
+  color: var(--color-text-secondary);
+  text-transform: capitalize;
+}
+
+/* Im Edit-Modus zeigt der Picker die Attacken – Badges hier ausblenden. */
+.memberWrap[data-editing="true"] .moveBadges {
+  display: none;
+}

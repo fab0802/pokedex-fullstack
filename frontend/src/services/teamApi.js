@@ -11,10 +11,12 @@ export async function createTeam(name, pokemonIds, game) {
   }); // das erstellte Team
 }
 
-export async function updateTeam(id, name, pokemonIds) {
+export async function updateTeam(id, name, pokemonIds, movesets) {
+  // movesets ist optional: ist es undefined, lässt JSON.stringify den Key weg
+  // und das Backend rührt das Feld nicht an (partielles Update).
   return apiFetch(`/teams/${id}`, {
     method: "PUT",
-    body: JSON.stringify({ name, pokemonIds }),
+    body: JSON.stringify({ name, pokemonIds, movesets }),
   }); // das aktualisierte Team
 }
 

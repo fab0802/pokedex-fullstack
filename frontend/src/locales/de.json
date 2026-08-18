@@ -46,7 +46,8 @@
     "loading": "Lädt…",
     "level": "Lv. {{level}}",
     "cancel": "Abbrechen",
-    "confirmDelete": "Löschen"
+    "confirmDelete": "Löschen",
+    "save": "Speichern"
   },
   "search": {
     "title": "Suche",
@@ -113,7 +114,10 @@
     "moveDown": "Nach unten",
     "dragHandle": "Zum Verschieben ziehen",
     "undo": "Rückgängig",
-    "undoError": "Änderung konnte nicht rückgängig gemacht werden"
+    "undoError": "Änderung konnte nicht rückgängig gemacht werden",
+    "editMoves": "Attacken bearbeiten",
+    "movesetTitle": "Attacken wählen",
+    "noMovesSelected": "Noch keine Attacke gewählt."
   },
   "addToTeam": {
     "trigger": "+ Zum Team",

@@ -46,7 +46,8 @@
     "loading": "Loading…",
     "level": "Lv. {{level}}",
     "cancel": "Cancel",
-    "confirmDelete": "Delete"
+    "confirmDelete": "Delete",
+    "save": "Save"
   },
   "search": {
     "title": "Search",
@@ -113,7 +114,10 @@
     "moveDown": "Move down",
     "dragHandle": "Drag to reorder",
     "undo": "Undo",
-    "undoError": "Could not undo the last change"
+    "undoError": "Could not undo the last change",
+    "editMoves": "Edit moves",
+    "movesetTitle": "Choose moves",
+    "noMovesSelected": "No move selected yet."
   },
   "addToTeam": {
     "trigger": "+ Add to team",
