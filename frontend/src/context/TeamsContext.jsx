@@ -117,8 +117,33 @@ export function TeamsProvider({ children }) {
     if (!team) return;
     const id = Number(pokemonId);
     const newIds = team.pokemonIds.filter((pid) => pid !== id);
+    // Zugehöriges Moveset mit entfernen, damit es beim Wieder-Hinzufügen
+    // nicht unerwartet zurückkommt.
+    const nextMovesets = { ...(team.movesets || {}) };
+    delete nextMovesets[String(id)];
     pushHistory(teamId, team.pokemonIds); // Undo-Snapshot vor der Änderung
-    const updated = await updateTeam(teamId, team.name, newIds);
+    const updated = await updateTeam(teamId, team.name, newIds, nextMovesets);
+    setAllTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
+  }
+
+  // Moveset eines Team-Mitglieds setzen (geordnete Liste von Move-Slugs,
+  // max. 4). Leeres Moveset wird nicht gespeichert, sondern der Key entfernt.
+  async function setMoveset(teamId, pokemonId, moves) {
+    const team = allTeams.find((t) => t._id === teamId);
+    if (!team) return;
+    const key = String(pokemonId);
+    const nextMovesets = { ...(team.movesets || {}) };
+    if (moves && moves.length > 0) {
+      nextMovesets[key] = moves.slice(0, 4);
+    } else {
+      delete nextMovesets[key];
+    }
+    const updated = await updateTeam(
+      teamId,
+      team.name,
+      team.pokemonIds,
+      nextMovesets,
+    );
     setAllTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
   }
 
@@ -239,6 +264,7 @@ export function TeamsProvider({ children }) {
     loading,
     addPokemonToTeam,
     removePokemonFromTeam,
+    setMoveset,
     movePokemon,
     reorderPokemon,
     persistPokemonOrder,

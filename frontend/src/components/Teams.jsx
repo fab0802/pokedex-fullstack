@@ -10,6 +10,7 @@ import {
   ChevronDown,
   GripVertical,
   RotateCcw,
+  Swords,
 } from "lucide-react";
 import { useTeams } from "../context/useTeams";
 import { useToast } from "../context/useToast";
@@ -17,6 +18,8 @@ import { fetchPokemonById } from "../services/pokeApi";
 import { typeBannerStyle } from "./typeBannerStyle";
 import AddPokemonSearch from "./AddPokemonSearch";
 import ConfirmDialog from "./ConfirmDialog";
+import MovesetPicker from "./MovesetPicker";
+import { moveName } from "./moveName";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import NewTeamCard from "./NewTeamCard";
@@ -91,6 +94,7 @@ export default function Teams() {
   const [editingId, setEditingId] = useState(null);
   const [confirmTeamId, setConfirmTeamId] = useState(null);
   const [confirmRemove, setConfirmRemove] = useState(null); // { teamId, pokemonId } | null
+  const [movesetTarget, setMovesetTarget] = useState(null); // { teamId, pokemonId } | null
   const teamRefs = useRef({}); // _id -> DOM-Node der Team-Karte
   const pendingScrollId = useRef(null); // ID des neuen Teams, das noch gescrollt werden soll
 
@@ -325,6 +329,7 @@ export default function Teams() {
                   >
                     {team.pokemonIds.map((id, index) => {
                       const p = pokemonById[id];
+                      const memberMoves = team.movesets?.[String(id)] ?? [];
                       return (
                         <Reorder.Item
                           key={id}
@@ -382,8 +387,30 @@ export default function Teams() {
                               <span>#{id}</span>
                             </div>
                           )}
+                          {memberMoves.length > 0 && (
+                            <div className={styles.moveBadges}>
+                              {memberMoves.map((slug) => (
+                                <span key={slug} className={styles.moveBadge}>
+                                  {moveName(slug, i18n.language)}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                           {isEditing && (
                             <div className={styles.memberControls}>
+                              <button
+                                className={styles.moveButton}
+                                onClick={() =>
+                                  setMovesetTarget({
+                                    teamId: team._id,
+                                    pokemonId: id,
+                                  })
+                                }
+                                title={t("teams.editMoves")}
+                                aria-label={t("teams.editMoves")}
+                              >
+                                <Swords size={16} />
+                              </button>
                               <button
                                 className={styles.moveButton}
                                 onClick={() => movePokemon(team._id, id, -1)}
@@ -459,6 +486,24 @@ export default function Teams() {
         onConfirm={confirmRemovePokemon}
         onCancel={() => setConfirmRemove(null)}
       />
+      {movesetTarget &&
+        (() => {
+          const team = teams.find((tm) => tm._id === movesetTarget.teamId);
+          if (!team) return null;
+          const label =
+            pokemonName(
+              pokemonById[movesetTarget.pokemonId],
+              i18n.language,
+            ) || `#${movesetTarget.pokemonId}`;
+          return (
+            <MovesetPicker
+              team={team}
+              pokemonId={movesetTarget.pokemonId}
+              pokemonLabel={label}
+              onClose={() => setMovesetTarget(null)}
+            />
+          );
+        })()}
     </div>
   );
 }

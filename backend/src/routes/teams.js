@@ -60,10 +60,17 @@ router.put("/reorder", authMiddleware, async (req, res) => {
 
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
-    const { name, pokemonIds } = req.body;
+    const { name, pokemonIds, movesets } = req.body;
+    // Partielles Update: nur mitgeschickte Felder überschreiben, damit
+    // z. B. ein reines pokemonIds-Update die Movesets nicht leert.
+    const update = {};
+    if (name !== undefined) update.name = name;
+    if (pokemonIds !== undefined) update.pokemonIds = pokemonIds;
+    if (movesets !== undefined) update.movesets = movesets;
+
     const team = await Team.findOneAndUpdate(
       { _id: req.params.id, user: req.userId },
-      { name, pokemonIds },
+      update,
       { new: true, runValidators: true },
     );
     if (!team) return res.status(404).json({ error: "Team not found" });
