@@ -31,6 +31,7 @@ export default function PokemonList() {
     hasMore,
     loadMore,
     scrollYRef,
+    lastVisitedIdRef,
     allPokemons,
     loadingAll,
     allProgress,
@@ -48,19 +49,40 @@ export default function PokemonList() {
 
   const isGrid = layout === "grid";
 
-  // Scroll-Position beim Zurückkommen wiederherstellen
+  // Beim Zurückkommen aus der Detailansicht zur zuletzt betrachteten Karte
+  // scrollen (Anker). Robuster als eine Pixel-Position: Die Kartenhöhen sind
+  // stabil (min-height), und Lazy-Loading verschiebt die Ziel-Karte nicht.
+  // Wichtig: Die ID wird hier NICHT genullt. Unter React StrictMode läuft
+  // dieser Layout-Effect im Dev-Modus zweimal – würde er die ID beim ersten
+  // Lauf verbrauchen, fiele der zweite Lauf in den Pixel-Fallback und würde
+  // den korrekten Scroll sofort überschreiben. So laufen beide Läufe identisch.
+  // Verbraucht wird der Anker erst beim ersten Scroll (siehe unten). Der
+  // Pixelwert aus scrollYRef dient nur als Fallback (z. B. Rückkehr aus einem
+  // anderen Tab, ohne vorher ein Pokémon geöffnet zu haben).
   useLayoutEffect(() => {
+    const id = lastVisitedIdRef.current;
+    if (id != null) {
+      const card = document.querySelector(`[data-id="${id}"]`);
+      if (card) {
+        card.scrollIntoView({ block: "center" });
+        return;
+      }
+    }
     window.scrollTo(0, scrollYRef.current);
-  }, [scrollYRef]);
+  }, [scrollYRef, lastVisitedIdRef]);
 
-  // Aktuelle Scroll-Position laufend merken
+  // Aktuelle Scroll-Position laufend merken. Sobald gescrollt wird (auch durch
+  // das scrollIntoView oben), gilt der Anker als verbraucht: ab dann zählt
+  // wieder die Pixel-Position, und ein späterer Remount ohne Detailbesuch
+  // springt nicht mehr fälschlich zur alten Karte.
   useEffect(() => {
     const onScroll = () => {
       scrollYRef.current = window.scrollY;
+      lastVisitedIdRef.current = null;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [scrollYRef]);
+  }, [scrollYRef, lastVisitedIdRef]);
 
   // Ansichts-Schlüssel: Spiel + (bei aktiver Sortierung) Feld/Richtung.
   const viewKey = isActive
@@ -232,7 +254,7 @@ export default function PokemonList() {
 
   // Variante A – klassische Zeilen-Karte.
   const renderListCard = (p) => (
-    <li key={p.id} className={styles.card}>
+    <li key={p.id} data-id={p.id} className={styles.card}>
       <Link to={`/pokemon/${p.id}`} className={styles.cardLink}>
         <div className={styles.imagePanel} style={typeBannerStyle(p.types)}>
           <img
@@ -274,7 +296,7 @@ export default function PokemonList() {
   // Variante B – kompakte Raster-Karte. Fangstatus und Vergleich liegen als
   // Overlays auf dem Bild, der gewählte Stat sitzt unter den Typen.
   const renderGridCard = (p) => (
-    <li key={p.id} className={styles.gridCard}>
+    <li key={p.id} data-id={p.id} className={styles.gridCard}>
       <Link to={`/pokemon/${p.id}`} className={styles.gridLink}>
         <div className={styles.gridBanner} style={typeBannerStyle(p.types)}>
           {teamBadge(p)}

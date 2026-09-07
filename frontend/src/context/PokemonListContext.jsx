@@ -17,6 +17,10 @@ export function PokemonListProvider({ children }) {
   const [error, setError] = useState(null);
   const isFetchingRef = useRef(false);
   const scrollYRef = useRef(0);
+  // Zuletzt in der Detailansicht betrachtete Pokémon-ID. Liegt hier im Context,
+  // damit sie das Remounten der Liste überlebt: Beim Zurückkommen scrollt die
+  // Liste gezielt zu dieser Karte (Anker statt fragiler Pixel-Position).
+  const lastVisitedIdRef = useRef(null);
   // Fenstergrösse der aktiven (gefilterten/sortierten) Ansicht. Liegt hier im
   // Context, damit sie – wie scrollYRef – das Remounten der Liste beim
   // Zurücknavigieren überlebt. Hält { viewKey, visibleCount }.
@@ -129,6 +133,7 @@ export function PokemonListProvider({ children }) {
     hasMore: loadedCount < ids.length,
     loadMore,
     scrollYRef,
+    lastVisitedIdRef,
     listWindowRef,
     allPokemons,
     loadingAll,

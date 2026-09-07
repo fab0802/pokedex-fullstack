@@ -8,6 +8,7 @@ import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
 import { useGame } from "../context/useGame";
 import { useOrderedIds } from "../context/useOrderedIds";
+import { usePokemonList } from "../context/usePokemonList";
 import { typeColors } from "./typeColors";
 import { typeBackgrounds } from "./typeBackgrounds";
 import { typeBannerStyle } from "./typeBannerStyle";
@@ -45,6 +46,7 @@ export default function PokemonDetail() {
   const location = useLocation();
   const teamNav = location.state?.team;
   const fallbackIds = useOrderedIds();
+  const { lastVisitedIdRef } = usePokemonList();
   const currentId = Number(id);
   const { teams } = useTeams();
 
@@ -75,6 +77,12 @@ export default function PokemonDetail() {
     : currentId < MAX_ID
       ? currentId + 1
       : null;
+
+  // Aktuell betrachtete ID merken (auch beim Vor/Zurück-Blättern), damit die
+  // Liste beim Zurückkommen zu genau dieser Karte scrollt (siehe PokemonList).
+  useEffect(() => {
+    lastVisitedIdRef.current = Number(id);
+  }, [id, lastVisitedIdRef]);
 
   useEffect(() => {
     fetchPokemonById(id)
