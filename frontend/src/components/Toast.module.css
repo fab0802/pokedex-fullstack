@@ -85,7 +85,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1200px) {
   .container {
     left: 12px;
     right: 12px;
