@@ -35,11 +35,13 @@
 }
 
 /* Mobile: über der unteren Tab-Bar platzieren, nicht dahinter */
-@media (max-width: 600px) {
+@media (max-width: 1200px) {
   .button {
     right: 1rem;
     /* Über der Tab-Bar: Leistenhöhe + 0.75rem Abstand + Safe-Area. */
-    bottom: calc(var(--bottom-nav-height) + 0.75rem + env(safe-area-inset-bottom));
+    bottom: calc(
+      var(--bottom-nav-height) + 0.75rem + env(safe-area-inset-bottom)
+    );
     width: 44px;
     height: 44px;
   }

@@ -209,18 +209,6 @@ export default function PokemonDetail() {
       content: <TypeMatchups types={pokemon.types} hideTitle />,
     },
     {
-      id: "evo",
-      label: t("evolution.title"),
-      content: (
-        <EvolutionChain
-          chainUrl={pokemon.evolutionChainUrl}
-          currentId={pokemon.id}
-          hideTitle
-          showEmpty
-        />
-      ),
-    },
-    {
       id: "moves",
       label: t("detail.moves"),
       content: <PokemonMoves pokemonId={pokemon.id} />,
@@ -404,6 +392,14 @@ export default function PokemonDetail() {
         </div>
         <div className={styles.tabPanel} role="tabpanel">
           {activePanel.content}
+        </div>
+
+        <div className={styles.evoSection}>
+          <EvolutionChain
+            chainUrl={pokemon.evolutionChainUrl}
+            currentId={pokemon.id}
+            showEmpty
+          />
         </div>
       </motion.div>
     </div>
