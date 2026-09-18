@@ -8,9 +8,17 @@
     "register": "Register",
     "home": "Pokédex",
     "guide": "Guides",
+    "types": "Type Chart",
     "settings": "Settings",
     "menu": "Menu",
     "gameMode": "Game mode"
+  },
+  "typechart": {
+    "title": "Type Chart",
+    "lead": "Pick a type to see what it's strong and weak against.",
+    "attack": "When attacking",
+    "defense": "When defending",
+    "neutralNote": "Types not listed are neutral (×1)."
   },
   "guide": {
     "title": "Game Guides",

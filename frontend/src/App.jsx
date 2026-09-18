@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import PokemonList from "./components/PokemonList";
 import PokemonDetail from "./components/PokemonDetail";
 import GameGuide from "./components/GameGuide";
+import TypeChart from "./components/TypeChart";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
@@ -44,6 +45,7 @@ function App() {
         <Route path="/" element={<PokemonList />} />
         <Route path="/pokemon/:id" element={<PokemonDetail />} />
         <Route path="/guide" element={<GameGuide />} />
+        <Route path="/types" element={<TypeChart />} />
         <Route path="/teams" element={<Teams />} />
         <Route path="/compare" element={<Comparison />} />
         <Route path="/register" element={<Register />} />

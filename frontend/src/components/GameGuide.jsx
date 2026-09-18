@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BookOpen } from "lucide-react";
+import { Link } from "react-router-dom";
+import { BookOpen, Swords } from "lucide-react";
 import redBlue from "../data/trainers/redBlue.json";
 import yellow from "../data/trainers/yellow.json";
 import goldSilver from "../data/trainers/goldSilver.json";
@@ -83,6 +84,10 @@ export default function GameGuide() {
           <BookOpen size={22} aria-hidden="true" />
           {t("guide.title")}
         </h1>
+        <Link to="/types" className={styles.typeLink}>
+          <Swords size={16} aria-hidden="true" />
+          {t("nav.types")}
+        </Link>
         <select
           className={styles.gameSelect}
           value={gameId}

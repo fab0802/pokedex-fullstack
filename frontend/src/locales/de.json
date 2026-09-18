@@ -8,9 +8,17 @@
     "register": "Registrieren",
     "home": "Pokédex",
     "guide": "Spielhilfen",
+    "types": "Typentabelle",
     "settings": "Einstellungen",
     "menu": "Menü",
     "gameMode": "Spielmodus"
+  },
+  "typechart": {
+    "title": "Typentabelle",
+    "lead": "Wähle einen Typ, um zu sehen, wogegen er stark und schwach ist.",
+    "attack": "Im Angriff",
+    "defense": "In der Verteidigung",
+    "neutralNote": "Nicht aufgeführte Typen sind neutral (×1)."
   },
   "guide": {
     "title": "Spielhilfen",

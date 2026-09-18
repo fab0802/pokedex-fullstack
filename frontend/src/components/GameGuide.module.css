@@ -74,3 +74,24 @@
     width: 100%;
   }
 }
+
+.typeLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.typeLink svg {
+  color: var(--color-primary);
+}
+
+.typeLink:hover {
+  border-color: var(--color-primary);
+}

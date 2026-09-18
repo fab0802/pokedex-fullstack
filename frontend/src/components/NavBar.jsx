@@ -12,6 +12,7 @@ import {
   CircleDot,
   SlidersHorizontal,
   BookOpen,
+  Swords,
 } from "lucide-react";
 import { useAuth } from "../context/useAuth";
 import ThemeToggle from "./ThemeToggle";
@@ -122,6 +123,10 @@ export default function NavBar() {
           <Link to="/guide" className={styles.link}>
             <BookOpen size={17} aria-hidden="true" />
             <span className={styles.label}>{t("nav.guide")}</span>
+          </Link>
+          <Link to="/types" className={styles.link}>
+            <Swords size={17} aria-hidden="true" />
+            <span className={styles.label}>{t("nav.types")}</span>
           </Link>
           <LanguageToggle />
           <ThemeToggle />
