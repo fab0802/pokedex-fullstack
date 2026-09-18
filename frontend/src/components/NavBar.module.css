@@ -133,7 +133,7 @@
 }
 
 /* Layout-Umschaltung: Desktop-Leiste raus, Mobile-Navigation rein */
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
   /* Obere Leiste: nur Logo + Zahnrad */
   .links {
     display: none;
