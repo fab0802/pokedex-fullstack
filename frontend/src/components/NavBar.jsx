@@ -31,6 +31,11 @@ import { useFilter } from "../context/useFilter";
 import DisplayControl from "./DisplayControl";
 import styles from "./NavBar.module.css";
 
+// Mac zeigt ⌘, sonst Ctrl. Das Kürzel selbst greift für beide (metaKey || ctrlKey).
+const isMac =
+  typeof navigator !== "undefined" &&
+  /Mac|iPhone|iPad|iPod/.test(navigator.platform);
+
 export default function NavBar() {
   const { t } = useTranslation();
   const { isAuthenticated, logout } = useAuth();
@@ -46,19 +51,30 @@ export default function NavBar() {
     navigate("/login");
   }
 
-  // "/" öffnet die Suche - ausser man tippt gerade in ein Feld
+  // Tastenkürzel öffnen die Suche:
+  //  - Ctrl/Cmd+F fängt die (hier nutzlose) Browser-Suche ab
+  //  - "/" als schneller Zugriff, ausser man tippt gerade in ein Feld
   useEffect(() => {
     function onKey(e) {
-      if (e.key !== "/") return;
-      const el = document.activeElement;
-      const typing =
-        el &&
-        (el.tagName === "INPUT" ||
-          el.tagName === "TEXTAREA" ||
-          el.isContentEditable);
-      if (typing) return;
-      e.preventDefault();
-      setSearchOpen(true);
+      const key = e.key.toLowerCase();
+
+      if ((e.ctrlKey || e.metaKey) && key === "f") {
+        e.preventDefault();
+        setSearchOpen(true);
+        return;
+      }
+
+      if (key === "/") {
+        const el = document.activeElement;
+        const typing =
+          el &&
+          (el.tagName === "INPUT" ||
+            el.tagName === "TEXTAREA" ||
+            el.isContentEditable);
+        if (typing) return;
+        e.preventDefault();
+        setSearchOpen(true);
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -110,6 +126,9 @@ export default function NavBar() {
           >
             <Search size={17} aria-hidden="true" />
             <span className={styles.label}>{t("search.title")}</span>
+            <kbd className={styles.kbd} aria-hidden="true">
+              {isMac ? "⌘F" : "Ctrl+F"}
+            </kbd>
           </button>
           <button
             className={`${styles.link} ${styles.searchBtn}`}
