@@ -99,6 +99,19 @@ function resolve(mv, vg) {
   return out;
 }
 
+// Die PokéAPI speichert "kein Wert" uneinheitlich: meist null, bei einigen
+// neueren Attacken aber 0 (z. B. Status-Attacken aus K/P). Eine echte Stärke
+// oder Genauigkeit von 0 gibt es nicht -> einheitlich null.
+const clean = (v) => (v === 0 ? null : v);
+for (const mv of move) {
+  mv.power = clean(mv.power);
+  mv.accuracy = clean(mv.accuracy);
+  for (const c of mv.movechanges) {
+    c.power = clean(c.power);
+    c.accuracy = clean(c.accuracy);
+  }
+}
+
 const moves = {};
 const moveBySlug = {};
 for (const mv of move) {

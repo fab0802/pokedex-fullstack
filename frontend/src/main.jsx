@@ -12,6 +12,7 @@ import { ToastProvider } from "./context/ToastContext";
 import { FilterProvider } from "./context/FilterContext";
 import { DisplayProvider } from "./context/DisplayContext";
 import { BallThemeProvider } from "./context/BallThemeContext";
+import { MovesListProvider } from "./context/MovesListContext";
 import "./index.css";
 import "./i18n";
 import App from "./App.jsx";
@@ -38,7 +39,9 @@ createRoot(document.getElementById("root")).render(
                       <PokemonListProvider>
                         <FilterProvider>
                           <DisplayProvider>
-                            <App />
+                            <MovesListProvider>
+                              <App />
+                            </MovesListProvider>
                           </DisplayProvider>
                         </FilterProvider>
                       </PokemonListProvider>

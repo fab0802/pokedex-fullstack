@@ -1,11 +1,16 @@
-import { useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ScrollText, ArrowUp, ArrowDown } from "lucide-react";
 import { useGame } from "../context/useGame";
+import { useMovesList } from "../context/useMovesList";
 import { moveName } from "./moveName";
 import { typeColors } from "./typeColors";
-import { getMovesForGame, formatMachine, sortValue } from "./movesData";
+import {
+  getMovesForGame,
+  formatMachine,
+  filterAndSortMoves,
+} from "./movesData";
 import MoveCategoryIcon from "./MoveCategoryIcon";
 import styles from "./MovesList.module.css";
 
@@ -18,9 +23,20 @@ const COLUMNS = [
   { key: "type", label: "moveGuide.col.type" },
   { key: "class", label: "moveGuide.col.class" },
   { key: "power", label: "moveGuide.col.power", num: true },
-  { key: "accuracy", label: "moveGuide.col.accuracy", num: true, hideMobile: true },
+  {
+    key: "accuracy",
+    label: "moveGuide.col.accuracy",
+    num: true,
+    hideMobile: true,
+  },
   { key: "pp", label: "moveGuide.col.pp", num: true, hideMobile: true },
-  { key: "tm", label: "moveGuide.col.tm", num: true, hideMobile: true, gameOnly: true },
+  {
+    key: "tm",
+    label: "moveGuide.col.tm",
+    num: true,
+    hideMobile: true,
+    gameOnly: true,
+  },
 ];
 
 export default function MovesList() {
@@ -29,42 +45,44 @@ export default function MovesList() {
   const { selectedGame } = useGame();
   const hasGame = selectedGame.id !== "all";
 
-  const [query, setQuery] = useState("");
-  const [type, setType] = useState("");
-  const [category, setCategory] = useState("");
-  const [onlyTm, setOnlyTm] = useState(false);
-  const [sort, setSort] = useState({ key: "name", dir: "asc" });
+  // Filter/Sortierung liegen im Context -> bleiben beim Zurückkommen erhalten
+  const { filters, setFilters, sort, setSort, lastVisitedSlugRef } =
+    useMovesList();
+  const { query, type, category, onlyTm } = filters;
+  const setFilter = (key, value) =>
+    setFilters((prev) => ({ ...prev, [key]: value }));
 
   // Nur neu berechnen, wenn sich das Spiel ändert
   const allMoves = useMemo(() => getMovesForGame(selectedGame), [selectedGame]);
 
-  const visible = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    const filtered = allMoves.filter((mv) => {
-      if (type && mv.type !== type) return false;
-      if (category && mv.class !== category) return false;
-      if (hasGame && onlyTm && !mv.tm) return false;
-      if (!q) return true;
-      // DE und EN durchsuchen, egal welche Sprache aktiv ist
-      return (
-        moveName(mv.slug, "de").toLowerCase().includes(q) ||
-        moveName(mv.slug, "en").toLowerCase().includes(q)
-      );
-    });
+  const visible = useMemo(
+    () => filterAndSortMoves(allMoves, filters, sort, { hasGame, lang }),
+    [allMoves, filters, sort, hasGame, lang],
+  );
 
-    const dir = sort.dir === "asc" ? 1 : -1;
-    return filtered.sort((a, b) => {
-      const va = sortValue(a, sort.key, lang);
-      const vb = sortValue(b, sort.key, lang);
-      // Leere Werte (z. B. Stärke bei Status-Attacken) immer ans Ende
-      if (va == null && vb == null) return 0;
-      if (va == null) return 1;
-      if (vb == null) return -1;
-      const cmp =
-        typeof va === "string" ? va.localeCompare(vb, lang) : va - vb;
-      return cmp * dir;
-    });
-  }, [allMoves, query, type, category, onlyTm, hasGame, sort, lang]);
+  // Zurück aus der Detailseite: zur zuletzt angesehenen Attacke scrollen.
+  // useLayoutEffect läuft vor dem Zeichnen -> kein sichtbarer Sprung.
+  // Der Anker wird hier bewusst nicht geleert (StrictMode führt den Effect
+  // im Dev doppelt aus), sondern erst beim ersten Scroll unten.
+  useLayoutEffect(() => {
+    const slug = lastVisitedSlugRef.current;
+    if (slug) {
+      const row = document.querySelector(`[data-slug="${slug}"]`);
+      if (row) {
+        row.scrollIntoView({ block: "center" });
+        return;
+      }
+    }
+    window.scrollTo(0, 0);
+  }, [lastVisitedSlugRef]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      lastVisitedSlugRef.current = null;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [lastVisitedSlugRef]);
 
   function toggleSort(key) {
     setSort((prev) =>
@@ -96,13 +114,13 @@ export default function MovesList() {
           className={styles.search}
           placeholder={t("moveGuide.search")}
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => setFilter("query", e.target.value)}
           aria-label={t("moveGuide.search")}
         />
         <div className={styles.filters}>
           <select
             value={type}
-            onChange={(e) => setType(e.target.value)}
+            onChange={(e) => setFilter("type", e.target.value)}
             aria-label={t("moveGuide.col.type")}
           >
             <option value="">{t("moveGuide.allTypes")}</option>
@@ -114,7 +132,7 @@ export default function MovesList() {
           </select>
           <select
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => setFilter("category", e.target.value)}
             aria-label={t("moveGuide.col.class")}
           >
             <option value="">{t("moveGuide.allClasses")}</option>
@@ -129,7 +147,7 @@ export default function MovesList() {
               <input
                 type="checkbox"
                 checked={onlyTm}
-                onChange={(e) => setOnlyTm(e.target.checked)}
+                onChange={(e) => setFilter("onlyTm", e.target.checked)}
               />
               {t("moveGuide.onlyTm")}
             </label>
@@ -178,7 +196,7 @@ export default function MovesList() {
             </thead>
             <tbody>
               {visible.map((mv) => (
-                <tr key={mv.slug}>
+                <tr key={mv.slug} data-slug={mv.slug}>
                   <td>
                     <Link to={`/moves/${mv.slug}`} className={styles.name}>
                       {moveName(mv.slug, lang)}
@@ -209,7 +227,9 @@ export default function MovesList() {
                     {mv.pp ?? dash}
                   </td>
                   {hasGame && (
-                    <td className={`${styles.num} ${styles.hideMobile} ${styles.muted}`}>
+                    <td
+                      className={`${styles.num} ${styles.hideMobile} ${styles.muted}`}
+                    >
                       {formatMachine(mv.tm, lang) ?? "–"}
                     </td>
                   )}

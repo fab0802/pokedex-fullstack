@@ -14,7 +14,12 @@ export default function MoveCategoryIcon({ category, size = 16 }) {
   if (!Icon) return null;
   const label = t(`moveGuide.class.${category}`);
   return (
-    <span title={label} aria-label={label} role="img" style={{ display: "inline-flex" }}>
+    <span
+      title={label}
+      aria-label={label}
+      role="img"
+      style={{ display: "inline-flex" }}
+    >
       <Icon size={size} aria-hidden="true" />
     </span>
   );

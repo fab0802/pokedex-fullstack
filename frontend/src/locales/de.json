@@ -303,6 +303,24 @@
       "physical": "Physisch",
       "special": "Speziell",
       "status": "Status"
-    }
+    },
+    "back": "Zurück",
+    "notFound": "Diese Attacke gibt es nicht.",
+    "notInGame": "Diese Attacke gibt es im gewählten Spiel nicht. Angezeigt werden die aktuellen Werte.",
+    "learnedBy": "Erlernbar von",
+    "learnersError": "Pokémon konnten nicht geladen werden.",
+    "noLearners": "Kein Pokémon lernt diese Attacke in diesem Spiel.",
+    "filterMethod": "Nach Lernmethode filtern",
+    "all": "Alle",
+    "other": "Sonstige",
+    "stat": {
+      "power": "Stärke",
+      "accuracy": "Genauigkeit",
+      "pp": "AP",
+      "priority": "Priorität",
+      "tm": "TM"
+    },
+    "prev": "Vorherige Attacke",
+    "next": "Nächste Attacke"
   }
 }

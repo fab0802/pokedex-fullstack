@@ -41,6 +41,20 @@ export function getMovesForGame(game) {
   return Object.entries(merged).map(([slug, o]) => build(slug, o));
 }
 
+// Eine einzelne Attacke für die Detailseite. null = unbekannter Slug.
+// inGame = false: gibt es im gewählten Spiel nicht -> aktuelle Werte als Fallback.
+export function getMove(slug, game) {
+  if (!BASE[slug]) return null;
+  if (!game || game.id === "all") return { ...build(slug), inGame: true };
+
+  let overrides = null;
+  for (const vg of game.versionGroups) {
+    if (byVersionGroup[vg]?.[slug]) overrides = byVersionGroup[vg][slug];
+  }
+  if (!overrides) return { ...build(slug), inGame: false };
+  return { ...build(slug, overrides), inGame: true };
+}
+
 // "tm125" -> "TM125", "hm04" -> "VM04" (DE) / "HM04" (EN), "tr12" -> "TR12"
 export function formatMachine(item, lang) {
   if (!item) return null;
@@ -67,4 +81,33 @@ export function sortValue(move, key, lang) {
     default:
       return move[key];
   }
+}
+
+// Filtern + sortieren an einem Ort: die Liste zeigt so an, und die
+// Detailseite nutzt dieselbe Reihenfolge fürs Blättern/Swipen.
+export function filterAndSortMoves(moves, filters, sort, { hasGame, lang }) {
+  const q = filters.query.trim().toLowerCase();
+  const filtered = moves.filter((mv) => {
+    if (filters.type && mv.type !== filters.type) return false;
+    if (filters.category && mv.class !== filters.category) return false;
+    if (hasGame && filters.onlyTm && !mv.tm) return false;
+    if (!q) return true;
+    // DE und EN durchsuchen, egal welche Sprache aktiv ist
+    return (
+      moveName(mv.slug, "de").toLowerCase().includes(q) ||
+      moveName(mv.slug, "en").toLowerCase().includes(q)
+    );
+  });
+
+  const dir = sort.dir === "asc" ? 1 : -1;
+  return filtered.sort((a, b) => {
+    const va = sortValue(a, sort.key, lang);
+    const vb = sortValue(b, sort.key, lang);
+    // Leere Werte (z. B. Stärke bei Status-Attacken) immer ans Ende
+    if (va == null && vb == null) return 0;
+    if (va == null) return 1;
+    if (vb == null) return -1;
+    const cmp = typeof va === "string" ? va.localeCompare(vb, lang) : va - vb;
+    return cmp * dir;
+  });
 }

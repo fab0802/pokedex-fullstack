@@ -303,6 +303,24 @@
       "physical": "Physical",
       "special": "Special",
       "status": "Status"
-    }
+    },
+    "back": "Back",
+    "notFound": "This move does not exist.",
+    "notInGame": "This move is not in the selected game. Showing current values.",
+    "learnedBy": "Learned by",
+    "learnersError": "Could not load Pokémon.",
+    "noLearners": "No Pokémon learns this move in this game.",
+    "filterMethod": "Filter by learn method",
+    "all": "All",
+    "other": "Other",
+    "stat": {
+      "power": "Power",
+      "accuracy": "Accuracy",
+      "pp": "PP",
+      "priority": "Priority",
+      "tm": "TM"
+    },
+    "prev": "Previous move",
+    "next": "Next move"
   }
 }

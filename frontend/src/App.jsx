@@ -18,6 +18,7 @@ import { useToast } from "./context/useToast";
 // Vite packt die Seite samt JSON in ein eigenes Chunk, das erst beim
 // ersten Besuch von /moves geladen wird.
 const MovesList = lazy(() => import("./components/MovesList"));
+const MoveDetail = lazy(() => import("./components/MoveDetail"));
 
 function App() {
   const navigate = useNavigate();
@@ -56,6 +57,14 @@ function App() {
           element={
             <Suspense fallback={null}>
               <MovesList />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/moves/:slug"
+          element={
+            <Suspense fallback={null}>
+              <MoveDetail />
             </Suspense>
           }
         />

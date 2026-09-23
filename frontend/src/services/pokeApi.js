@@ -278,3 +278,92 @@ export async function fetchPokemonEncounters(id) {
   localStorage.setItem(ENCOUNTERS_CACHE_KEY, JSON.stringify(cache));
   return encounters;
 }
+
+// --- Attacken-Detail ---------------------------------------------------
+
+const GRAPHQL_URL = "https://graphql.pokeapi.co/v1beta2";
+const MOVE_TEXT_CACHE_KEY = "move-text-v1";
+const MOVE_LEARNERS_CACHE_KEY = "move-learners-v1";
+
+// Beschreibungstexte einer Attacke (alle Sprachen/Spiele, schlank gespeichert).
+// Die Auswahl der passenden Sprache/Version passiert in der Komponente.
+export async function fetchMoveTexts(slug) {
+  const cache = JSON.parse(localStorage.getItem(MOVE_TEXT_CACHE_KEY) || "{}");
+  if (cache[slug]) return cache[slug];
+
+  const res = await fetch(`${BASE_URL}/move/${slug}`);
+  if (!res.ok) throw new Error("Failed to load move");
+  const data = await res.json();
+
+  const texts = data.flavor_text_entries
+    .filter((e) => ["de", "en"].includes(e.language.name))
+    .map((e) => ({
+      lang: e.language.name,
+      versionGroup: e.version_group.name,
+      // PokéAPI-Texte enthalten Zeilenumbrüche/Seitenvorschübe aus dem Spiel
+      text: e.flavor_text.replace(/[\n\f\u00ad]+/g, " "),
+    }));
+
+  cache[slug] = texts;
+  localStorage.setItem(MOVE_TEXT_CACHE_KEY, JSON.stringify(cache));
+  return texts;
+}
+
+// Welche Pokémon lernen die Attacke in den angegebenen Version-Groups?
+// Eine GraphQL-Abfrage statt hunderter REST-Calls. Nur Standardformen
+// (is_default), weil die Detailseite nur National-Dex-IDs kennt.
+// Ergebnis: [{ id, methods: ["level-up", "machine"], level }]
+export async function fetchMoveLearners(slug, versionGroups) {
+  const key = `${slug}|${versionGroups.join(",")}`;
+  const cache = JSON.parse(localStorage.getItem(MOVE_LEARNERS_CACHE_KEY) || "{}");
+  if (cache[key]) return cache[key];
+
+  const query = `
+    query ($move: String!, $vgs: [String!]) {
+      pokemonmove(
+        where: {
+          move: { name: { _eq: $move } }
+          versiongroup: { name: { _in: $vgs } }
+          pokemon: { is_default: { _eq: true } }
+        }
+        order_by: { pokemon_id: asc }
+      ) {
+        level
+        pokemon_id
+        movelearnmethod { name }
+      }
+    }
+  `;
+  const res = await fetch(GRAPHQL_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query, variables: { move: slug, vgs: versionGroups } }),
+  });
+  if (!res.ok) throw new Error("Failed to load learners");
+  const json = await res.json();
+  if (json.errors) throw new Error("Failed to load learners");
+
+  // Pro Pokémon zusammenfassen: gleiche Attacke kann über mehrere Wege
+  // (Level + TM) und in mehreren Version-Groups auftauchen.
+  const byId = new Map();
+  for (const row of json.data.pokemonmove) {
+    if (row.pokemon_id > NATIONAL_MAX) continue;
+    const entry = byId.get(row.pokemon_id) ?? {
+      id: row.pokemon_id,
+      methods: [],
+      level: null,
+    };
+    const method = row.movelearnmethod.name;
+    if (!entry.methods.includes(method)) entry.methods.push(method);
+    if (method === "level-up") {
+      entry.level =
+        entry.level == null ? row.level : Math.min(entry.level, row.level);
+    }
+    byId.set(row.pokemon_id, entry);
+  }
+
+  const learners = [...byId.values()];
+  cache[key] = learners;
+  localStorage.setItem(MOVE_LEARNERS_CACHE_KEY, JSON.stringify(cache));
+  return learners;
+}
