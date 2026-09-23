@@ -64,8 +64,9 @@ body {
   color: var(--color-text);
 }
 
-/* Platz für die fixierte untere Tab-Bar (mobil) */
-@media (max-width: 1200px) {
+/* Platz für die fixierte untere Tab-Bar. Breakpoint muss mit
+   NavBar.module.css übereinstimmen (dort wird die Tab-Bar eingeblendet). */
+@media (max-width: 1400px) {
   body {
     padding-bottom: calc(
       var(--bottom-nav-height) + env(safe-area-inset-bottom)
