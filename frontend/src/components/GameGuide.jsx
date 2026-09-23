@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { BookOpen, Swords } from "lucide-react";
+import { BookOpen, Swords, ScrollText } from "lucide-react";
 import redBlue from "../data/trainers/redBlue.json";
 import yellow from "../data/trainers/yellow.json";
 import goldSilver from "../data/trainers/goldSilver.json";
@@ -84,10 +84,6 @@ export default function GameGuide() {
           <BookOpen size={22} aria-hidden="true" />
           {t("guide.title")}
         </h1>
-        <Link to="/types" className={styles.typeLink}>
-          <Swords size={16} aria-hidden="true" />
-          {t("nav.types")}
-        </Link>
         <select
           className={styles.gameSelect}
           value={gameId}
@@ -101,6 +97,25 @@ export default function GameGuide() {
           ))}
         </select>
       </header>
+
+      {/* Nachschlage-Seiten: hier verlinkt, weil sie unter 1400px
+          nicht in der Navigation stehen */}
+      <nav className={styles.tools} aria-label={t("guide.tools")}>
+        <Link to="/types" className={styles.tool}>
+          <Swords size={20} aria-hidden="true" />
+          <span className={styles.toolText}>
+            <span className={styles.toolTitle}>{t("nav.types")}</span>
+            <span className={styles.toolDesc}>{t("guide.typesDesc")}</span>
+          </span>
+        </Link>
+        <Link to="/moves" className={styles.tool}>
+          <ScrollText size={20} aria-hidden="true" />
+          <span className={styles.toolText}>
+            <span className={styles.toolTitle}>{t("nav.moves")}</span>
+            <span className={styles.toolDesc}>{t("guide.movesDesc")}</span>
+          </span>
+        </Link>
+      </nav>
 
       {CATEGORY_ORDER.map((cat) => {
         const trainers = guide.trainers.filter((tr) => tr.category === cat);

@@ -11,7 +11,8 @@
     "types": "Type Chart",
     "settings": "Settings",
     "menu": "Menu",
-    "gameMode": "Game mode"
+    "gameMode": "Game mode",
+    "moves": "Moves"
   },
   "typechart": {
     "title": "Type Chart",
@@ -33,7 +34,10 @@
     "weakTo": "Weak to:",
     "ace": "Ace",
     "mixed": "mixed",
-    "starterVariants": "Remaining team — depends on starter"
+    "starterVariants": "Remaining team — depends on starter",
+    "tools": "Reference",
+    "typesDesc": "Strengths and weaknesses per type",
+    "movesDesc": "All moves with stats and TMs"
   },
   "ball": {
     "label": "Design",
@@ -276,5 +280,29 @@
     "shield": "Shield",
     "scarlet": "Scarlet",
     "violet": "Violet"
+  },
+  "moveGuide": {
+    "title": "Moves",
+    "search": "Search moves",
+    "allTypes": "All types",
+    "allClasses": "All categories",
+    "onlyTm": "TMs only",
+    "empty": "No moves found.",
+    "count_one": "{{count}} move",
+    "count_other": "{{count}} moves",
+    "col": {
+      "name": "Name",
+      "type": "Type",
+      "class": "Cat.",
+      "power": "Power",
+      "accuracy": "Acc.",
+      "pp": "PP",
+      "tm": "TM"
+    },
+    "class": {
+      "physical": "Physical",
+      "special": "Special",
+      "status": "Status"
+    }
   }
 }

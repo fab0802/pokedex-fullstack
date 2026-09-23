@@ -11,7 +11,8 @@
     "types": "Typentabelle",
     "settings": "Einstellungen",
     "menu": "Menü",
-    "gameMode": "Spielmodus"
+    "gameMode": "Spielmodus",
+    "moves": "Attacken"
   },
   "typechart": {
     "title": "Typentabelle",
@@ -33,7 +34,10 @@
     "weakTo": "Schwächen:",
     "ace": "Ass",
     "mixed": "gemischt",
-    "starterVariants": "Restliches Team – je nach Starter"
+    "starterVariants": "Restliches Team – je nach Starter",
+    "tools": "Nachschlagen",
+    "typesDesc": "Stärken und Schwächen je Typ",
+    "movesDesc": "Alle Attacken mit Werten und TMs"
   },
   "ball": {
     "label": "Design",
@@ -276,5 +280,29 @@
     "shield": "Schild",
     "scarlet": "Karmesin",
     "violet": "Purpur"
+  },
+  "moveGuide": {
+    "title": "Attacken",
+    "search": "Attacke suchen",
+    "allTypes": "Alle Typen",
+    "allClasses": "Alle Kategorien",
+    "onlyTm": "Nur TMs",
+    "empty": "Keine Attacken gefunden.",
+    "count_one": "{{count}} Attacke",
+    "count_other": "{{count}} Attacken",
+    "col": {
+      "name": "Name",
+      "type": "Typ",
+      "class": "Kat.",
+      "power": "Stärke",
+      "accuracy": "Gen.",
+      "pp": "AP",
+      "tm": "TM"
+    },
+    "class": {
+      "physical": "Physisch",
+      "special": "Speziell",
+      "status": "Status"
+    }
   }
 }
