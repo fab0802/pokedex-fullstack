@@ -34,8 +34,9 @@
   height: 24px;
 }
 
-/* Mobile: über der unteren Tab-Bar platzieren, nicht dahinter */
-@media (max-width: 1200px) {
+/* Über der unteren Tab-Bar platzieren, nicht dahinter.
+   Breakpoint = NavBar.module.css (dort erscheint die Tab-Bar). */
+@media (max-width: 1400px) {
   .button {
     right: 1rem;
     /* Über der Tab-Bar: Leistenhöhe + 0.75rem Abstand + Safe-Area. */
