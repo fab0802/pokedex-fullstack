@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { fetchPokemonMoves } from "../services/pokeApi";
 import { useGame } from "../context/useGame";
@@ -61,6 +62,17 @@ export default function PokemonMoves({ pokemonId }) {
     return <p className={styles.empty}>{t("moves.noneInGame")}</p>;
   }
 
+  // Reihenfolge wie angezeigt (Level, TM, Ei, Lehrer), ohne Duplikate.
+  // Wird an die Attacken-Detailseite mitgegeben, damit man dort nur durch
+  // die Attacken dieses Pokémon blättert.
+  const moveOrder = [
+    ...new Set(
+      METHOD_ORDER.flatMap((m) =>
+        (moveset.byMethod[m] ?? []).map((mv) => mv.slug),
+      ),
+    ),
+  ];
+
   return (
     <div>
       <p className={styles.version}>
@@ -107,7 +119,13 @@ export default function PokemonMoves({ pokemonId }) {
                               {t(`types.${type}`)}
                             </span>
                           )}
-                          <span>{moveName(mv.slug, i18n.language)}</span>
+                          <Link
+                            to={`/moves/${mv.slug}`}
+                            state={{ moveOrder }}
+                            className={styles.moveLink}
+                          >
+                            {moveName(mv.slug, i18n.language)}
+                          </Link>
                         </span>
                         {method === "level-up" && mv.level > 0 && (
                           <span className={styles.level}>

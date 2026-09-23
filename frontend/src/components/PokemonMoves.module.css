@@ -99,6 +99,19 @@
   min-width: 0;
 }
 
+.moveLink {
+  color: inherit;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.moveLink:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
 .typeBadge {
   flex-shrink: 0;
   min-width: 62px;

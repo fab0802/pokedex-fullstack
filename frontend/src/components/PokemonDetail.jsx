@@ -1,5 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import {
+  useParams,
+  useNavigate,
+  useLocation,
+  useSearchParams,
+  useNavigationType,
+} from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronLeft, ChevronRight, Users } from "lucide-react";
 import { useTeams } from "../context/useTeams";
@@ -37,7 +43,13 @@ export default function PokemonDetail() {
   const [error, setError] = useState(null);
   const [animate, setAnimate] = useState(false);
   const [direction, setDirection] = useState(1);
-  const [activeTab, setActiveTab] = useState("stats");
+  // Aktiver Tab steht in der URL (?tab=moves). So stellt "Zurück" ihn wieder
+  // her (z. B. nach dem Öffnen einer Attacke) und Links auf Tabs sind teilbar.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab") ?? "stats";
+  const navigationType = useNavigationType();
+  const tabsRef = useRef(null);
+  const restoredTabRef = useRef(null);
   const { isAuthenticated } = useAuth();
   const { isCaught, toggleCaught } = useCollection();
   const { selectedGame } = useGame();
@@ -118,7 +130,10 @@ export default function PokemonDetail() {
     setDirection(dir);
     // State (z. B. Team-Kontext) mitreichen, sonst geht er nach dem ersten
     // Schritt verloren.
-    navigate(`/pokemon/${targetId}`, { state: location.state });
+    // location.search mitgeben, damit der aktive Tab beim Blättern bleibt
+    navigate(`/pokemon/${targetId}${location.search}`, {
+      state: location.state,
+    });
   }
 
   // Tastatur-Navigation
@@ -128,17 +143,21 @@ export default function PokemonDetail() {
         return;
       if (e.key === "ArrowLeft" && prevId != null) {
         setDirection(-1);
-        navigate(`/pokemon/${prevId}`, { state: location.state });
+        navigate(`/pokemon/${prevId}${location.search}`, {
+          state: location.state,
+        });
       } else if (e.key === "ArrowRight" && nextId != null) {
         setDirection(1);
-        navigate(`/pokemon/${nextId}`, { state: location.state });
+        navigate(`/pokemon/${nextId}${location.search}`, {
+          state: location.state,
+        });
       } else if (e.key === "Escape") {
         navigate(backTo);
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [prevId, nextId, navigate, location.state, backTo]);
+  }, [prevId, nextId, navigate, location.state, location.search, backTo]);
 
   function onTouchStart(e) {
     touchStartX.current = e.touches[0].clientX;
@@ -153,6 +172,25 @@ export default function PokemonDetail() {
     if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy)) return;
     if (dx < 0 && nextId != null) go(nextId, 1);
     else if (dx > 0 && prevId != null) go(prevId, -1);
+  }
+
+  // Zurück-Navigation (POP) auf einen anderen Tab als Basiswerte: zum
+  // Tab-Block scrollen, damit man dort weitermacht, wo man war.
+  // restoredTabRef verhindert erneutes Scrollen bei späteren Renders.
+  useEffect(() => {
+    if (!pokemon || navigationType !== "POP" || activeTab === "stats") return;
+    const key = `${pokemon.id}|${location.key}`;
+    if (restoredTabRef.current === key) return;
+    restoredTabRef.current = key;
+    tabsRef.current?.scrollIntoView({ block: "start" });
+  }, [pokemon, navigationType, activeTab, location.key]);
+
+  function selectTab(tabId) {
+    // replace: Tab-Wechsel sollen keine eigenen History-Einträge erzeugen
+    const next = new URLSearchParams(searchParams);
+    if (tabId === "stats") next.delete("tab");
+    else next.set("tab", tabId);
+    setSearchParams(next, { replace: true, state: location.state });
   }
 
   if (error) return <p className={styles.message}>{error}</p>;
@@ -371,6 +409,7 @@ export default function PokemonDetail() {
         </div>
 
         <div
+          ref={tabsRef}
           className={styles.tabs}
           role="tablist"
           onTouchStart={(e) => e.stopPropagation()}
@@ -384,7 +423,7 @@ export default function PokemonDetail() {
               className={`${styles.tab} ${
                 tab.id === activeTab ? styles.tabActive : ""
               }`}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => selectTab(tab.id)}
             >
               {tab.label}
             </button>

@@ -81,7 +81,14 @@ export default function MoveDetail() {
   // Reihenfolge fürs Blättern: dieselbe wie in der Liste (Filter + Sortierung
   // aus dem Context). Liegt die Attacke dort nicht drin (z. B. aus dem
   // Moves-Tab eines Pokémon geöffnet), alle Attacken des Spiels nach Name.
+  // Aus dem Moves-Tab eines Pokémon geöffnet? Dann nur durch dessen
+  // Attacken blättern, in der Reihenfolge des Tabs (kommt per location.state).
+  const pokemonOrder = location.state?.moveOrder;
+
   const order = useMemo(() => {
+    if (pokemonOrder?.includes(slug)) {
+      return pokemonOrder.map((s) => getMove(s, selectedGame)).filter(Boolean);
+    }
     const all = getMovesForGame(selectedGame);
     const opts = { hasGame, lang };
     const listed = filterAndSortMoves(all, filters, sort, opts);
@@ -92,7 +99,7 @@ export default function MoveDetail() {
       { key: "name", dir: "asc" },
       opts,
     );
-  }, [selectedGame, filters, sort, hasGame, lang, slug]);
+  }, [pokemonOrder, selectedGame, filters, sort, hasGame, lang, slug]);
   const index = order.findIndex((m) => m.slug === slug);
   const prev = index > 0 ? order[index - 1] : null;
   const next =
@@ -157,7 +164,12 @@ export default function MoveDetail() {
   function go(target, dir) {
     if (!target) return;
     setDirection(dir);
-    navigate(`/moves/${target.slug}`, { replace: true, state: { direct } });
+    // Bestehenden state (z. B. moveOrder) weiterreichen, sonst geht er
+    // nach dem ersten Blättern verloren.
+    navigate(`/moves/${target.slug}`, {
+      replace: true,
+      state: { ...location.state, direct },
+    });
   }
 
   // Tastatur: Pfeile blättern, Escape geht zurück
