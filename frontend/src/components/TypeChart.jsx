@@ -7,17 +7,29 @@ import styles from "./TypeChart.module.css";
 
 const { types: ALL_TYPES, chart } = typeChart;
 
-const FACTOR_LABEL = { 0: "×0", 0.5: "×½", 2: "×2" };
-const FACTOR_ORDER = [2, 0.5, 0]; // stark → schwach → wirkungslos
+const FACTOR_LABEL = { 0: "×0", 0.25: "×¼", 0.5: "×½", 2: "×2", 4: "×4" };
+const FACTOR_ORDER = [4, 2, 0.5, 0.25, 0]; // sehr stark → wirkungslos
+const MAX_SELECTED = 2;
 
 // Offensiv: was der gewählte Typ gegen die anderen anrichtet (eigene Zeile).
 function offensive(type) {
   return groupByFactor((def) => chart[type][def] ?? 1);
 }
 
-// Defensiv: was die anderen Typen gegen den gewählten anrichten (eigene Spalte).
-function defensive(type) {
-  return groupByFactor((atk) => chart[atk][type] ?? 1);
+// Defensiv: was die anderen Typen gegen die gewählten anrichten.
+// Bei zwei Typen werden die Faktoren multipliziert (z. B. 2 × 2 = ×4).
+function defensive(types) {
+  return groupByFactor((atk) =>
+    types.reduce((total, def) => total * (chart[atk][def] ?? 1), 1)
+  );
+}
+
+// Toggle: aktiver Typ wird entfernt, sonst hinzugefügt.
+// Sind schon zwei gewählt, fliegt der älteste (erste) raus.
+function toggleType(current, type) {
+  if (current.includes(type)) return current.filter((t) => t !== type);
+  const next = [...current, type];
+  return next.length > MAX_SELECTED ? next.slice(1) : next;
 }
 
 function groupByFactor(factorOf) {
@@ -52,7 +64,8 @@ function Relations({ groups, t }) {
 
 export default function TypeChart() {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState([]);
+  const isDual = selected.length === MAX_SELECTED;
 
   return (
     <main className={styles.page}>
@@ -71,25 +84,33 @@ export default function TypeChart() {
             key={type}
             type="button"
             className={`${styles.pick} ${
-              selected === type ? styles.pickActive : ""
+              selected.includes(type) ? styles.pickActive : ""
             }`}
             style={{ backgroundColor: typeColors[type] }}
-            aria-pressed={selected === type}
-            onClick={() => setSelected(type)}
+            aria-pressed={selected.includes(type)}
+            onClick={() => setSelected((cur) => toggleType(cur, type))}
           >
             {t(`types.${type}`)}
           </button>
         ))}
       </div>
 
-      {selected && (
+      {selected.length > 0 && (
         <div className={styles.result}>
+          {selected.map((type) => (
+            <section key={type} className={styles.block}>
+              <h2 className={styles.blockTitle}>
+                {isDual
+                  ? t("typechart.attackAs", { type: t(`types.${type}`) })
+                  : t("typechart.attack")}
+              </h2>
+              <Relations groups={offensive(type)} t={t} />
+            </section>
+          ))}
           <section className={styles.block}>
-            <h2 className={styles.blockTitle}>{t("typechart.attack")}</h2>
-            <Relations groups={offensive(selected)} t={t} />
-          </section>
-          <section className={styles.block}>
-            <h2 className={styles.blockTitle}>{t("typechart.defense")}</h2>
+            <h2 className={styles.blockTitle}>
+              {isDual ? t("typechart.defenseDual") : t("typechart.defense")}
+            </h2>
             <Relations groups={defensive(selected)} t={t} />
           </section>
           <p className={styles.note}>{t("typechart.neutralNote")}</p>

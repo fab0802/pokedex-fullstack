@@ -14,11 +14,13 @@
     "gameMode": "Spielmodus",
     "moves": "Attacken"
   },
-  "typechart": {
+    "typechart": {
     "title": "Typentabelle",
-    "lead": "Wähle einen Typ, um zu sehen, wogegen er stark und schwach ist.",
+    "lead": "Wähle einen oder zwei Typen, um Stärken und Schwächen zu sehen.",
     "attack": "Im Angriff",
+    "attackAs": "Im Angriff als {{type}}",
     "defense": "In der Verteidigung",
+    "defenseDual": "In der Verteidigung (kombiniert)",
     "neutralNote": "Nicht aufgeführte Typen sind neutral (×1)."
   },
   "guide": {

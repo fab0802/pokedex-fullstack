@@ -14,11 +14,13 @@
     "gameMode": "Game mode",
     "moves": "Moves"
   },
-  "typechart": {
+    "typechart": {
     "title": "Type Chart",
-    "lead": "Pick a type to see what it's strong and weak against.",
+    "lead": "Pick one or two types to see their strengths and weaknesses.",
     "attack": "When attacking",
+    "attackAs": "Attacking as {{type}}",
     "defense": "When defending",
+    "defenseDual": "When defending (combined)",
     "neutralNote": "Types not listed are neutral (×1)."
   },
   "guide": {
