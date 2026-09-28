@@ -126,6 +126,15 @@
   white-space: nowrap;
 }
 
+/* Feste Breite, damit die Namen untereinander bündig bleiben */
+.category {
+  flex-shrink: 0;
+  display: inline-flex;
+  justify-content: center;
+  width: 16px;
+  color: var(--color-text-secondary);
+}
+
 .level {
   flex-shrink: 0;
   margin-left: 12px;

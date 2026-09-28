@@ -7,6 +7,8 @@ import { moveName } from "./moveName";
 import { moveType } from "./moveType";
 import { typeColors } from "./typeColors";
 import { VG_TO_GAME_ID } from "./games";
+import { getMove } from "./movesData";
+import MoveCategoryIcon from "./MoveCategoryIcon";
 import { buildMoveset, prettifyVg } from "./moveset";
 import styles from "./PokemonMoves.module.css";
 
@@ -104,6 +106,9 @@ export default function PokemonMoves({ pokemonId }) {
                 <ul className={styles.list}>
                   {list.map((mv, i) => {
                     const type = moveType(mv.slug);
+                    // Art je Spiel: bis Gen 3 hängt physisch/speziell am Typ,
+                    // darum die Werte des gewählten Spiels aus movesData.
+                    const category = getMove(mv.slug, selectedGame)?.class;
                     return (
                       <li key={`${mv.slug}-${i}`} className={styles.item}>
                         <span className={styles.moveInfo}>
@@ -117,6 +122,11 @@ export default function PokemonMoves({ pokemonId }) {
                               }}
                             >
                               {t(`types.${type}`)}
+                            </span>
+                          )}
+                          {category && (
+                            <span className={styles.category}>
+                              <MoveCategoryIcon category={category} size={14} />
                             </span>
                           )}
                           <Link
