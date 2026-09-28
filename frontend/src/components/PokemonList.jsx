@@ -17,6 +17,8 @@ import { statValue, statPercent } from "./sortPokemons";
 import { Users } from "lucide-react";
 import StatIcon from "./StatIcon";
 import { useTeams } from "../context/useTeams";
+import { categoryOf } from "./pokemonCategory";
+import CategoryIcon from "./CategoryIcon";
 
 // Wie viele Karten die aktive (sortierte) Ansicht pro Schritt zeigt. Die Daten
 // liegen komplett im Speicher; das hier hält nur das DOM schlank.
@@ -207,6 +209,26 @@ export default function PokemonList() {
       </span>
     );
 
+  // Nummer, Generation und (falls nicht standard) Kategorie-Icon in einer Zeile.
+  const numberRow = (p) => {
+    const category = categoryOf(p);
+    return (
+      <span className={styles.numberRow}>
+        <span className={styles.number}>#{p.id}</span>
+        {p.generation && (
+          <span className={styles.number}>
+            {t("filter.gen", { n: p.generation })}
+          </span>
+        )}
+        <CategoryIcon
+          category={category}
+          label={t(`filter.${category}`)}
+          className={styles.categoryIcon}
+        />
+      </span>
+    );
+  };
+
   const typeChips = (p) => (
     <div className={styles.types}>
       {p.types.map((type) => (
@@ -271,7 +293,7 @@ export default function PokemonList() {
         </div>
         <div className={styles.info}>
           <div className={styles.identity}>
-            <span className={styles.number}>#{p.id}</span>
+            {numberRow(p)}
             <span className={styles.name}>{pokemonName(p, i18n.language)}</span>
             {typeChips(p)}
           </div>
@@ -322,7 +344,7 @@ export default function PokemonList() {
           )}
         </div>
         <div className={styles.gridBody}>
-          <span className={styles.number}>#{p.id}</span>
+          {numberRow(p)}
           <span className={styles.gridName}>
             {pokemonName(p, i18n.language)}
           </span>

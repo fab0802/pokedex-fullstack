@@ -1,5 +1,5 @@
 const BASE_URL = "https://pokeapi.co/api/v2";
-const CACHE_KEY = "pokemon-cache-v6";
+const CACHE_KEY = "pokemon-cache-v7";
 const EVO_CACHE_KEY = "pokemon-evolution-v1";
 const NAME_CACHE_KEY = "pokeapi-names-v1";
 const NATIONAL_MAX = 1025;
@@ -15,6 +15,18 @@ function spriteUrl(url) {
     ) ?? null
   );
 }
+
+// Alte Cache-Versionen entfernen. Nach einem Versions-Bump bleiben sie sonst
+// liegen und belegen weiter Platz im localStorage (Limit ca. 5 MB).
+function removeOldCaches() {
+  for (let i = localStorage.length - 1; i >= 0; i--) {
+    const key = localStorage.key(i);
+    if (key?.startsWith("pokemon-cache-") && key !== CACHE_KEY) {
+      localStorage.removeItem(key);
+    }
+  }
+}
+removeOldCaches();
 
 function getCache() {
   return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
@@ -53,12 +65,16 @@ export async function fetchPokemonById(id) {
   let evolutionChainUrl = null;
   let isLegendary = false;
   let isMythical = false;
+  let generation = null;
   if (s) {
     const deEntry = s.names.find((n) => n.language.name === "de");
     if (deEntry) nameDe = deEntry.name;
     evolutionChainUrl = s.evolution_chain?.url ?? null;
     isLegendary = s.is_legendary ?? false;
     isMythical = s.is_mythical ?? false;
+    // Generation der Spezies (nicht aus der ID abgeleitet) -> stimmt auch
+    // bei Formen wie Alola-Vulpix (Form-ID > 10000, Spezies aus Gen 1).
+    generation = s.generation?.url ? idFromUrl(s.generation.url) : null;
   }
 
   const result = {
@@ -74,6 +90,7 @@ export async function fetchPokemonById(id) {
     evolutionChainUrl,
     isLegendary,
     isMythical,
+    generation,
     height: p.height,
     weight: p.weight,
     stats: p.stats.map((s) => ({ name: s.stat.name, value: s.base_stat })),

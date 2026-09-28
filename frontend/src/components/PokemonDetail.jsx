@@ -10,6 +10,8 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ChevronLeft, ChevronRight, Users } from "lucide-react";
 import { useTeams } from "../context/useTeams";
 import { fetchPokemonById } from "../services/pokeApi";
+import { categoryOf } from "./pokemonCategory";
+import CategoryIcon from "./CategoryIcon";
 import { useAuth } from "../context/useAuth";
 import { useCollection } from "../context/useCollection";
 import { useGame } from "../context/useGame";
@@ -204,6 +206,7 @@ export default function PokemonDetail() {
       ? t("detail.inTeams", { count: pokemonTeams.length })
       : t("common.inTeam");
 
+  const category = categoryOf(pokemon);
   const typeColor = typeColors[pokemon.types[0]];
   const bannerStyle = typeBannerStyle(pokemon.types);
 
@@ -343,6 +346,21 @@ export default function PokemonDetail() {
                 </span>
               ))}
             </div>
+            {(pokemon.generation || category !== "standard") && (
+              <div className={styles.meta}>
+                {pokemon.generation && (
+                  <span className={styles.metaBadge}>
+                    {t("filter.gen", { n: pokemon.generation })}
+                  </span>
+                )}
+                {category !== "standard" && (
+                  <span className={styles.metaBadge}>
+                    <CategoryIcon category={category} />
+                    {t(`filter.${category}`)}
+                  </span>
+                )}
+              </div>
+            )}
             {pokemonTeams.length > 0 && (
               <span
                 className={styles.teamBadge}
