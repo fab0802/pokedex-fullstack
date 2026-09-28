@@ -105,10 +105,12 @@ export default function PokemonMoves({ pokemonId }) {
               <div className={styles.collapsibleInner}>
                 <ul className={styles.list}>
                   {list.map((mv, i) => {
-                    const type = moveType(mv.slug);
-                    // Art je Spiel: bis Gen 3 hängt physisch/speziell am Typ,
-                    // darum die Werte des gewählten Spiels aus movesData.
-                    const category = getMove(mv.slug, selectedGame)?.class;
+                    // Typ und Art je Spiel aus movesData (z. B. Biss war in
+                    // Gen 1 Normal, bis Gen 3 hängt physisch/speziell am Typ).
+                    // Fallback: aktueller Typ, falls der Slug unbekannt ist.
+                    const move = getMove(mv.slug, selectedGame);
+                    const type = move?.type ?? moveType(mv.slug);
+                    const category = move?.class;
                     return (
                       <li key={`${mv.slug}-${i}`} className={styles.item}>
                         <span className={styles.moveInfo}>
