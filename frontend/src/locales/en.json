@@ -216,6 +216,7 @@
     "category": "Category",
     "legendary": "Legendary",
     "mythical": "Mythical",
+    "standard": "Standard",
     "reset": "Reset"
   },
   "sort": {

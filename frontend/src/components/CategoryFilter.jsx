@@ -1,9 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { Check } from "lucide-react";
 import { useFilter } from "../context/useFilter";
+import { CATEGORIES } from "./pokemonCategory";
 import styles from "./CategoryFilter.module.css";
-
-const CATEGORIES = ["legendary", "mythical"];
 
 export default function CategoryFilter() {
   const { t } = useTranslation();

@@ -1,4 +1,5 @@
 import { comparePokemon, statValue } from "./sortPokemons";
+import { categoryOf } from "./pokemonCategory";
 
 // Generationen als ID-Bereiche (National-Dex). Index 0 = Gen 1 usw.
 export const GEN_RANGES = [
@@ -40,14 +41,9 @@ export function matchesFilters(
     if (!inGenerations(p.id, generations)) return false;
   }
 
-  // Kategorie (ODER): legendär und/oder mystisch.
+  // Kategorie (ODER): legendär, mystisch und/oder standard.
   if (categories && categories.length) {
-    const ok = categories.some(
-      (c) =>
-        (c === "legendary" && p.isLegendary) ||
-        (c === "mythical" && p.isMythical),
-    );
-    if (!ok) return false;
+    if (!categories.includes(categoryOf(p))) return false;
   }
 
   // Basiswert-Range: nur wenn ein Feld gewählt ist. Leere Grenze = offen.
