@@ -63,6 +63,11 @@
     "confirmDelete": "Löschen",
     "save": "Speichern"
   },
+    "storageNotice": {
+    "label": "Hinweis zur Speicherung",
+    "text": "Diese App speichert Einstellungen und Login lokal in deinem Browser. Keine Cookies, kein Tracking.",
+    "ok": "Verstanden"
+  },
   "search": {
     "title": "Suche",
     "placeholder": "Pokémon suchen…",

@@ -13,6 +13,7 @@ import Comparison from "./components/Comparison";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import { useAuth } from "./context/useAuth";
 import { useToast } from "./context/useToast";
+import StorageNotice from "./components/StorageNotice";
 
 // Lazy: moves.json ist gross und wird nur auf dieser Seite gebraucht.
 // Vite packt die Seite samt JSON in ein eigenes Chunk, das erst beim
@@ -74,6 +75,7 @@ function App() {
         <Route path="/login" element={<Login />} />
       </Routes>
       <ScrollToTopButton />
+      <StorageNotice />
     </>
   );
 }

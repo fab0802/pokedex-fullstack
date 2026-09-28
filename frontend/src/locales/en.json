@@ -63,6 +63,11 @@
     "confirmDelete": "Delete",
     "save": "Save"
   },
+    "storageNotice": {
+    "label": "Storage notice",
+    "text": "This app stores your settings and login locally in your browser. No cookies, no tracking.",
+    "ok": "Got it"
+  },
   "search": {
     "title": "Search",
     "placeholder": "Search Pokémon…",
