@@ -384,6 +384,14 @@
   }
 }
 
+/* Sehr schmale Screens: eine Spalte, sonst werden die Karten zu eng.
+   Muss nach der 600px-Regel stehen, damit sie diese überschreibt. */
+@media (max-width: 400px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* In der schmalen Raster-Karte dürfen zwei Typen umbrechen. */
 .gridBody .types {
   flex-wrap: wrap;
