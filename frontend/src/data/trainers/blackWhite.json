@@ -1,7 +1,7 @@
 {
   "game": "black-white",
   "region": "unova",
-  "label": { "de": "Schwarz/Weiß", "en": "Black/White" },
+  "label": { "de": "Schwarz/Weiss", "en": "Black/White" },
   "trainers": [
     {
       "key": "striaton-trio",

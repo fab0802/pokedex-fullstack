@@ -60,7 +60,7 @@ if (payload.errors) {
 const list = payload.data.pokemonspecies.map((s) => ({
   id: s.id,
   name: s.name,
-  nameDe: s.pokemonspeciesnames[0]?.name ?? s.name,
+    nameDe: (s.pokemonspeciesnames[0]?.name ?? s.name).replaceAll("ß", "ss"),
 }));
 
 const missing = list.filter((p) => p.nameDe === p.name).length;

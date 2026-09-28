@@ -33,7 +33,7 @@ const result = {};
 for (const move of json.data.move) {
   result[move.name] = {
     en: move.en[0]?.name ?? null,
-    de: move.de[0]?.name ?? null,
+    de: move.de[0]?.name?.replaceAll("ß", "ss") ?? null,
     type: move.type?.name ?? null,
   };
 }
