@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useFilter } from "./useFilter";
 import { usePokemonList } from "./usePokemonList";
 import { useCollection } from "./useCollection";
-import { derivePokemonView } from "../components/pokemonView";
+import { derivePokemonView, makeDexRank } from "../components/pokemonView";
 
 // Die ID-Reihenfolge, die der User gerade sieht: gefiltert/sortiert (wenn aktiv
 // UND der volle Datensatz geladen ist), sonst die Reihenfolge des aktiven
@@ -23,7 +23,7 @@ export function useOrderedIds() {
         caughtStatus,
         isCaught,
         sort,
-      }).map((p) => p.id);
+      }, makeDexRank(ids)).map((p) => p.id);
     }
     return ids;
   }, [

@@ -67,8 +67,10 @@ export function FilterProvider({ children }) {
   }, []);
 
   // Aktiv, sobald irgendein Filter oder eine Sortierung greift.
+  // Auch "Nummer absteigend" ist eine echte Sortierung (nur asc = Standard).
   const isActive =
     sort.field !== "number" ||
+    sort.dir !== "asc" ||
     types.length > 0 ||
     generations.length > 0 ||
     categories.length > 0 ||

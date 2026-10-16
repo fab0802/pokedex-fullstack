@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import AddToComparisonButton from "./AddToComparisonButton";
 import { useGame } from "../context/useGame";
-import { derivePokemonView } from "./pokemonView";
+import { derivePokemonView, makeDexRank } from "./pokemonView";
 import { useDisplay } from "../context/useDisplay";
 import { statValue, statPercent } from "./sortPokemons";
 import { Users } from "lucide-react";
@@ -28,6 +28,7 @@ export default function PokemonList() {
   const { t, i18n } = useTranslation();
   const {
     pokemons,
+    ids,
     loading,
     error,
     hasMore,
@@ -142,10 +143,11 @@ export default function PokemonList() {
       caughtStatus,
       isCaught,
       sort,
-    });
+    }, makeDexRank(ids));
   }, [
     isActive,
     allPokemons,
+    ids,
     types,
     generations,
     categories,

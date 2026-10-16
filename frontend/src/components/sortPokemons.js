@@ -7,13 +7,17 @@ export function statValue(p, field) {
   return s ? s.value : 0;
 }
 
-// Vergleichsfunktion für Array.sort. Gleiche Werte werden stabil über die ID
-// aufgelöst, damit nichts springt.
-export function comparePokemon(sort) {
+// Vergleichsfunktion für Array.sort. rank(p) = Position im aktiven Dex
+// (regional bei gewähltem Spiel); ohne rank gilt die nationale ID.
+// "number" sortiert nach diesem Rang, gleiche Stat-Werte ebenfalls -> stabil.
+export function comparePokemon(sort, rank = (p) => p.id) {
   return (a, b) => {
-    const primary = statValue(a, sort.field) - statValue(b, sort.field);
+    const primary =
+      sort.field === "number"
+        ? rank(a) - rank(b)
+        : statValue(a, sort.field) - statValue(b, sort.field);
     if (primary !== 0) return sort.dir === "asc" ? primary : -primary;
-    return a.id - b.id;
+    return rank(a) - rank(b);
   };
 }
 

@@ -64,10 +64,17 @@ export function matchesFilters(
   return true;
 }
 
+// Rang-Funktion aus der Dex-Reihenfolge (ids). Map statt indexOf: O(1) pro
+// Vergleich. Unbekannte IDs landen hinten, nach nationaler Nummer.
+export function makeDexRank(ids) {
+  const pos = new Map(ids.map((id, i) => [id, i]));
+  return (p) => pos.get(p.id) ?? ids.length + p.id;
+}
+
 // Gemeinsame Ableitung für Liste UND Detail-Navigation: erst filtern, dann
 // sortieren. Eine Quelle -> beide sehen dieselbe Reihenfolge.
-export function derivePokemonView(pokemons, filters) {
+export function derivePokemonView(pokemons, filters, rank) {
   return pokemons
     .filter((p) => matchesFilters(p, filters))
-    .sort(comparePokemon(filters.sort));
+    .sort(comparePokemon(filters.sort, rank));
 }
