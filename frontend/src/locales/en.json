@@ -225,7 +225,10 @@
     "legendary": "Legendary",
     "mythical": "Mythical",
     "standard": "Standard",
-    "reset": "Reset"
+    "reset": "Reset",
+    "gameScope": "Show",
+    "gameScope_inGame": "In game only",
+    "gameScope_all": "All Pokémon"
   },
   "sort": {
     "label": "Sort by",

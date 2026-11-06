@@ -36,15 +36,15 @@ createRoot(document.getElementById("root")).render(
                 <CollectionProvider>
                   <TeamsProvider>
                     <ComparisonProvider>
-                      <PokemonListProvider>
-                        <FilterProvider>
+                      <FilterProvider>
+                        <PokemonListProvider>
                           <DisplayProvider>
                             <MovesListProvider>
                               <App />
                             </MovesListProvider>
                           </DisplayProvider>
-                        </FilterProvider>
-                      </PokemonListProvider>
+                        </PokemonListProvider>
+                      </FilterProvider>
                     </ComparisonProvider>
                   </TeamsProvider>
                 </CollectionProvider>

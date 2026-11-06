@@ -7,6 +7,8 @@ const DEFAULT_SORT = { field: "number", dir: "asc" };
 const DEFAULT_STAT = { field: null, min: "", max: "" };
 // "all" | "caught" | "uncaught"
 const DEFAULT_CAUGHT = "all";
+// true = im Spielmodus nur Pokémon aus dem Dex des gewählten Spiels zeigen.
+const DEFAULT_ONLY_IN_GAME = true;
 
 export function FilterProvider({ children }) {
   const [sort, setSort] = useState(DEFAULT_SORT);
@@ -15,6 +17,7 @@ export function FilterProvider({ children }) {
   const [categories, setCategories] = useState([]);
   const [stat, setStat] = useState(DEFAULT_STAT);
   const [caughtStatus, setCaughtStatus] = useState(DEFAULT_CAUGHT);
+  const [onlyInGame, setOnlyInGame] = useState(DEFAULT_ONLY_IN_GAME);
 
   const setSortField = useCallback((field) => {
     setSort((prev) => ({ ...prev, field }));
@@ -64,6 +67,7 @@ export function FilterProvider({ children }) {
     setCategories([]);
     setStat(DEFAULT_STAT);
     setCaughtStatus(DEFAULT_CAUGHT);
+    setOnlyInGame(DEFAULT_ONLY_IN_GAME);
   }, []);
 
   // Aktiv, sobald irgendein Filter oder eine Sortierung greift.
@@ -76,6 +80,11 @@ export function FilterProvider({ children }) {
     categories.length > 0 ||
     stat.field !== null ||
     caughtStatus !== "all";
+
+  // onlyInGame zählt bewusst NICHT zu isActive: Es ändert nur die ID-Quelle
+  // der Liste (siehe PokemonListContext). Sonst würde jedes Ausschalten einen
+  // Voll-Load aller ~1000 Pokémon auslösen. Für den Reset-Button zählt es aber.
+  const canReset = isActive || onlyInGame !== DEFAULT_ONLY_IN_GAME;
 
   const value = useMemo(
     () => ({
@@ -94,8 +103,11 @@ export function FilterProvider({ children }) {
       setStatMax,
       caughtStatus,
       setCaughtStatus,
+      onlyInGame,
+      setOnlyInGame,
       reset,
       isActive,
+      canReset,
     }),
     [
       sort,
@@ -112,8 +124,10 @@ export function FilterProvider({ children }) {
       setStatMin,
       setStatMax,
       caughtStatus,
+      onlyInGame,
       reset,
       isActive,
+      canReset,
     ],
   );
 

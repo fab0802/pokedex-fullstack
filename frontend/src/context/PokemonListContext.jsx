@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { PokemonListContext } from "./pokemonListContextObject";
 import { fetchPokemonById, fetchPokedexIds } from "../services/pokeApi";
 import { useGame } from "./useGame";
+import { useFilter } from "./useFilter";
 
 const LIMIT = 20;
 // Gleichzeitige Detail-Abrufe beim Voll-Load. Höher = schneller, aber mehr
@@ -10,7 +11,11 @@ const ALL_CONCURRENCY = 20;
 
 export function PokemonListProvider({ children }) {
   const { selectedGame } = useGame();
+  const { onlyInGame } = useFilter();
   const [ids, setIds] = useState([]);
+  // IDs des Spiel-Dex als Set (null bei "Alle Spiele"). Dient später dazu,
+  // Pokémon ausserhalb des Dex zu erkennen, wenn alle angezeigt werden.
+  const [dexIdSet, setDexIdSet] = useState(null);
   const [pokemons, setPokemons] = useState([]);
   const [loadedCount, setLoadedCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -38,12 +43,19 @@ export function PokemonListProvider({ children }) {
     async function setupFilter() {
       setError(null);
       setLoading(true);
-      // Voll-Load gehört zum alten Spiel -> beim Wechsel verwerfen.
+      // Voll-Load gehört zur alten ID-Quelle -> beim Wechsel verwerfen.
       setAllPokemons([]);
       setAllProgress({ loaded: 0, total: 0 });
       try {
-        const list = await fetchPokedexIds(selectedGame.dexes);
+        // Dex des Spiels immer laden (gecacht), auch wenn alle Pokémon
+        // angezeigt werden – sonst wüssten wir nicht, was zum Spiel gehört.
+        const dexIds = await fetchPokedexIds(selectedGame.dexes);
+        const list =
+          selectedGame.dexes && !onlyInGame
+            ? await fetchPokedexIds(null)
+            : dexIds;
         if (cancelled) return;
+        setDexIdSet(selectedGame.dexes ? new Set(dexIds) : null);
         setIds(list);
         const firstIds = list.slice(0, LIMIT);
         const details = await Promise.all(
@@ -62,7 +74,7 @@ export function PokemonListProvider({ children }) {
     return () => {
       cancelled = true;
     };
-  }, [selectedGame]);
+  }, [selectedGame, onlyInGame]);
 
   async function loadMore() {
     if (isFetchingRef.current) return;
@@ -128,6 +140,7 @@ export function PokemonListProvider({ children }) {
   const value = {
     pokemons,
     ids,
+    dexIdSet,
     loading,
     error,
     hasMore: loadedCount < ids.length,

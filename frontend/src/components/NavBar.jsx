@@ -28,6 +28,7 @@ import GenerationFilter from "./GenerationFilter";
 import CategoryFilter from "./CategoryFilter";
 import StatFilter from "./StatFilter";
 import CaughtFilter from "./CaughtFilter";
+import GameScopeFilter from "./GameScopeFilter";
 import { useFilter } from "../context/useFilter";
 import DisplayControl from "./DisplayControl";
 import styles from "./NavBar.module.css";
@@ -40,7 +41,7 @@ const isMac =
 export default function NavBar() {
   const { t } = useTranslation();
   const { isAuthenticated, logout } = useAuth();
-  const { reset, isActive } = useFilter();
+  const { reset, canReset } = useFilter();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -258,6 +259,7 @@ export default function NavBar() {
       {searchOpen && <GlobalSearch onClose={() => setSearchOpen(false)} />}
 
       <FilterDrawer open={filterOpen} onClose={() => setFilterOpen(false)}>
+        <GameScopeFilter />
         <SortControl />
         <DisplayControl />
         <TypeFilter />
@@ -265,7 +267,7 @@ export default function NavBar() {
         <CategoryFilter />
         <StatFilter />
         <CaughtFilter />
-        {isActive && (
+        {canReset && (
           <button type="button" className={styles.filterReset} onClick={reset}>
             {t("filter.reset")}
           </button>

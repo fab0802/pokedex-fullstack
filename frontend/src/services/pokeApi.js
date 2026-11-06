@@ -153,11 +153,28 @@ export async function fetchLocalizedNames(kind, slug) {
   return entry;
 }
 
+// Dex-Listen im Speicher cachen (pro Sitzung). Gespeichert wird das Promise,
+// damit gleichzeitige Aufrufe für denselben Dex nur einen Request auslösen.
+const dexCache = new Map();
+
 export async function fetchPokedexIds(dexes) {
   // null = kompletter National-Dex (alle Pokémon)
   if (!dexes) {
     return Array.from({ length: NATIONAL_MAX }, (_, i) => i + 1);
   }
+  const key = dexes.join(",");
+  if (!dexCache.has(key)) {
+    const promise = loadPokedexIds(dexes).catch((err) => {
+      // Fehlschlag nicht cachen, sonst bleibt der Dex bis zum Reload kaputt.
+      dexCache.delete(key);
+      throw err;
+    });
+    dexCache.set(key, promise);
+  }
+  return dexCache.get(key);
+}
+
+async function loadPokedexIds(dexes) {
   const lists = await Promise.all(
     dexes.map(async (name) => {
       const res = await fetch(`${BASE_URL}/pokedex/${name}`);

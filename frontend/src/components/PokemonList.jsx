@@ -41,8 +41,16 @@ export default function PokemonList() {
     loadAll,
     listWindowRef,
   } = usePokemonList();
-  const { sort, types, generations, categories, stat, caughtStatus, isActive } =
-    useFilter();
+  const {
+    sort,
+    types,
+    generations,
+    categories,
+    stat,
+    caughtStatus,
+    onlyInGame,
+    isActive,
+  } = useFilter();
   const { statField, layout } = useDisplay();
   const { selectedGame } = useGame();
   const { isAuthenticated } = useAuth();
@@ -87,10 +95,10 @@ export default function PokemonList() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [scrollYRef, lastVisitedIdRef]);
 
-  // Ansichts-Schlüssel: Spiel + (bei aktiver Sortierung) Feld/Richtung.
+  // Ansichts-Schlüssel: Spiel + ID-Quelle + (bei aktiver Sortierung) Filter.
   const viewKey = isActive
-    ? `${selectedGame.id}|${sort.field}|${sort.dir}|${types.join(",")}|${generations.join(",")}|${categories.join(",")}|${stat.field ?? ""}|${stat.min}|${stat.max}|${caughtStatus}`
-    : `${selectedGame.id}|default`;
+    ? `${selectedGame.id}|${onlyInGame}|${sort.field}|${sort.dir}|${types.join(",")}|${generations.join(",")}|${categories.join(",")}|${stat.field ?? ""}|${stat.min}|${stat.max}|${caughtStatus}`
+    : `${selectedGame.id}|${onlyInGame}|default`;
 
   // Fenstergrösse: beim (Re-)Mount aus dem Context-Ref übernehmen, sofern er
   // zur aktuellen Ansicht gehört. So bleibt die Liste nach dem Zurücknavigieren
