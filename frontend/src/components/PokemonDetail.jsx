@@ -60,7 +60,7 @@ export default function PokemonDetail() {
   const location = useLocation();
   const teamNav = location.state?.team;
   const fallbackIds = useOrderedIds();
-  const { lastVisitedIdRef } = usePokemonList();
+  const { lastVisitedIdRef, dexIdSet } = usePokemonList();
   const currentId = Number(id);
   const { teams } = useTeams();
 
@@ -209,6 +209,9 @@ export default function PokemonDetail() {
   const category = categoryOf(pokemon);
   const typeColor = typeColors[pokemon.types[0]];
   const bannerStyle = typeBannerStyle(pokemon.types);
+  // Im Spielmodus ausserhalb des Spiel-Dex? Dann nur ansehen: Fang- und
+  // Team-Aktionen ausblenden. Ohne Spielwahl ist dexIdSet null -> nie.
+  const outOfGame = dexIdSet !== null && !dexIdSet.has(Number(pokemon.id));
 
   const tabs = [
     {
@@ -346,7 +349,7 @@ export default function PokemonDetail() {
                 </span>
               ))}
             </div>
-            {(pokemon.generation || category !== "standard") && (
+            {(pokemon.generation || category !== "standard" || outOfGame) && (
               <div className={styles.meta}>
                 {pokemon.generation && (
                   <span className={styles.metaBadge}>
@@ -357,6 +360,11 @@ export default function PokemonDetail() {
                   <span className={styles.metaBadge}>
                     <CategoryIcon category={category} />
                     {t(`filter.${category}`)}
+                  </span>
+                )}
+                {outOfGame && (
+                  <span className={styles.metaBadge}>
+                    {t("list.notInGame")}
                   </span>
                 )}
               </div>
@@ -371,7 +379,7 @@ export default function PokemonDetail() {
                 {teamBadgeLabel}
               </span>
             )}
-            {isAuthenticated && (
+            {isAuthenticated && !outOfGame && (
               <>
                 <button
                   type="button"
@@ -400,7 +408,7 @@ export default function PokemonDetail() {
                 )}
               </>
             )}
-            {isAuthenticated && (
+            {isAuthenticated && !outOfGame && (
               <AddToTeamMenu
                 pokemonId={pokemon.id}
                 pokemonName={pokemonName(pokemon, i18n.language)}
