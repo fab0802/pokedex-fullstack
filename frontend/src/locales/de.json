@@ -84,7 +84,10 @@
     "registerButton": "Registrieren",
     "sessionExpired": "Sitzung abgelaufen, bitte neu anmelden."
   },
-  "list": {},
+  "list": {
+    "notInGame": "Nicht im Spiel",
+    "notInGameCatch": "In diesem Spiel nicht verfügbar"
+  },
   "detail": {
     "height": "Grösse",
     "weight": "Gewicht",

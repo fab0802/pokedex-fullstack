@@ -29,6 +29,7 @@ export default function PokemonList() {
   const {
     pokemons,
     ids,
+    dexIdSet,
     loading,
     error,
     hasMore,
@@ -188,9 +189,14 @@ export default function PokemonList() {
     return () => observer.disconnect();
   }, [isActive, hasMore, loading, loadMore]);
 
+  // Ausserhalb des Spiel-Dex (nur möglich, wenn "Alle Pokémon" aktiv ist).
+  // Ohne Spielwahl ist dexIdSet null -> nie ausserhalb.
+  const isOutOfGame = (p) => dexIdSet !== null && !dexIdSet.has(p.id);
+
   function handleToggle(e, p) {
     e.preventDefault();
     e.stopPropagation();
+    if (isOutOfGame(p)) return;
     toggleCaught(p.id, pokemonName(p, i18n.language));
   }
 
@@ -235,6 +241,9 @@ export default function PokemonList() {
           label={t(`filter.${category}`)}
           className={styles.categoryIcon}
         />
+        {isOutOfGame(p) && (
+          <span className={styles.outOfGame}>{t("list.notInGame")}</span>
+        )}
       </span>
     );
   };
@@ -250,24 +259,36 @@ export default function PokemonList() {
     </div>
   );
 
-  const catchButton = (p, className) => (
-    <button
-      type="button"
-      className={className}
-      data-caught={isCaught(p.id)}
-      onClick={(e) => handleToggle(e, p)}
-      aria-pressed={isCaught(p.id)}
-      aria-label={isCaught(p.id) ? t("common.caught") : t("common.notCaught")}
-      title={isCaught(p.id) ? t("common.caught") : t("common.notCaught")}
-    >
-      <img
-        src="/fallback-pokeball.svg"
-        alt=""
-        aria-hidden="true"
-        className={styles.catchIcon}
-      />
-    </button>
-  );
+  // aria-disabled statt disabled: Ein echtes disabled-Element feuert keinen
+  // Klick, dieser landet dann je nach Browser auf dem umgebenden Link und
+  // öffnet ungewollt die Detailseite. So fängt handleToggle den Klick ab.
+  const catchButton = (p, className) => {
+    const outOfGame = isOutOfGame(p);
+    const label = outOfGame
+      ? t("list.notInGameCatch")
+      : isCaught(p.id)
+        ? t("common.caught")
+        : t("common.notCaught");
+    return (
+      <button
+        type="button"
+        className={className}
+        data-caught={isCaught(p.id)}
+        onClick={(e) => handleToggle(e, p)}
+        aria-pressed={outOfGame ? undefined : isCaught(p.id)}
+        aria-disabled={outOfGame || undefined}
+        aria-label={label}
+        title={label}
+      >
+        <img
+          src="/fallback-pokeball.svg"
+          alt=""
+          aria-hidden="true"
+          className={styles.catchIcon}
+        />
+      </button>
+    );
+  };
 
   const statBlock = (p, className) => (
     <div className={className}>
@@ -286,7 +307,12 @@ export default function PokemonList() {
 
   // Variante A – klassische Zeilen-Karte.
   const renderListCard = (p) => (
-    <li key={p.id} data-id={p.id} className={styles.card}>
+    <li
+      key={p.id}
+      data-id={p.id}
+      data-out-of-game={isOutOfGame(p)}
+      className={styles.card}
+    >
       <Link to={`/pokemon/${p.id}`} className={styles.cardLink}>
         <div className={styles.imagePanel} style={typeBannerStyle(p.types)}>
           <img
@@ -328,7 +354,12 @@ export default function PokemonList() {
   // Variante B – kompakte Raster-Karte. Fangstatus und Vergleich liegen als
   // Overlays auf dem Bild, der gewählte Stat sitzt unter den Typen.
   const renderGridCard = (p) => (
-    <li key={p.id} data-id={p.id} className={styles.gridCard}>
+    <li
+      key={p.id}
+      data-id={p.id}
+      data-out-of-game={isOutOfGame(p)}
+      className={styles.gridCard}
+    >
       <Link to={`/pokemon/${p.id}`} className={styles.gridLink}>
         <div className={styles.gridBanner} style={typeBannerStyle(p.types)}>
           {teamBadge(p)}

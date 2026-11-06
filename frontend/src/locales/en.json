@@ -84,7 +84,10 @@
     "registerButton": "Register",
     "sessionExpired": "Session expired, please log in again."
   },
-  "list": {},
+  "list": {
+    "notInGame": "Not in game",
+    "notInGameCatch": "Not available in this game"
+  },
   "detail": {
     "height": "Height",
     "weight": "Weight",
