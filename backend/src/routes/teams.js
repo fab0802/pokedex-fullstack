@@ -4,6 +4,14 @@ const Team = require("../models/Team");
 
 const router = express.Router();
 
+// Teamname prüfen: muss ein nicht-leerer String sein. Die Längengrenze prüft
+// das Schema (maxlength). Gibt den getrimmten Namen oder null zurück.
+function cleanName(name) {
+  if (typeof name !== "string") return null;
+  const trimmed = name.trim();
+  return trimmed === "" ? null : trimmed;
+}
+
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const teams = await Team.find({ user: req.userId }).sort({
@@ -18,7 +26,9 @@ router.get("/", authMiddleware, async (req, res) => {
 
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { name, pokemonIds, game } = req.body;
+    const { pokemonIds, game } = req.body;
+    const name = cleanName(req.body.name);
+    if (!name) return res.status(400).json({ error: "Teamname fehlt" });
     // Neues Team ans Ende einsortieren: order = Anzahl bestehender Teams.
     const order = await Team.countDocuments({ user: req.userId });
     const team = await Team.create({
@@ -64,7 +74,11 @@ router.put("/:id", authMiddleware, async (req, res) => {
     // Partielles Update: nur mitgeschickte Felder überschreiben, damit
     // z. B. ein reines pokemonIds-Update die Movesets nicht leert.
     const update = {};
-    if (name !== undefined) update.name = name;
+    if (name !== undefined) {
+      const cleaned = cleanName(name);
+      if (!cleaned) return res.status(400).json({ error: "Teamname fehlt" });
+      update.name = cleaned;
+    }
     if (pokemonIds !== undefined) update.pokemonIds = pokemonIds;
     if (movesets !== undefined) update.movesets = movesets;
 

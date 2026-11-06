@@ -1,9 +1,21 @@
 const mongoose = require("mongoose");
 
+const MAX_NAME_LENGTH = 30;
+
 const teamSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    name: { type: String, required: true },
+    // trim entfernt Leerzeichen am Rand, maxlength begrenzt die Länge –
+    // greift bei create() und (dank runValidators) auch bei Updates.
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: [
+        MAX_NAME_LENGTH,
+        `Maximal ${MAX_NAME_LENGTH} Zeichen pro Teamname`,
+      ],
+    },
     // Spiel-Zuordnung: "all" = allgemeines Team (in jedem Spiel sichtbar),
     // sonst eine Spiel-ID aus games.js (z. B. "rby"). Bestehende Teams ohne
     // Feld werden im Frontend-Filter als "all" behandelt.
