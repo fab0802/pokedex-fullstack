@@ -1,11 +1,13 @@
 // Erzeugt src/data/encounters/sv.json aus den Serebii-Pokearth-Gebietsseiten
-// (Paldea). Einmalig ausfuehren:  npm run generate:sv-encounters
+// (Paldea + DLC-Regionen Kitakami und Terrarium).
+// Einmalig ausfuehren:  npm run generate:sv-encounters
 //
 // Warum anders als bei SWSH: Bei Scarlet/Violet gibt es KEINE Fundort-Tabelle
 // pro Pokemon. Die Wild-Daten stehen stattdessen pro *Gebiet* (Pokearth Paldea)
 // als interaktive Karte im HTML - je Gebiet eine Liste der vorkommenden Arten
 // plus Level je Spawn-Marker. Wir scrapen also die ~50 Gebietsseiten und drehen
-// das um zu einem Lookup nach National-Dex-ID. Die Spawns sind laut Serebii
+// das um zu einem Lookup nach National-Dex-ID. Die DLC-Regionen sind auf
+// Serebii identisch aufgebaut, nur unter einem anderen Ordner (REGIONS unten). Die Spawns sind laut Serebii
 // bewusst ungefaehr ("Umgebung/Radius"), und Scarlet/Violet-Exklusivitaet laesst
 // sich aus dem Marker-Text nicht sauber trennen -> wir schreiben beide Versionen
 // mit gleicher Level-Spanne (die UI zeigt dann korrekt KEIN Exklusiv-Label).
@@ -27,7 +29,12 @@
 //     ]
 //   }
 //
+// Location-Keys: Paldea behaelt den reinen Slug (wie bisher), DLC-Gebiete
+// bekommen die Region als Praefix (z. B. "terarium-savannabiome"), damit sich
+// gleichnamige Slugs verschiedener Regionen nie ueberschreiben.
+//
 // Flags (alle optional):
+//   --region <ids>   nur diese Regionen, kommagetrennt (paldea,kitakami,terarium)
 //   --only <slugs>   nur diese Gebiets-Slugs, kommagetrennt (zum Testen)
 //   --limit <n>      nur die ersten n Gebiete (zum Testen)
 //   --debug          eine lesbare Zusammenfassung je Gebiet ausgeben (Coverage)
@@ -41,7 +48,10 @@ import { fileURLToPath } from "node:url";
 import { load } from "cheerio";
 
 const BASE = "https://www.serebii.net";
-const PALDEA_INDEX = `${BASE}/pokearth/paldea/`;
+
+// Regionen = Serebii-Ordner unter /pokearth/. Nur Paldea hat eine
+// Fallback-Liste; bei den DLCs muss die Index-Erkennung greifen.
+const REGIONS = ["paldea", "kitakami", "terarium"];
 const UA = "pokedex-fullstack portfolio scraper (one-time, respectful)";
 
 const DEFAULT_OUT = fileURLToPath(
@@ -75,6 +85,10 @@ function arg(flag, fallback) {
 }
 const hasFlag = (flag) => process.argv.includes(flag);
 
+const REGION_FILTER = arg("--region", null)
+  ?.split(",")
+  .map((s) => s.trim().toLowerCase())
+  .filter(Boolean);
 const ONLY = arg("--only", null)
   ?.split(",")
   .map((s) => s.trim())
@@ -162,45 +176,60 @@ export function areaNameFromHtml(html, slug) {
 }
 
 // --- Gebiets-Slugs ermitteln -----------------------------------------------
-async function discoverAreaSlugs() {
-  const html = await fetchHtml(PALDEA_INDEX);
+const areaUrl = (region, slug) => `${BASE}/pokearth/${region}/${slug}.shtml`;
+
+// Key in der JSON: Paldea unveraendert, DLC-Gebiete mit Regions-Praefix.
+const locationKey = (region, slug) =>
+  region === "paldea" ? slug : `${region}-${slug}`;
+
+async function discoverAreaSlugs(region) {
+  const html = await fetchHtml(`${BASE}/pokearth/${region}/`);
   const slugs = new Set();
   if (html) {
     const $ = load(html);
     // Navigation ist ein Dropdown: <option value="slug.shtml">Name</option>.
-    // Zusaetzlich klassische <a>/<area>-Links beruecksichtigen.
+    // Zusaetzlich klassische <a>/<area>-Links beruecksichtigen. Absolute Links
+    // zaehlen nur, wenn sie in DIESE Region zeigen.
+    const regionLink = new RegExp(`/pokearth/${region}/([^/"]+)\\.shtml`, "i");
     $("option[value], a[href], area[href]").each((_, el) => {
       const raw = $(el).attr("value") || $(el).attr("href") || "";
-      const m =
-        raw.match(/^([^/"]+)\.shtml$/i) ||
-        raw.match(/\/pokearth\/paldea\/([^/"]+)\.shtml/i);
+      const m = raw.match(/^([^/"]+)\.shtml$/i) || raw.match(regionLink);
       if (m && m[1].toLowerCase() !== "index") slugs.add(m[1]);
     });
   }
-  if (slugs.size === 0) {
+  if (slugs.size === 0 && region === "paldea") {
     for (const n of FALLBACK_AREA_NAMES) slugs.add(nameToSlug(n));
   }
-  return [...slugs];
+  return [...slugs].sort();
 }
 
 // --- Hauptlauf --------------------------------------------------------------
 const isMain =
   process.argv[1] && process.argv[1].endsWith("generate-sv-encounters.mjs");
 if (isMain) {
-  let slugs = ONLY ?? (await discoverAreaSlugs());
-  slugs.sort();
-  if (LIMIT) slugs = slugs.slice(0, LIMIT);
+  const regions = REGION_FILTER ?? REGIONS;
+
+  // Gebiete aller Regionen als Liste von { region, slug } sammeln.
+  let areas = [];
+  for (const region of regions) {
+    const slugs = ONLY ?? (await discoverAreaSlugs(region));
+    if (slugs.length === 0) {
+      console.log(`WARNUNG: keine Gebiete gefunden fuer Region "${region}"`);
+    }
+    areas.push(...slugs.map((slug) => ({ region, slug })));
+  }
+  if (LIMIT) areas = areas.slice(0, LIMIT);
 
   if (LIST_ONLY) {
-    console.log(`${slugs.length} Gebiete:`);
-    console.log(slugs.join("\n"));
+    console.log(`${areas.length} Gebiete:`);
+    console.log(areas.map((a) => `${a.region}/${a.slug}`).join("\n"));
     process.exit(0);
   }
 
   // Diagnose: rohes HTML eines Gebiets speichern + Kennzahlen ausgeben.
   if (DUMP) {
-    const slug = slugs[0];
-    const url = `${BASE}/pokearth/paldea/${slug}.shtml`;
+    const { region, slug } = areas[0];
+    const url = areaUrl(region, slug);
     const html = (await fetchHtml(url)) ?? "";
     const dumpPath = fileURLToPath(
       new URL("./_sv-dump.html", import.meta.url),
@@ -225,11 +254,12 @@ if (isMain) {
   const unreachable = [];
   const emptyAreas = [];
 
-  for (const slug of slugs) {
-    const html = await fetchHtml(`${BASE}/pokearth/paldea/${slug}.shtml`);
+  for (const { region, slug } of areas) {
+    const key = locationKey(region, slug);
+    const html = await fetchHtml(areaUrl(region, slug));
     if (!html) {
-      unreachable.push(slug);
-      if (DEBUG) console.log(`\n[skip] ${slug}: nicht erreichbar`);
+      unreachable.push(key);
+      if (DEBUG) console.log(`\n[skip] ${key}: nicht erreichbar`);
       await sleep(DELAY);
       continue;
     }
@@ -238,15 +268,15 @@ if (isMain) {
 
     for (const dex of byDex.keys()) {
       if (!perDex.has(dex)) perDex.set(dex, new Map());
-      perDex.get(dex).set(slug, { name, min: null, max: null });
+      perDex.get(dex).set(key, { name, min: null, max: null });
     }
     if (byDex.size > 0) areasWithData++;
-    else emptyAreas.push(slug);
+    else emptyAreas.push(key);
 
     if (DEBUG) {
-      console.log(`\n${slug} (${name}): ${byDex.size} Arten`);
+      console.log(`\n${key} (${name}): ${byDex.size} Arten`);
     } else {
-      process.stdout.write(`\r${slug} - ${byDex.size} Arten        `);
+      process.stdout.write(`\r${key} - ${byDex.size} Arten        `);
     }
     await sleep(DELAY);
   }
