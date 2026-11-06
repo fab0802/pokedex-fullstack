@@ -20,6 +20,15 @@ export async function updateTeam(id, name, pokemonIds, movesets) {
   }); // das aktualisierte Team
 }
 
+// Nur den Namen schicken: Das Backend aktualisiert partiell, pokemonIds und
+// movesets bleiben unberührt.
+export async function renameTeam(id, name) {
+  return apiFetch(`/teams/${id}`, {
+    method: "PUT",
+    body: JSON.stringify({ name }),
+  }); // das aktualisierte Team
+}
+
 export async function deleteTeam(id) {
   return apiFetch(`/teams/${id}`, { method: "DELETE" });
 }

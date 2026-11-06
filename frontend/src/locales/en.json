@@ -14,7 +14,7 @@
     "gameMode": "Game mode",
     "moves": "Moves"
   },
-    "typechart": {
+  "typechart": {
     "title": "Type Chart",
     "lead": "Pick one or two types to see their strengths and weaknesses.",
     "attack": "When attacking",
@@ -63,7 +63,7 @@
     "confirmDelete": "Delete",
     "save": "Save"
   },
-    "storageNotice": {
+  "storageNotice": {
     "label": "Storage notice",
     "text": "This app stores your settings and login locally in your browser. No cookies, no tracking.",
     "ok": "Got it"
@@ -136,7 +136,10 @@
     "undoError": "Could not undo the last change",
     "editMoves": "Edit moves",
     "movesetTitle": "Choose moves",
-    "noMovesSelected": "No move selected yet."
+    "noMovesSelected": "No move selected yet.",
+    "teamRenamed": "Renamed to \"{{team}}\"",
+    "renameError": "Could not save the name",
+    "teamNameLabel": "Team name"
   },
   "addToTeam": {
     "trigger": "+ Add to team",

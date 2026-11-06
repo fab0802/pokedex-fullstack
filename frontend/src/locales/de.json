@@ -14,7 +14,7 @@
     "gameMode": "Spielmodus",
     "moves": "Attacken"
   },
-    "typechart": {
+  "typechart": {
     "title": "Typentabelle",
     "lead": "Wähle einen oder zwei Typen, um Stärken und Schwächen zu sehen.",
     "attack": "Im Angriff",
@@ -63,7 +63,7 @@
     "confirmDelete": "Löschen",
     "save": "Speichern"
   },
-    "storageNotice": {
+  "storageNotice": {
     "label": "Hinweis zur Speicherung",
     "text": "Diese App speichert Einstellungen und Login lokal in deinem Browser. Keine Cookies, kein Tracking.",
     "ok": "Verstanden"
@@ -136,7 +136,10 @@
     "undoError": "Änderung konnte nicht rückgängig gemacht werden",
     "editMoves": "Attacken bearbeiten",
     "movesetTitle": "Attacken wählen",
-    "noMovesSelected": "Noch keine Attacke gewählt."
+    "noMovesSelected": "Noch keine Attacke gewählt.",
+    "teamRenamed": "In «{{team}}» umbenannt",
+    "renameError": "Name konnte nicht gespeichert werden",
+    "teamNameLabel": "Teamname"
   },
   "addToTeam": {
     "trigger": "+ Zum Team",

@@ -35,6 +35,28 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex: 1; /* nimmt den freien Platz, damit das Namensfeld wachsen kann */
+  min-width: 0;
+}
+
+/* Eingabefeld im Bearbeiten-Modus – gleiche Schrift wie der Teamname */
+.teamNameInput {
+  flex: 1;
+  min-width: 0;
+  margin-right: 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.teamNameInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
 }
 
 .dragHandle {
@@ -64,6 +86,7 @@
 .teamName {
   margin: 0;
   font-size: 1.2rem;
+  overflow-wrap: anywhere; /* lange Namen ohne Leerzeichen umbrechen */
 }
 
 .count {
@@ -265,4 +288,12 @@
 /* Im Edit-Modus zeigt der Picker die Attacken – Badges hier ausblenden. */
 .memberWrap[data-editing="true"] .moveBadges {
   display: none;
+}
+
+@media (max-width: 600px) {
+  /* Etwas kleiner, damit Feld und Header-Buttons in eine Zeile passen */
+  .teamNameInput {
+    font-size: 1.05rem;
+    margin-right: 4px;
+  }
 }

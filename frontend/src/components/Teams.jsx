@@ -23,6 +23,7 @@ import { moveName } from "./moveName";
 import { useTranslation } from "react-i18next";
 import { pokemonName } from "./pokemonName";
 import NewTeamCard from "./NewTeamCard";
+import TeamNameInput from "./TeamNameInput";
 import Skeleton from "./Skeleton";
 import styles from "./Teams.module.css";
 
@@ -246,7 +247,11 @@ export default function Teams() {
                       >
                         <GripVertical size={18} />
                       </button>
-                      <h2 className={styles.teamName}>{team.name}</h2>
+                      {isEditing ? (
+                        <TeamNameInput team={team} />
+                      ) : (
+                        <h2 className={styles.teamName}>{team.name}</h2>
+                      )}
                     </div>
                     <div className={styles.headerRight}>
                       <div className={styles.teamMoveButtons}>

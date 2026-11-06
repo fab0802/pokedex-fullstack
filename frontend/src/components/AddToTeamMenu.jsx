@@ -15,6 +15,7 @@ export default function AddToTeamMenu({ pokemonId, pokemonName }) {
     removePokemonFromTeam,
     createTeamWithPokemon,
     maxTeamSize,
+    maxTeamNameLength,
   } = useTeams();
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
@@ -149,6 +150,7 @@ export default function AddToTeamMenu({ pokemonId, pokemonName }) {
               className={styles.newInput}
               placeholder={t("addToTeam.newTeamName")}
               value={newName}
+              maxLength={maxTeamNameLength}
               onChange={(e) => setNewName(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleCreate();

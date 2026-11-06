@@ -7,7 +7,7 @@ import styles from "./NewTeamCard.module.css";
 
 export default function NewTeamCard({ onCreated }) {
   const { t } = useTranslation();
-  const { createTeamWithPokemon } = useTeams();
+  const { createTeamWithPokemon, maxTeamNameLength } = useTeams();
   const { showToast } = useToast();
   const [name, setName] = useState("");
   const [error, setError] = useState(null);
@@ -33,6 +33,7 @@ export default function NewTeamCard({ onCreated }) {
           className={styles.input}
           placeholder={t("teams.newTeamPlaceholder")}
           value={name}
+          maxLength={maxTeamNameLength}
           onChange={(e) => setName(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") handleCreate();

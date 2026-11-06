@@ -6,11 +6,13 @@ import {
   getTeams,
   createTeam,
   updateTeam,
+  renameTeam as renameTeamApi,
   deleteTeam,
   reorderTeams,
 } from "../services/teamApi";
 
 const MAX_TEAM_SIZE = 6;
+const MAX_TEAM_NAME_LENGTH = 30; // muss zu maxlength im Backend-Schema passen
 
 // Spiel-Zuordnung eines Teams; fehlt sie (Alt-Teams), gilt "all".
 function teamGame(team) {
@@ -147,6 +149,16 @@ export function TeamsProvider({ children }) {
     setAllTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
   }
 
+  // Team umbenennen. Leere oder unveränderte Namen lösen keinen API-Call aus.
+  async function renameTeam(teamId, newName) {
+    const team = allTeams.find((t) => t._id === teamId);
+    const name = newName.trim();
+    if (!team || name === "" || name === team.name) return false;
+    const updated = await renameTeamApi(teamId, name);
+    setAllTeams((prev) => prev.map((t) => (t._id === teamId ? updated : t)));
+    return true;
+  }
+
   async function createTeamWithPokemon(name, pokemonId) {
     const ids = pokemonId ? [Number(pokemonId)] : [];
     // Neues Team dem aktuell gewaehlten Spiel zuordnen ("all" bei "Alle").
@@ -273,11 +285,13 @@ export function TeamsProvider({ children }) {
     persistTeamsOrder,
     createTeamWithPokemon,
     removeTeam,
+    renameTeam,
     undoTeamChange,
     canUndo,
     clearHistory,
     beginPokemonDrag,
     maxTeamSize: MAX_TEAM_SIZE,
+    maxTeamNameLength: MAX_TEAM_NAME_LENGTH,
   };
 
   return (
